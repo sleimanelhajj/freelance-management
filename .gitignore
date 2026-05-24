@@ -1,0 +1,49 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Common JS/TS build artifacts
+node_modules/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Angular frontend (Frontend/)
+Frontend/node_modules/
+Frontend/.angular/
+Frontend/.cache/
+Frontend/dist/
+Frontend/coverage/
+Frontend/out-tsc/
+Frontend/.sass-cache/
+Frontend/.eslintcache
+Frontend/tmp/
+
+# Backend Node/TS/Prisma (Backend/)
+Backend/node_modules/
+Backend/dist/
+Backend/build/
+Backend/coverage/
+Backend/.env
+Backend/.env.*
+Backend/*.tsbuildinfo
+Backend/src/generated/prisma/
+Backend/prisma/*.db
+Backend/prisma/*.db-journal
