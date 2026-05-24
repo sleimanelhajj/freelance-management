@@ -1,3 +1,4 @@
+// Backend/src/routes/auth.routes.ts
 import { Router } from "express";
 import {
   validateLogin,
@@ -35,12 +36,13 @@ const router = Router();
  *                 example: sleiman@test.com
  *               password:
  *                 type: string
+ *                 minLength: 6
  *                 example: "123456"
  *     responses:
  *       201:
  *         description: User registered successfully
  *       400:
- *         description: Validation failed or email already exists
+ *         description: Validation failed or user already exists
  */
 router.post("/register", validateRegister, authController.register);
 
@@ -50,7 +52,7 @@ router.post("/register", validateRegister, authController.register);
  *   post:
  *     tags:
  *       - Auth
- *     summary: Login user and return JWT
+ *     summary: Login user and get JWT token
  *     requestBody:
  *       required: true
  *       content:
@@ -72,7 +74,7 @@ router.post("/register", validateRegister, authController.register);
  *       200:
  *         description: Login successful
  *       401:
- *         description: Invalid credentials
+ *         description: Invalid email or password
  */
 router.post("/login", validateLogin, authController.login);
 
@@ -82,7 +84,7 @@ router.post("/login", validateLogin, authController.login);
  *   get:
  *     tags:
  *       - Auth
- *     summary: Get current logged-in user
+ *     summary: Get current authenticated user
  *     security:
  *       - bearerAuth: []
  *     responses:
