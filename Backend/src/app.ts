@@ -2,7 +2,9 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
 import { env } from "./config/env";
+import { swaggerSpec } from "./config/swagger";
 import authRoutes from "./routes/auth.routes";
 
 // initialize express app
@@ -18,6 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 if (env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // define routes
 app.use(`${API}/auth`, authRoutes);
