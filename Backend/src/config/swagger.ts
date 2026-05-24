@@ -19,6 +19,7 @@ const options: Options = {
     tags: [
       { name: "Auth", description: "Authentication endpoints" },
       { name: "Clients", description: "Client CRUD endpoints" },
+      { name: "Projects", description: "Project CRUD endpoints" },
     ],
     components: {
       securitySchemes: {

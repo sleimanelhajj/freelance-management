@@ -7,6 +7,8 @@ import { env } from "./config/env";
 import { swaggerSpec } from "./config/swagger";
 import authRoutes from "./routes/auth.routes";
 import clientRoutes from "./routes/client.routes";
+import projectRoutes from "./routes/project.routes";
+
 // initialize express app
 const API: string = "/api";
 const app: Application = express();
@@ -26,6 +28,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // define routes
 app.use(`${API}/auth`, authRoutes);
 app.use(`${API}/clients`, clientRoutes);
+app.use(`${API}/projects`, projectRoutes);
 
 //health check
 app.get("/health", (_, res) => {
