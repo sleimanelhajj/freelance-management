@@ -20,6 +20,9 @@ const options: Options = {
       { name: "Auth", description: "Authentication endpoints" },
       { name: "Clients", description: "Client CRUD endpoints" },
       { name: "Projects", description: "Project CRUD endpoints" },
+      { name: "Tasks", description: "Tasks CRUD endpoints" },
+      { name: "Invoices", description: "Invoice endpoints" },
+      { name: "Dashboard", description: "Dashboard summary endpoint" },
     ],
     components: {
       securitySchemes: {

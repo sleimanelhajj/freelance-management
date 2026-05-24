@@ -8,6 +8,9 @@ import { swaggerSpec } from "./config/swagger";
 import authRoutes from "./routes/auth.routes";
 import clientRoutes from "./routes/client.routes";
 import projectRoutes from "./routes/project.routes";
+import taskRoutes from "./routes/task.routes";
+import invoiceRoutes from "./routes/invoice.routes";
+import dashboardRoutes from "./routes/dashboard.routes";
 
 // initialize express app
 const API: string = "/api";
@@ -29,6 +32,9 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(`${API}/auth`, authRoutes);
 app.use(`${API}/clients`, clientRoutes);
 app.use(`${API}/projects`, projectRoutes);
+app.use(`${API}/tasks`, taskRoutes);
+app.use(`${API}/invoices`, invoiceRoutes);
+app.use(`${API}/dashboard`, dashboardRoutes);
 
 //health check
 app.get("/health", (_, res) => {
