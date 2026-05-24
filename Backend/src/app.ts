@@ -1,16 +1,21 @@
-import express, { Application } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
-import { errorMiddleware } from "./middleware/error.middleware";
-
 import helmet from "helmet";
 import morgan from "morgan";
-import { env } from "process";
+import swaggerUi from "swagger-ui-express";
+import { env } from "./config/env";
+import { swaggerSpec } from "./config/swagger";
+import authRoutes from "./routes/auth.routes";
+import clientRoutes from "./routes/client.routes";
+import projectRoutes from "./routes/project.routes";
+import taskRoutes from "./routes/task.routes";
+import invoiceRoutes from "./routes/invoice.routes";
+import dashboardRoutes from "./routes/dashboard.routes";
 
 // initialize express app
+const API: string = "/api";
 const app: Application = express();
 
-// at the bottom, after your 404 handler
-app.use(errorMiddleware);
 // initialize middlewares
 app.use(helmet());
 app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
@@ -21,9 +26,15 @@ if (env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-// define routes
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-const API: string = "/api";
+// define routes
+app.use(`${API}/auth`, authRoutes);
+app.use(`${API}/clients`, clientRoutes);
+app.use(`${API}/projects`, projectRoutes);
+app.use(`${API}/tasks`, taskRoutes);
+app.use(`${API}/invoices`, invoiceRoutes);
+app.use(`${API}/dashboard`, dashboardRoutes);
 
 //health check
 app.get("/health", (_, res) => {
@@ -35,5 +46,14 @@ app.use((_, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
 });
 
-// app.use(errorMiddleware);
+app.use((err: any, _: Request, res: Response, __: NextFunction) => {
+  const statusCode = err?.statusCode || 500;
+  const message = err?.message || "Internal Server Error";
+
+  res.status(statusCode).json({
+    success: false,
+    message,
+  });
+});
+
 export default app;
