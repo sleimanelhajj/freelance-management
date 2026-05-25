@@ -266,3 +266,27 @@
 .submit-form:hover {
   background: #b03e25;
 }
+/* Container to structure input stacks smoothly */
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+/* Red border override rule when a control fails validation check */
+.input-field.is-invalid {
+  border-color: #c84b2f !important;
+  background: #fdecea; /* Light soft pink alert accent background */
+}
+
+/* High contrast alert error typography text labels */
+.error-msg {
+  color: #c84b2f;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+}

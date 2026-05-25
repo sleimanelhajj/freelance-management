@@ -5,7 +5,10 @@ import jwt from "jsonwebtoken";
 
 export const authService = {
   async register(name: string, email: string, password: string) {
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const normalizedEmail = email.trim().toLowerCase();
+    const existingUser = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+    });
 
     if (existingUser) {
       throw { statusCode: 400, message: "User with this email already exists" };
@@ -37,7 +40,7 @@ export const authService = {
   async login(email: string, password: string) {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      throw { statusCode: 401, message: "Invalid email or password" };
+      throw { statusCode: 401, message: "User not found, please sign up!" };
     }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
