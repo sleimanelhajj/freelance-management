@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,22 +7,29 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ModalComponent } from '../../components/modal/modal';
+import { LoginRequest, AuthResponse } from '../../models/auth.models';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ModalComponent],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
 })
 export class Auth {
+  constructor(private authService: AuthService) {}
+
   auth: string = 'login';
+
+  showErrorModal = signal(false);
+  errorMessage = signal('');
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
-
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -33,16 +40,37 @@ export class Auth {
     this.auth = auth;
   }
 
+  closeErrorModal() {
+    this.showErrorModal.set(false);
+    this.errorMessage.set('');
+  }
+
   submitForm() {
     if (this.auth === 'login') {
       if (this.loginForm.valid) {
-        console.log('Login Payload Submitted:', this.loginForm.value);
+        this.authService.login(this.loginForm.value as LoginRequest).subscribe({
+          next: (response: AuthResponse) => {
+            console.log('Login success:', response);
+          },
+          error: (err) => {
+            this.errorMessage.set(err?.error?.message || 'Something went wrong. Please try again.');
+            this.showErrorModal.set(true);
+          },
+        });
       } else {
         this.loginForm.markAllAsTouched();
       }
-    } else {
+    } else if (this.auth === 'sign-up') {
       if (this.registerForm.valid) {
-        console.log('Registration Payload Submitted:', this.registerForm.value);
+        this.authService.signUp(this.registerForm.value as any).subscribe({
+          next: (response: AuthResponse) => {
+            console.log('Registration success:', response);
+          },
+          error: (err) => {
+            this.errorMessage.set(err?.error?.message || 'Something went wrong. Please try again.');
+            this.showErrorModal.set(true);
+          },
+        });
       } else {
         this.registerForm.markAllAsTouched();
       }

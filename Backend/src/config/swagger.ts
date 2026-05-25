@@ -1,4 +1,3 @@
-// Backend/src/config/swagger.ts
 import swaggerJSDoc, { Options } from "swagger-jsdoc";
 import { env } from "./env";
 

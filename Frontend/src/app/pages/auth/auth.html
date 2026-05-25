@@ -46,20 +46,54 @@
           </div>
 
           <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="inputs-group">
-            <input
-              class="input-field"
-              type="email"
-              name="loginEmail"
-              formControlName="email"
-              placeholder="Email"
-            />
-            <input
-              class="input-field"
-              type="password"
-              name="loginPassword"
-              formControlName="password"
-              placeholder="Enter your password"
-            />
+            <div class="input-wrapper">
+              <input
+                class="input-field"
+                [class.is-invalid]="
+                  loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+                "
+                type="email"
+                name="loginEmail"
+                formControlName="email"
+                placeholder="Email"
+              />
+              <div
+                class="error-msg"
+                *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors"
+              >
+                <span *ngIf="loginForm.get('email')?.hasError('required')"
+                  >Email address is required.</span
+                >
+                <span *ngIf="loginForm.get('email')?.hasError('email')"
+                  >Please enter a valid email layout format.</span
+                >
+              </div>
+            </div>
+
+            <div class="input-wrapper">
+              <input
+                class="input-field"
+                [class.is-invalid]="
+                  loginForm.get('password')?.invalid && loginForm.get('password')?.touched
+                "
+                type="password"
+                name="loginPassword"
+                formControlName="password"
+                placeholder="Enter your password"
+              />
+              <div
+                class="error-msg"
+                *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors"
+              >
+                <span *ngIf="loginForm.get('password')?.hasError('required')"
+                  >Password is required to sign in.</span
+                >
+                <span *ngIf="loginForm.get('password')?.hasError('minlength')">
+                  Password is too short. It must be at least 6 characters long.
+                </span>
+              </div>
+            </div>
+
             <button type="submit" class="submit-form">Sign In</button>
           </form>
         </div>
@@ -71,31 +105,88 @@
           </div>
 
           <form [formGroup]="registerForm" (ngSubmit)="submitForm()" class="inputs-group">
-            <input
-              class="input-field"
-              type="text"
-              name="regName"
-              formControlName="name"
-              placeholder="Full Name"
-            />
-            <input
-              class="input-field"
-              type="email"
-              name="regEmail"
-              formControlName="email"
-              placeholder="Email Address"
-            />
-            <input
-              class="input-field"
-              type="password"
-              name="regPassword"
-              formControlName="password"
-              placeholder="Create a strong password"
-            />
+            <div class="input-wrapper">
+              <input
+                class="input-field"
+                [class.is-invalid]="
+                  registerForm.get('name')?.invalid && registerForm.get('name')?.touched
+                "
+                type="text"
+                name="regName"
+                formControlName="name"
+                placeholder="Full Name"
+              />
+              <div
+                class="error-msg"
+                *ngIf="
+                  registerForm.get('name')?.touched &&
+                  registerForm.get('name')?.hasError('required')
+                "
+              >
+                Full name is required to create an account.
+              </div>
+            </div>
+
+            <div class="input-wrapper">
+              <input
+                class="input-field"
+                [class.is-invalid]="
+                  registerForm.get('email')?.invalid && registerForm.get('email')?.touched
+                "
+                type="email"
+                name="regEmail"
+                formControlName="email"
+                placeholder="Email Address"
+              />
+              <div
+                class="error-msg"
+                *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors"
+              >
+                <span *ngIf="registerForm.get('email')?.hasError('required')"
+                  >Email address is required.</span
+                >
+                <span *ngIf="registerForm.get('email')?.hasError('email')"
+                  >Please enter a valid email format.</span
+                >
+              </div>
+            </div>
+
+            <div class="input-wrapper">
+              <input
+                class="input-field"
+                [class.is-invalid]="
+                  registerForm.get('password')?.invalid && registerForm.get('password')?.touched
+                "
+                type="password"
+                name="regPassword"
+                formControlName="password"
+                placeholder="Create a strong password"
+              />
+              <div
+                class="error-msg"
+                *ngIf="
+                  registerForm.get('password')?.touched && registerForm.get('password')?.errors
+                "
+              >
+                <span *ngIf="registerForm.get('password')?.hasError('required')"
+                  >Password is required.</span
+                >
+                <span *ngIf="registerForm.get('password')?.hasError('minlength')">
+                  Password must be at least 6 characters long.
+                </span>
+              </div>
+            </div>
+
             <button type="submit" class="submit-form">Get Started</button>
           </form>
         </div>
       </div>
     </div>
   </div>
+  <app-modal
+    [visible]="showErrorModal()"
+    [message]="errorMessage()"
+    title="Login Failed"
+    (closed)="closeErrorModal()"
+  ></app-modal>
 </div>

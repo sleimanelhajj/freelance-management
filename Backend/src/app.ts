@@ -15,10 +15,31 @@ import dashboardRoutes from "./routes/dashboard.routes";
 // initialize express app
 const API: string = "/api";
 const app: Application = express();
+const allowedOrigins = [
+  env.CLIENT_URL,
+  "http://localhost:4200",
+  "http://localhost:3000",
+
+  "http://127.0.0.1:4200",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+];
 
 // initialize middlewares
 app.use(helmet());
-app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow non-browser clients (curl/postman) and approved browser origins.
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+      callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
