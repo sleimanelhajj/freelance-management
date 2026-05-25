@@ -1,0 +1,268 @@
+/* Core Structural Main Wrapper Layout */
+.main-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background: #fdfbf7;
+  overflow: hidden;
+}
+
+/* Presentation Branding Column Panel */
+.left-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 50%;
+  background: #0d0b09;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  padding: 60px;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100vh;
+  background: #f5f2ec;
+}
+
+/* Radial Glow Orbs Ambient Decoration */
+.left-side::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 75, 47, 0.14) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.left-side::after {
+  content: '';
+  position: absolute;
+  bottom: -150px;
+  left: -150px;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 75, 47, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Header Text & Typography Specifications */
+.logo {
+  display: flex;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.first-half {
+  font-size: 1.6rem;
+  color: #f5f2ec;
+}
+.second-half {
+  font-size: 1.6rem;
+  color: #c84b2f;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #9a958e;
+  max-width: 380px;
+  line-height: 1.4;
+}
+
+.mid-section {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.main-header {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 42px;
+  gap: 12px;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.first {
+  color: #f5f2ec;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.second {
+  color: #c84b2f;
+  font-style: italic;
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+}
+
+.sub-description {
+  font-size: 1rem;
+  color: #9a958e;
+  max-width: 440px;
+  line-height: 1.6;
+}
+
+/* Styled Lists Custom Configurations */
+.left-list {
+  margin-top: 36px;
+  list-style: none;
+}
+
+.list-item {
+  color: #f0ede6;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+  position: relative;
+  padding-left: 24px;
+}
+
+.left-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: -2px;
+  color: #c84b2f;
+  font-size: 1.3rem;
+}
+
+/* Form Container Canvas Boxes Layouts */
+.auth-container {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.auth-switch {
+  position: relative;
+  display: inline-flex;
+  align-self: center;
+  background: #0d0b09;
+  padding: 4px;
+  border-radius: 14px;
+}
+
+.switch-toggle {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 140px;
+  height: 40px;
+  background: #fdfbf7;
+  border-radius: 10px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.switch-btn {
+  position: relative;
+  width: 140px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: #9a958e;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.25s ease;
+}
+
+.switch-btn.active {
+  color: #0d0b09;
+}
+
+.auth-form {
+  width: 100%;
+}
+
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.welcome {
+  font-family: 'Fraunces', serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1a1814;
+}
+
+.welcome-desc {
+  font-size: 0.9rem;
+  color: #5a5650;
+}
+
+.inputs-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Input Fields and Buttons Interactive States styling */
+.input-field {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc8bf;
+  background: #fdfbf7;
+  color: #1a1814;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.input-field:focus {
+  border-color: #c84b2f;
+  box-shadow: 0 0 0 3px rgba(200, 75, 47, 0.1);
+  outline: none;
+}
+
+.submit-form {
+  width: 100%;
+  padding: 14px;
+  background: #c84b2f;
+  color: #fdfbf7;
+  border: none;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.submit-form:hover {
+  background: #b03e25;
+}

@@ -1,0 +1,101 @@
+<div class="main-layout">
+  <div class="left-side">
+    <div class="logo">
+      <span class="first-half">Free</span><span class="second-half">lance</span>
+    </div>
+    <p class="description">Manage your freelance projects efficiently and effectively.</p>
+
+    <div class="mid-section">
+      <div class="main-header">
+        <span class="first">Run your freelance work</span>
+        <span class="second">without the chaos.</span>
+      </div>
+      <p class="sub-description">
+        Clients, projects, tasks, and invoices — all in one place. Built for freelancers who want to
+        stay organized and get paid on time.
+      </p>
+      <ul class="left-list">
+        <li class="list-item">Manage clients and projects in one place</li>
+        <li class="list-item">Track tasks with priorities and deadlines</li>
+        <li class="list-item">Create and send invoices instantly</li>
+        <li class="list-item">Dashboard overview of unpaid and overdue</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="right-side">
+    <div class="auth-container">
+      <div class="auth-switch">
+        <div
+          class="switch-toggle"
+          [style.transform]="auth === 'sign-up' ? 'translateX(140px)' : 'translateX(0px)'"
+        ></div>
+        <button class="switch-btn" [class.active]="auth === 'login'" (click)="setAuth('login')">
+          Login
+        </button>
+        <button class="switch-btn" [class.active]="auth === 'sign-up'" (click)="setAuth('sign-up')">
+          Sign Up
+        </button>
+      </div>
+
+      <div class="auth-form">
+        <div class="form-container" *ngIf="auth === 'login'">
+          <div class="header-block">
+            <h2 class="welcome">Welcome back</h2>
+            <p class="welcome-desc">Sign in to your account to continue</p>
+          </div>
+
+          <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="inputs-group">
+            <input
+              class="input-field"
+              type="email"
+              name="loginEmail"
+              formControlName="email"
+              placeholder="Email"
+            />
+            <input
+              class="input-field"
+              type="password"
+              name="loginPassword"
+              formControlName="password"
+              placeholder="Enter your password"
+            />
+            <button type="submit" class="submit-form">Sign In</button>
+          </form>
+        </div>
+
+        <div class="form-container" *ngIf="auth === 'sign-up'">
+          <div class="header-block">
+            <h2 class="welcome">Create your account</h2>
+            <p class="welcome-desc">Get started with your free developer dashboard today</p>
+          </div>
+
+          <form [formGroup]="registerForm" (ngSubmit)="submitForm()" class="inputs-group">
+            <input
+              class="input-field"
+              type="text"
+              name="regName"
+              formControlName="name"
+              placeholder="Full Name"
+            />
+            <input
+              class="input-field"
+              type="email"
+              name="regEmail"
+              formControlName="email"
+              placeholder="Email Address"
+            />
+            <input
+              class="input-field"
+              type="password"
+              name="regPassword"
+              formControlName="password"
+              placeholder="Create a strong password"
+            />
+            <button type="submit" class="submit-form">Get Started</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
