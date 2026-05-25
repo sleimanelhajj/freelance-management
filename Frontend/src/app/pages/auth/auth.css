@@ -153,8 +153,9 @@
 
 .auth-switch {
   position: relative;
-  display: inline-flex;
-  align-self: center;
+  display: flex;
+  width: 100%;
+  align-self: stretch;
   background: #0d0b09;
   padding: 4px;
   border-radius: 14px;
@@ -164,7 +165,7 @@
   position: absolute;
   top: 4px;
   left: 4px;
-  width: 140px;
+  width: calc(50% - 4px);
   height: 40px;
   background: #fdfbf7;
   border-radius: 10px;
@@ -174,7 +175,7 @@
 
 .switch-btn {
   position: relative;
-  width: 140px;
+  flex: 1;
   height: 40px;
   border: none;
   background: transparent;
