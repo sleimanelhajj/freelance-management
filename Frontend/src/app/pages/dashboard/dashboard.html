@@ -1,4 +1,65 @@
-<section class="page">
-  <h1>Dashboard</h1>
-  <p>Welcome back. Your overview widgets and KPIs will go here.</p>
-</section>
+<div class="dashboard-stats-container">
+  <div class="dashboard-stat">
+    <p class="stat-label">Total Unpaid</p>
+    <p class="stat-value">
+      {{ dashBoardData.data.stats.totalUnpaid | currency: 'USD' : 'symbol' : '1.0-0' }}
+    </p>
+    <p class="stat-subtext">
+      {{ dashBoardData.data.stats.unpaidInvoices }} unpaid invoices &middot;
+      {{ dashBoardData.data.stats.overdueInvoices }} overdue
+    </p>
+  </div>
+  <div class="dashboard-stat">
+    <p class="stat-label">Earned This Month</p>
+    <p class="stat-value">
+      {{ dashBoardData.data.stats.earnedThisMonth | currency: 'USD' : 'symbol' : '1.0-0' }}
+    </p>
+    <p class="stat-subtext">{{ currentDate | date: 'MMMM y' }}</p>
+  </div>
+  <div class="dashboard-stat">
+    <p class="stat-label">Active Projects</p><!--  -->
+    <p class="stat-value">{{ dashBoardData.data.stats.activeProjects }}</p>
+    <p class="stat-subtext">{{ dashBoardData.data.stats.totalClients }} total clients</p>
+  </div>
+</div>
+
+<div class="dashboard-bottom-grid">
+  <section class="panel-card">
+    <header class="panel-header">Upcoming Deadlines</header>
+
+    <div
+      class="panel-list"
+      *ngIf="dashBoardData.data.upcomingDeadlines.length > 0; else noDeadlines"
+    >
+      <article class="panel-row" *ngFor="let deadline of dashBoardData.data.upcomingDeadlines">
+        <div class="row-main">
+          <p class="row-title">{{ deadline.title }}</p>
+          <p class="row-subtitle">{{ deadline.clientName }}</p>
+        </div>
+        <span class="row-pill">{{ deadline.deadline | date: 'MMM d' }}</span>
+      </article>
+    </div>
+
+    <ng-template #noDeadlines>
+      <p class="empty-state">No upcoming deadlines.</p>
+    </ng-template>
+  </section>
+
+  <section class="panel-card">
+    <header class="panel-header">Recent Activity</header>
+
+    <div class="panel-list" *ngIf="dashBoardData.data.recentActivity.length > 0; else noActivity">
+      <article class="panel-row" *ngFor="let activity of dashBoardData.data.recentActivity">
+        <div class="activity-dot" [ngClass]="getActivityDotClass(activity.type)"></div>
+        <div class="row-main">
+          <p class="row-title">{{ activity.description }}</p>
+          <p class="row-subtitle">{{ formatRelativeTime(activity.createdAt) }}</p>
+        </div>
+      </article>
+    </div>
+
+    <ng-template #noActivity>
+      <p class="empty-state">No recent activity yet.</p>
+    </ng-template>
+  </section>
+</div>
