@@ -10,7 +10,7 @@ import {
 import { ModalComponent } from '../../components/modal/modal';
 import { LoginRequest, AuthResponse } from '../../models/auth.models';
 import { AuthService } from '../../services/auth.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-auth',
   standalone: true,
@@ -19,7 +19,10 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './auth.css',
 })
 export class Auth {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   auth: string = 'login';
 
@@ -51,6 +54,7 @@ export class Auth {
         this.authService.login(this.loginForm.value as LoginRequest).subscribe({
           next: (response: AuthResponse) => {
             console.log('Login success:', response);
+            this.router.navigate(['/app']);
           },
           error: (err) => {
             this.errorMessage.set(err?.error?.message || 'Something went wrong. Please try again.');
@@ -65,6 +69,7 @@ export class Auth {
         this.authService.signUp(this.registerForm.value as any).subscribe({
           next: (response: AuthResponse) => {
             console.log('Registration success:', response);
+            this.router.navigate(['/app']);
           },
           error: (err) => {
             this.errorMessage.set(err?.error?.message || 'Something went wrong. Please try again.');
