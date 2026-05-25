@@ -1,0 +1,16 @@
+.page {
+  background: #fffdf8;
+  border: 1px solid #e8dfd2;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+h1 {
+  margin: 0 0 10px;
+  color: #1a1814;
+}
+
+p {
+  margin: 0;
+  color: #6f655a;
+}

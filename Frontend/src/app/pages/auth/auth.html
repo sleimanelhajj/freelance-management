@@ -47,16 +47,12 @@
 
           <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="inputs-group">
             <div class="input-wrapper">
-              <input
-                class="input-field"
-                [class.is-invalid]="
-                  loginForm.get('email')?.invalid && loginForm.get('email')?.touched
-                "
+              <app-input-field
+                [control]="loginForm.controls.email"
                 type="email"
                 name="loginEmail"
-                formControlName="email"
                 placeholder="Email"
-              />
+              ></app-input-field>
               <div
                 class="error-msg"
                 *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors"
@@ -71,16 +67,12 @@
             </div>
 
             <div class="input-wrapper">
-              <input
-                class="input-field"
-                [class.is-invalid]="
-                  loginForm.get('password')?.invalid && loginForm.get('password')?.touched
-                "
+              <app-input-field
+                [control]="loginForm.controls.password"
                 type="password"
                 name="loginPassword"
-                formControlName="password"
                 placeholder="Enter your password"
-              />
+              ></app-input-field>
               <div
                 class="error-msg"
                 *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors"
@@ -106,16 +98,12 @@
 
           <form [formGroup]="registerForm" (ngSubmit)="submitForm()" class="inputs-group">
             <div class="input-wrapper">
-              <input
-                class="input-field"
-                [class.is-invalid]="
-                  registerForm.get('name')?.invalid && registerForm.get('name')?.touched
-                "
+              <app-input-field
+                [control]="registerForm.controls.name"
                 type="text"
                 name="regName"
-                formControlName="name"
                 placeholder="Full Name"
-              />
+              ></app-input-field>
               <div
                 class="error-msg"
                 *ngIf="
@@ -128,16 +116,12 @@
             </div>
 
             <div class="input-wrapper">
-              <input
-                class="input-field"
-                [class.is-invalid]="
-                  registerForm.get('email')?.invalid && registerForm.get('email')?.touched
-                "
+              <app-input-field
+                [control]="registerForm.controls.email"
                 type="email"
                 name="regEmail"
-                formControlName="email"
                 placeholder="Email Address"
-              />
+              ></app-input-field>
               <div
                 class="error-msg"
                 *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors"
@@ -152,16 +136,12 @@
             </div>
 
             <div class="input-wrapper">
-              <input
-                class="input-field"
-                [class.is-invalid]="
-                  registerForm.get('password')?.invalid && registerForm.get('password')?.touched
-                "
+              <app-input-field
+                [control]="registerForm.controls.password"
                 type="password"
                 name="regPassword"
-                formControlName="password"
                 placeholder="Create a strong password"
-              />
+              ></app-input-field>
               <div
                 class="error-msg"
                 *ngIf="

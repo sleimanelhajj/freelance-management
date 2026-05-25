@@ -1,0 +1,26 @@
+.topbar {
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid #dfd8cd;
+  background: #f5f2ec;
+}
+
+.title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: #8f867c;
+  font-weight: 700;
+}
+
+h2 {
+  margin: 0;
+  color: #1a1814;
+  font-size: 1.25rem;
+}

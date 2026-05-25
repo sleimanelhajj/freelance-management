@@ -1,0 +1,153 @@
+.sidebar {
+  width: 270px;
+  min-height: 100vh;
+  background: #0d0b09;
+  border-right: 1px solid #27221b;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-block {
+  padding: 30px 24px 20px;
+  border-bottom: 1px solid #27221b;
+}
+
+.logo {
+  display: flex;
+  gap: 0;
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.first-half {
+  color: #f5f2ec;
+  font-size: 2rem;
+}
+
+.second-half {
+  color: #c84b2f;
+  font-size: 2rem;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: #8f867c;
+  font-size: 0.92rem;
+}
+
+.nav-list {
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-title {
+  margin: 0 12px 10px;
+  color: #5b5248;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #b7aea4;
+  padding: 11px 12px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.nav-link img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.85;
+}
+
+.nav-link:hover {
+  background: #191511;
+}
+
+.nav-link.active {
+  background: #c84b2f;
+  color: #fff;
+}
+
+.nav-link.active img {
+  opacity: 1;
+  filter: brightness(0) invert(1);
+}
+
+.user-block {
+  margin-top: auto;
+  border-top: 1px solid #27221b;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #c84b2f;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+.user-details {
+  min-width: 0;
+}
+
+.name {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #f4efe6;
+}
+
+.email {
+  margin: 2px 0 0;
+  color: #8f867c;
+  font-size: 0.82rem;
+  word-break: break-all;
+}
+
+@media (max-width: 960px) {
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .brand-block {
+    padding: 18px 16px 14px;
+  }
+
+  .nav-list {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .nav-section {
+    min-width: 170px;
+  }
+
+  .user-block {
+    display: none;
+  }
+}

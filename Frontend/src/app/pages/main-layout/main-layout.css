@@ -1,0 +1,29 @@
+.layout-shell {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background: #f5f2ec;
+}
+
+.layout-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.layout-content {
+  flex: 1;
+  padding: 28px;
+  overflow: auto;
+}
+
+@media (max-width: 960px) {
+  .layout-shell {
+    flex-direction: column;
+  }
+
+  .layout-content {
+    padding: 16px;
+  }
+}

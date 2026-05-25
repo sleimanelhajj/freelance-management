@@ -228,27 +228,6 @@
   width: 100%;
 }
 
-/* Input Fields and Buttons Interactive States styling */
-.input-field {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 10px;
-  border: 1px solid #ccc8bf;
-  background: #fdfbf7;
-  color: #1a1814;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.95rem;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.input-field:focus {
-  border-color: #c84b2f;
-  box-shadow: 0 0 0 3px rgba(200, 75, 47, 0.1);
-  outline: none;
-}
-
 .submit-form {
   width: 100%;
   padding: 14px;
@@ -273,12 +252,6 @@
   flex-direction: column;
   gap: 6px;
   width: 100%;
-}
-
-/* Red border override rule when a control fails validation check */
-.input-field.is-invalid {
-  border-color: #c84b2f !important;
-  background: #fdecea; /* Light soft pink alert accent background */
 }
 
 /* High contrast alert error typography text labels */

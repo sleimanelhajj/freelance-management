@@ -8,13 +8,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { ModalComponent } from '../../components/modal/modal';
+import { InputFieldComponent } from '../../components/shared/input-field/input-field';
 import { LoginRequest, AuthResponse } from '../../models/auth.models';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ModalComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ModalComponent, InputFieldComponent],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
 })
