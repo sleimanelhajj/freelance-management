@@ -27,3 +27,12 @@ export interface AuthResponse {
   message: string;
   data: AuthData;
 }
+
+export interface SetPasswordRequest {
+  password: string;
+}
+
+export interface BasicApiResponse {
+  success: boolean;
+  message: string;
+}

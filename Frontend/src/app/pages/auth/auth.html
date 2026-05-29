@@ -87,6 +87,12 @@
             </div>
 
             <button type="submit" class="submit-form">Sign In</button>
+
+            <div class="oauth-divider"><span>or</span></div>
+            <button type="button" class="google-btn" (click)="continueWithGoogle()">
+              <img src="/assets/google.svg" alt="Google icon" class="google-icon" />
+              Continue with Google
+            </button>
           </form>
         </div>
 
@@ -158,6 +164,12 @@
             </div>
 
             <button type="submit" class="submit-form">Get Started</button>
+
+            <div class="oauth-divider"><span>or</span></div>
+            <button type="button" class="google-btn" (click)="continueWithGoogle()">
+              <img src="/assets/google.svg" alt="Google icon" class="google-icon" />
+              Sign up with Google
+            </button>
           </form>
         </div>
       </div>
@@ -169,4 +181,34 @@
     title="Login Failed"
     (closed)="closeErrorModal()"
   ></app-modal>
+
+  <div class="set-password-overlay" *ngIf="showSetPasswordModal()">
+    <div class="set-password-card">
+      <h3>Set Your Password</h3>
+      <p>You signed in with Google. Set a password so you can also log in with email and password.</p>
+
+      <form [formGroup]="setPasswordForm" (ngSubmit)="submitSetPassword()" class="set-password-form">
+        <app-input-field
+          [control]="setPasswordForm.controls.password"
+          type="password"
+          name="setPassword"
+          placeholder="New password"
+        ></app-input-field>
+
+        <app-input-field
+          [control]="setPasswordForm.controls.confirmPassword"
+          type="password"
+          name="setPasswordConfirm"
+          placeholder="Confirm password"
+        ></app-input-field>
+
+        <div class="set-password-actions">
+          <button type="button" class="skip-btn" (click)="skipSetPassword()">Skip for now</button>
+          <button type="submit" class="save-btn" [disabled]="settingPassword()">
+            {{ settingPassword() ? 'Saving...' : 'Save Password' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
