@@ -51,6 +51,12 @@ export const routes: Routes = [
         data: { title: 'Invoices', subtitle: 'Track payments and billing' },
       },
       {
+        path: 'invoices/:id',
+        loadComponent: () =>
+          import('./pages/invoice-detail/invoice-detail').then((m) => m.InvoiceDetailComponent),
+        data: { title: 'Invoice Detail', subtitle: 'Invoice breakdown and payment' },
+      },
+      {
         path: 'settings',
         loadComponent: () => import('./pages/settings/settings').then((m) => m.SettingsComponent),
         data: { title: 'Settings', subtitle: 'Manage your workspace preferences' },

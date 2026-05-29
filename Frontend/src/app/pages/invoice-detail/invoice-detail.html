@@ -1,0 +1,176 @@
+<section class="invoice-detail-page" *ngIf="!loading() && invoice() as inv">
+  <div class="page-header">
+    <div class="page-header-actions">
+      <button class="action-btn" type="button" (click)="goBack()">Back</button>
+      <button class="action-btn" type="button" (click)="openEditModal()">Edit</button>
+      <button
+        class="action-btn paid"
+        type="button"
+        [disabled]="inv.status === 'PAID' || markPaidSubmitting()"
+        (click)="markAsPaid()"
+      >
+        <span class="inline-spinner" *ngIf="markPaidSubmitting()"></span>
+        {{ inv.status === 'PAID' ? 'Paid' : markPaidSubmitting() ? 'Marking...' : 'Mark as Paid' }}
+      </button>
+    </div>
+  </div>
+
+  <p class="state error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+
+  <div class="summary-grid">
+    <article class="card main-info">
+      <div class="invoice-meta-top">
+        <span class="invoice-number">{{ inv.invoiceNumber }}</span>
+        <span class="status-pill" [ngClass]="statusClass(inv.status)">{{ inv.status }}</span>
+      </div>
+      <h1>Invoice</h1>
+
+      <div class="invoice-parties">
+        <div>
+          <span class="meta-label">BILL TO</span>
+          <h3>{{ inv.client.name }}</h3>
+          <p>{{ inv.client.email }}</p>
+        </div>
+        <div>
+          <span class="meta-label">PROJECT</span>
+          <h3>{{ inv.project.title }}</h3>
+          <p>Due: {{ inv.dueDate ? (inv.dueDate | date: 'MMM d, y') : '-' }}</p>
+        </div>
+      </div>
+
+      <div class="lines-card">
+        <div class="lines-head">
+          <span>DESCRIPTION</span>
+          <span>QTY</span>
+          <span>UNIT PRICE</span>
+          <span>TOTAL</span>
+        </div>
+        <div class="line-row" *ngFor="let item of inv.lineItems">
+          <span>{{ item.description }}</span>
+          <span>{{ item.qty }}</span>
+          <span>{{ item.unitPrice | currency }}</span>
+          <span>{{ item.total | currency }}</span>
+        </div>
+      </div>
+
+      <div class="totals-wrap">
+        <div class="total-row"><span>Subtotal</span><strong>{{ inv.subtotal | currency }}</strong></div>
+        <div class="total-row"><span>Tax</span><strong>{{ inv.tax | currency }}</strong></div>
+        <div class="total-row total-main"><span>Total</span><strong>{{ inv.total | currency }}</strong></div>
+      </div>
+
+      <div class="payment-card">
+        <span class="meta-label">PAYMENT INFO</span>
+        <div class="payment-grid">
+          <div><small>Amount Paid</small><strong>{{ inv.amountPaid | currency }}</strong></div>
+          <div><small>Method</small><strong>{{ inv.paymentMethod || '-' }}</strong></div>
+          <div><small>Paid At</small><strong>{{ inv.paidAt ? (inv.paidAt | date: 'MMM d, y') : '-' }}</strong></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card side-info">
+      <h3>Invoice Info</h3>
+      <div class="info-row"><span>Status</span><strong>{{ inv.status }}</strong></div>
+      <div class="info-row"><span>Due Date</span><strong>{{ inv.dueDate ? (inv.dueDate | date: 'MMM d, y') : '-' }}</strong></div>
+      <div class="info-row"><span>Total</span><strong>{{ inv.total | currency }}</strong></div>
+      <div class="info-row"><span>Project</span><strong>{{ inv.project.title }}</strong></div>
+      <div class="info-row"><span>Client</span><strong>{{ inv.client.name }}</strong></div>
+    </article>
+  </div>
+</section>
+
+<p class="state" *ngIf="loading()">Loading invoice details...</p>
+<p class="state error" *ngIf="!loading() && errorMessage()">{{ errorMessage() }}</p>
+
+<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeEditModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h2>Edit Invoice</h2>
+
+    <form [formGroup]="invoiceForm" (ngSubmit)="submitEdit()">
+      <div class="form-grid">
+        <div class="field">
+          <label>Due Date</label>
+          <app-input-field [control]="invoiceForm.controls.dueDate" type="date" name="dueDate"></app-input-field>
+        </div>
+        <div class="field">
+          <label>Tax ($)</label>
+          <app-input-field [control]="invoiceForm.controls.tax" type="number" name="tax"></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Status</label>
+          <select formControlName="status">
+            <option value="DRAFT">DRAFT</option>
+            <option value="SENT">SENT</option>
+            <option value="PAID">PAID</option>
+            <option value="OVERDUE">OVERDUE</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Amount Paid</label>
+          <app-input-field [control]="invoiceForm.controls.amountPaid" type="number" name="amountPaid"></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Payment Method</label>
+          <select formControlName="paymentMethod">
+            <option value="">-</option>
+            <option value="BANK_TRANSFER">BANK_TRANSFER</option>
+            <option value="CASH">CASH</option>
+            <option value="PAYPAL">PAYPAL</option>
+            <option value="CARD">CARD</option>
+            <option value="OTHER">OTHER</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Paid At</label>
+          <app-input-field [control]="invoiceForm.controls.paidAt" type="date" name="paidAt"></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label>Line Items</label>
+          <div class="line-items-wrap" formArrayName="lineItems">
+            <div
+              class="line-item-row"
+              *ngFor="let item of lineItems.controls; let i = index"
+              [formGroupName]="i"
+            >
+              <div class="line-item-grid">
+                <app-input-field
+                  [control]="$any(item).controls.description"
+                  type="text"
+                  name="description"
+                  placeholder=""
+                ></app-input-field>
+                <app-input-field
+                  [control]="$any(item).controls.unitPrice"
+                  type="number"
+                  name="unitPrice"
+                  placeholder="Unit Price"
+                ></app-input-field>
+                <button
+                  class="action-btn delete tiny line-item-remove"
+                  type="button"
+                  (click)="removeLineItem(i)"
+                  [disabled]="lineItems.length <= 1"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+          <button class="action-btn wide" type="button" (click)="addLineItem()">+ Add Line Item</button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="action-btn" type="button" (click)="closeEditModal()">Cancel</button>
+        <button class="save-btn submit-btn" type="submit" [disabled]="submitting()">
+          <span class="btn-spinner" *ngIf="submitting()"></span>
+          {{ submitting() ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
