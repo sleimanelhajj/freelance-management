@@ -1,4 +1,156 @@
-<section class="page">
-  <h1>Clients</h1>
-  <p>Client listing and profile management will be built in this section.</p>
+<section class="clients-page">
+  <div class="clients-toolbar">
+    <button class="add-btn" type="button" (click)="openAddModal()">+ Add Client</button>
+  </div>
+
+  <div class="clients-table-card">
+    <div class="table-header">
+      <span>NAME</span>
+      <span>EMAIL</span>
+      <span>COMPANY</span>
+      <span>PHONE</span>
+      <span>STATUS</span>
+      <span>ACTIONS</span>
+    </div>
+
+    <p class="state" *ngIf="loading()">Loading clients...</p>
+    <p class="state error" *ngIf="!loading() && errorMessage">{{ errorMessage }}</p>
+    <p class="state" *ngIf="!loading() && !errorMessage && clients.length === 0">
+      No clients found.
+    </p>
+
+    <div class="table-row" *ngFor="let client of clients">
+      <span class="cell-name">{{ client.name }}</span>
+      <span>{{ client.email }}</span>
+      <span>{{ client.company || '-' }}</span>
+      <span>{{ client.phone || '-' }}</span>
+      <span>
+        <span class="status-pill" [ngClass]="statusClass(client.status)">{{ client.status }}</span>
+      </span>
+      <span class="actions-cell">
+        <button class="action-btn" type="button" (click)="onView(client)">View</button>
+        <button class="action-btn" type="button" (click)="openEditModal(client)">Edit</button>
+        <button class="action-btn delete" type="button" (click)="requestDelete(client)">
+          Delete
+        </button>
+      </span>
+    </div>
+  </div>
 </section>
+
+<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeFormModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h2>{{ formMode === 'create' ? 'Add Client' : 'Edit Client' }}</h2>
+    <div class="modal-blocker" *ngIf="formMode === 'edit' && editDetailsLoading()">
+      <span class="big-spinner"></span>
+      <p>Loading client details...</p>
+    </div>
+
+    <form [formGroup]="clientForm" (ngSubmit)="submitClientForm()">
+      <div class="form-grid">
+        <div class="field">
+          <label>Name *</label>
+          <app-input-field
+            [control]="clientForm.controls.name"
+            type="text"
+            name="name"
+            placeholder="ACME Corp"
+          ></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Email *</label>
+          <app-input-field
+            [control]="clientForm.controls.email"
+            type="email"
+            name="email"
+            placeholder="client@acme.com"
+          ></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Phone</label>
+          <app-input-field
+            [control]="clientForm.controls.phone"
+            type="text"
+            name="phone"
+            placeholder="+961 71 000 000"
+          ></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Company</label>
+          <app-input-field
+            [control]="clientForm.controls.company"
+            type="text"
+            name="company"
+            placeholder="Company name"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label>Notes</label>
+          <textarea formControlName="notes" rows="4" placeholder="VIP client..."></textarea>
+        </div>
+
+        <div class="field field-full">
+          <label>Status</label>
+          <select formControlName="status">
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="INACTIVE">INACTIVE</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="action-btn" type="button" (click)="closeFormModal()">Cancel</button>
+        <button
+          class="add-btn submit-btn"
+          type="submit"
+          [disabled]="submitting() || editDetailsLoading()"
+        >
+          <span class="btn-spinner" *ngIf="submitting()"></span>
+          {{
+            submitting()
+              ? formMode === 'create'
+                ? 'Creating...'
+                : 'Saving...'
+              : formMode === 'create'
+                ? 'Create Client'
+                : 'Save Changes'
+          }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="cancelDelete()">
+  <div class="confirm-card" (click)="$event.stopPropagation()">
+    <h3>Delete Client</h3>
+    <p>
+      Are you sure you want to delete
+      <strong>{{ deleteCandidate?.name }}</strong
+      >?
+    </p>
+    <div class="confirm-actions">
+      <button
+        class="action-btn"
+        type="button"
+        [disabled]="deleteSubmitting()"
+        (click)="cancelDelete()"
+      >
+        Cancel
+      </button>
+      <button
+        class="action-btn delete submit-btn"
+        type="button"
+        [disabled]="deleteSubmitting()"
+        (click)="confirmDelete()"
+      >
+        <span class="inline-spinner danger" *ngIf="deleteSubmitting()"></span>
+        {{ deleteSubmitting() ? 'Deleting...' : 'Delete' }}
+      </button>
+    </div>
+  </div>
+</div>

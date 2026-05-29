@@ -1,0 +1,200 @@
+<section class="project-detail-page" *ngIf="!loading() && project() as p">
+  <div class="page-header">
+    <div class="page-header-actions">
+      <button class="action-btn" type="button" (click)="goBack()">Back</button>
+      <button class="action-btn" type="button" (click)="openEditModal()">Edit</button>
+      <button class="action-btn delete" type="button" (click)="openDeleteConfirm()">Delete</button>
+    </div>
+  </div>
+
+  <p class="state error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+
+  <article class="card main-info">
+    <h1>{{ p.title }}</h1>
+    <span class="status-pill" [ngClass]="projectStatusClass(p.status)">
+      {{ p.status }}
+    </span>
+    <hr />
+    <p class="description">{{ p.description || 'No project description added yet.' }}</p>
+
+    <div class="meta-grid">
+      <div class="meta-box">
+        <span class="meta-label">BUDGET</span>
+        <strong>{{ p.budget !== null ? (p.budget | currency) : '-' }}</strong>
+      </div>
+      <div class="meta-box">
+        <span class="meta-label">DEADLINE</span>
+        <strong>{{ p.deadline ? (p.deadline | date: 'MMM d, y') : '-' }}</strong>
+      </div>
+      <div class="meta-box">
+        <span class="meta-label">CLIENT</span>
+        <strong>{{ p.client.name }}</strong>
+      </div>
+    </div>
+  </article>
+
+  <section class="tasks-section">
+    <div class="section-head">
+      <h3>Tasks</h3>
+      <div class="section-actions">
+        <button class="action-btn" type="button" (click)="viewAllTasks()">View All</button>
+        <button class="action-btn" type="button" (click)="onAddTask()">+ Task</button>
+      </div>
+    </div>
+    <div class="tasks-card">
+      <div class="tasks-head">
+        <span></span>
+        <span>TITLE</span>
+        <span>STATUS</span>
+        <span>DUE DATE</span>
+      </div>
+
+      <p class="state" *ngIf="p.tasks.length === 0">No tasks for this project yet.</p>
+
+      <div class="task-row" *ngFor="let task of p.tasks">
+        <span class="check-cell">
+          <input
+            type="checkbox"
+            [checked]="task.status === 'DONE'"
+            [disabled]="isTaskUpdating(task.id)"
+            (change)="toggleTaskCompleted(task)"
+          />
+        </span>
+        <span>{{ task.title }}</span>
+        <span>
+          <span class="status-pill" [ngClass]="taskStatusClass(task.status)">
+            {{ task.status }}
+          </span>
+        </span>
+        <span>{{ task.dueDate ? (task.dueDate | date: 'y-MM-dd') : '-' }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="invoices-section">
+    <div class="section-head">
+      <h3>Invoices</h3>
+      <button class="action-btn" type="button" (click)="viewAllInvoices()">View All</button>
+    </div>
+
+    <div class="invoices-card">
+      <div class="invoices-head">
+        <span>INVOICE #</span>
+        <span>TOTAL</span>
+        <span>STATUS</span>
+      </div>
+
+      <p class="state" *ngIf="p.invoices.length === 0">No invoices for this project yet.</p>
+
+      <div class="invoice-row" *ngFor="let invoice of p.invoices">
+        <span>{{ invoice.invoiceNumber }}</span>
+        <span>{{ invoice.total | currency }}</span>
+        <span>
+          <span class="status-pill" [ngClass]="invoiceStatusClass(invoice.status)">
+            {{ invoice.status }}
+          </span>
+        </span>
+      </div>
+    </div>
+  </section>
+</section>
+
+<p class="state" *ngIf="loading()">Loading project details...</p>
+<p class="state error" *ngIf="!loading() && errorMessage()">{{ errorMessage() }}</p>
+
+<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeEditModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h2>Edit Project</h2>
+
+    <form [formGroup]="projectForm" (ngSubmit)="submitEdit()">
+      <div class="form-grid">
+        <div class="field field-full">
+          <label>Title *</label>
+          <app-input-field
+            [control]="projectForm.controls.title"
+            type="text"
+            name="title"
+            placeholder="Website Redesign"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            rows="4"
+            placeholder="Project details..."
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label>Deadline</label>
+          <app-input-field
+            [control]="projectForm.controls.deadline"
+            type="date"
+            name="deadline"
+            placeholder=""
+          ></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Budget ($)</label>
+          <app-input-field
+            [control]="projectForm.controls.budget"
+            type="number"
+            name="budget"
+            placeholder="1200"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label>Status</label>
+          <select formControlName="status">
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="COMPLETED">COMPLETED</option>
+            <option value="PAUSED">PAUSED</option>
+            <option value="CANCELLED">CANCELLED</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="action-btn" type="button" (click)="closeEditModal()">Cancel</button>
+        <button class="save-btn submit-btn" type="submit" [disabled]="submitting()">
+          <span class="btn-spinner" *ngIf="submitting()"></span>
+          {{ submitting() ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="closeDeleteConfirm()">
+  <div class="confirm-card" (click)="$event.stopPropagation()">
+    <h3>Delete Project</h3>
+    <p>
+      Are you sure you want to delete
+      <strong>{{ project()?.title }}</strong
+      >?
+    </p>
+    <div class="confirm-actions">
+      <button
+        class="action-btn"
+        type="button"
+        [disabled]="deleting()"
+        (click)="closeDeleteConfirm()"
+      >
+        Cancel
+      </button>
+      <button
+        class="action-btn delete submit-btn"
+        type="button"
+        [disabled]="deleting()"
+        (click)="confirmDelete()"
+      >
+        <span class="inline-spinner danger" *ngIf="deleting()"></span>
+        {{ deleting() ? 'Deleting...' : 'Delete' }}
+      </button>
+    </div>
+  </div>
+</div>

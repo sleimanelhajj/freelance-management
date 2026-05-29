@@ -1,4 +1,214 @@
-<section class="page">
-  <h1>Projects</h1>
-  <p>Project planning, statuses, and deadlines will appear here.</p>
+<section class="projects-page">
+  <div class="projects-toolbar">
+    <button class="add-btn" type="button" (click)="openAddModal()">+ Add Project</button>
+  </div>
+
+  <div class="projects-table-card">
+    <div class="table-header">
+      <span>TITLE</span>
+      <span>CLIENT</span>
+      <span>STATUS</span>
+      <span>DEADLINE</span>
+      <span>BUDGET</span>
+      <span>ACTIONS</span>
+    </div>
+
+    <p class="state" *ngIf="projectsFetched() || projects.length === 0">No projects found.</p>
+
+    <div class="table-row" *ngFor="let project of projects">
+      <span class="cell-title">{{ project.title }}</span>
+      <span>{{ project.client.name }}</span>
+      <span>
+        <span class="status-pill" [ngClass]="statusClass(project.status)">
+          {{ project.status }}
+        </span>
+      </span>
+      <span>{{ project.deadline ? (project.deadline | date: 'yyyy-MM-dd') : '-' }}</span>
+      <span>{{ project.budget | currency }}</span>
+      <span class="actions-cell">
+        <button class="action-btn" type="button" (click)="onView(project)">View</button>
+        <button class="action-btn" type="button" (click)="openEditModal(project)">Edit</button>
+        <button class="action-btn delete" type="button" (click)="requestDelete(project)">
+          Delete
+        </button>
+      </span>
+    </div>
+  </div>
 </section>
+
+<div class="modal-overlay" *ngIf="addModalOpen()" (click)="closeAddModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h2>New Project</h2>
+
+    <form [formGroup]="projectForm" (ngSubmit)="submitAddProject()">
+      <div class="form-grid">
+        <div class="field field-full">
+          <label for="project-client">Client *</label>
+          <select id="project-client" formControlName="clientId">
+            <option value="" disabled>Select a client</option>
+            <option *ngFor="let client of clients" [value]="client.id">
+              {{ client.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="field field-full">
+          <label>Title *</label>
+          <app-input-field
+            [control]="projectForm.controls.title"
+            type="text"
+            name="title"
+            placeholder="Website Redesign"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label for="project-description">Description</label>
+          <textarea
+            id="project-description"
+            formControlName="description"
+            rows="4"
+            placeholder="Project details..."
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label>Deadline</label>
+          <app-input-field
+            [control]="projectForm.controls.deadline"
+            type="date"
+            name="deadline"
+            placeholder=""
+          ></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Budget ($)</label>
+          <app-input-field
+            [control]="projectForm.controls.budget"
+            type="number"
+            name="budget"
+            placeholder="1200"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label for="project-status">Status</label>
+          <select id="project-status" formControlName="status">
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="COMPLETED">COMPLETED</option>
+            <option value="PAUSED">PAUSED</option>
+            <option value="CANCELLED">CANCELLED</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="action-btn" type="button" (click)="closeAddModal()">Cancel</button>
+        <button class="add-btn submit-btn" type="submit">Create Project</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="editModalOpen()" (click)="closeEditModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h2>Edit Project</h2>
+
+    <div class="modal-blocker" *ngIf="editDetailsLoading()">
+      <span class="big-spinner"></span>
+      <p>Loading project details...</p>
+    </div>
+
+    <form [formGroup]="editProjectForm" (ngSubmit)="submitEditProject()">
+      <div class="form-grid">
+        <div class="field field-full">
+          <label>Title *</label>
+          <app-input-field
+            [control]="editProjectForm.controls.title"
+            type="text"
+            name="edit-title"
+            placeholder="Website Redesign"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label for="edit-project-description">Description</label>
+          <textarea
+            id="edit-project-description"
+            formControlName="description"
+            rows="4"
+            placeholder="Project details..."
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label>Deadline</label>
+          <app-input-field
+            [control]="editProjectForm.controls.deadline"
+            type="date"
+            name="edit-deadline"
+            placeholder=""
+          ></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Budget ($)</label>
+          <app-input-field
+            [control]="editProjectForm.controls.budget"
+            type="number"
+            name="edit-budget"
+            placeholder="1200"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label for="edit-project-status">Status</label>
+          <select id="edit-project-status" formControlName="status">
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="COMPLETED">COMPLETED</option>
+            <option value="PAUSED">PAUSED</option>
+            <option value="CANCELLED">CANCELLED</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="action-btn" type="button" (click)="closeEditModal()">Cancel</button>
+        <button class="add-btn submit-btn" type="submit" [disabled]="editDetailsLoading()">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="cancelDelete()">
+  <div class="confirm-card" (click)="$event.stopPropagation()">
+    <h3>Delete Project</h3>
+    <p>
+      Are you sure you want to delete
+      <strong>{{ deleteCandidate?.title }}</strong
+      >?
+    </p>
+    <div class="confirm-actions">
+      <button
+        class="action-btn"
+        type="button"
+        [disabled]="deleteSubmitting()"
+        (click)="cancelDelete()"
+      >
+        Cancel
+      </button>
+      <button
+        class="action-btn delete submit-btn"
+        type="button"
+        [disabled]="deleteSubmitting()"
+        (click)="confirmDelete()"
+      >
+        <span class="inline-spinner danger" *ngIf="deleteSubmitting()"></span>
+        {{ deleteSubmitting() ? 'Deleting...' : 'Delete' }}
+      </button>
+    </div>
+  </div>
+</div>

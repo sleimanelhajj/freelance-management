@@ -1,26 +1,21 @@
 .topbar {
-  padding: 20px 28px 16px;
-  border-bottom: 1px solid #dfd8cd;
-  background: #f5f2ec;
+  background: #fdfbf7;
+  border-bottom: 1px solid #e3dbcf;
+  padding: 14px 30px 12px;
 }
 
-.title-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.eyebrow {
+.page-title {
   margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.72rem;
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  line-height: 1.05;
+  font-weight: 600;
+  color: #111111;
+}
+
+.page-subtitle {
+  margin: 4px 0 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.83rem;
   color: #8f867c;
-  font-weight: 700;
-}
-
-h2 {
-  margin: 0;
-  color: #1a1814;
-  font-size: 1.25rem;
 }
