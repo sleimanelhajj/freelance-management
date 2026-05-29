@@ -3,9 +3,12 @@ import { Router } from "express";
 import {
   validateLogin,
   validateRegister,
+  validateSetPassword,
 } from "../middleware/auth-validation.middleware";
 import { authController } from "../controllers/auth.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
+import passport from "passport";
+import { env } from "../config/env";
 
 const router = Router();
 
@@ -78,6 +81,40 @@ router.post("/register", validateRegister, authController.register);
  */
 router.post("/login", validateLogin, authController.login);
 
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: false,
+    prompt: "select_account",
+  }),
+);
+
+router.get("/google/callback", (req, res, next) => {
+  passport.authenticate(
+    "google",
+    { session: false },
+    (
+      err: unknown,
+      result?: { token: string; shouldPromptSetPassword?: boolean },
+    ) => {
+      if (err || !result?.token) {
+        const message =
+          (err as { message?: string } | undefined)?.message ||
+          "Google authentication failed";
+        res.redirect(
+          `${env.CLIENT_URL}/auth?error=${encodeURIComponent(message)}`,
+        );
+        return;
+      }
+
+      res.redirect(
+        `${env.CLIENT_URL}/auth?token=${encodeURIComponent(result.token)}&provider=google&needsPasswordSetup=${result.shouldPromptSetPassword ? "1" : "0"}`,
+      );
+    },
+  )(req, res, next);
+});
+
 /**
  * @swagger
  * /api/auth/me:
@@ -94,5 +131,16 @@ router.post("/login", validateLogin, authController.login);
  *         description: Unauthorized
  */
 router.get("/me", authMiddleware, authController.me);
+router.post(
+  "/set-password",
+  authMiddleware,
+  validateSetPassword,
+  authController.setPassword,
+);
+router.post(
+  "/password-prompt/skip",
+  authMiddleware,
+  authController.skipPasswordPrompt,
+);
 
 export default router;
