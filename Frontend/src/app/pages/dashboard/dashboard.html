@@ -1,66 +1,130 @@
-<div class="dashboard-stats-container">
-  <div class="dashboard-stat">
-    <p class="stat-label">Total Unpaid</p>
-    <p class="stat-value">
-      {{ dashBoardData.data.stats.totalUnpaid | currency: 'USD' : 'symbol' : '1.0-0' }}
-    </p>
-    <p class="stat-subtext">
-      {{ dashBoardData.data.stats.unpaidInvoices }} unpaid invoices &middot;
-      {{ dashBoardData.data.stats.overdueInvoices }} overdue
-    </p>
+<div class="dashboard-loading-wrap" *ngIf="loading()">
+  <div class="loading-spinner" aria-hidden="true"></div>
+  <p class="loading-label">Loading dashboard...</p>
+
+  <div class="dashboard-stats-container skeleton-area">
+    <div class="dashboard-stat skeleton-card">
+      <span class="skeleton-line w-35"></span>
+      <span class="skeleton-line w-45 h-lg"></span>
+      <span class="skeleton-line w-60"></span>
+    </div>
+    <div class="dashboard-stat skeleton-card">
+      <span class="skeleton-line w-35"></span>
+      <span class="skeleton-line w-45 h-lg"></span>
+      <span class="skeleton-line w-40"></span>
+    </div>
+    <div class="dashboard-stat skeleton-card">
+      <span class="skeleton-line w-35"></span>
+      <span class="skeleton-line w-30 h-lg"></span>
+      <span class="skeleton-line w-45"></span>
+    </div>
   </div>
-  <div class="dashboard-stat">
-    <p class="stat-label">Earned This Month</p>
-    <p class="stat-value">
-      {{ dashBoardData.data.stats.earnedThisMonth | currency: 'USD' : 'symbol' : '1.0-0' }}
-    </p>
-    <p class="stat-subtext">{{ currentDate | date: 'MMMM y' }}</p>
-  </div>
-  <div class="dashboard-stat">
-    <p class="stat-label">Active Projects</p>
-    <!--  -->
-    <p class="stat-value">{{ dashBoardData.data.stats.activeProjects }}</p>
-    <p class="stat-subtext">{{ dashBoardData.data.stats.totalClients }} total clients</p>
+
+  <div class="dashboard-bottom-grid skeleton-area">
+    <section class="panel-card skeleton-panel">
+      <header class="panel-header">Upcoming Deadlines</header>
+      <div class="panel-list">
+        <article class="panel-row">
+          <div class="row-main skeleton-fill">
+            <span class="skeleton-line w-55"></span>
+            <span class="skeleton-line w-35"></span>
+          </div>
+        </article>
+        <article class="panel-row">
+          <div class="row-main skeleton-fill">
+            <span class="skeleton-line w-60"></span>
+            <span class="skeleton-line w-40"></span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel-card skeleton-panel">
+      <header class="panel-header">Recent Activity</header>
+      <div class="panel-list">
+        <article class="panel-row">
+          <div class="row-main skeleton-fill">
+            <span class="skeleton-line w-60"></span>
+            <span class="skeleton-line w-30"></span>
+          </div>
+        </article>
+        <article class="panel-row">
+          <div class="row-main skeleton-fill">
+            <span class="skeleton-line w-50"></span>
+            <span class="skeleton-line w-25"></span>
+          </div>
+        </article>
+      </div>
+    </section>
   </div>
 </div>
 
-<div class="dashboard-bottom-grid">
-  <section class="panel-card">
-    <header class="panel-header">Upcoming Deadlines</header>
+<p class="empty-state load-error" *ngIf="!loading() && loadError()">{{ loadError() }}</p>
 
-    <div
-      class="panel-list"
-      *ngIf="dashBoardData.data.upcomingDeadlines.length > 0; else noDeadlines"
-    >
-      <article class="panel-row" *ngFor="let deadline of dashBoardData.data.upcomingDeadlines">
-        <div class="row-main">
-          <p class="row-title">{{ deadline.title }}</p>
-          <p class="row-subtitle">{{ deadline.clientName }}</p>
-        </div>
-        <span class="row-pill">{{ deadline.deadline | date: 'MMM d' }}</span>
-      </article>
+<ng-container *ngIf="!loading() && !loadError()">
+  <div class="dashboard-stats-container">
+    <div class="dashboard-stat">
+      <p class="stat-label">Total Unpaid</p>
+      <p class="stat-value">
+        {{ dashBoardData().data.stats.totalUnpaid | currency: 'USD' : 'symbol' : '1.0-0' }}
+      </p>
+      <p class="stat-subtext">
+        {{ dashBoardData().data.stats.unpaidInvoices }} unpaid invoices &middot;
+        {{ dashBoardData().data.stats.overdueInvoices }} overdue
+      </p>
     </div>
-
-    <ng-template #noDeadlines>
-      <p class="empty-state">No upcoming deadlines.</p>
-    </ng-template>
-  </section>
-
-  <section class="panel-card">
-    <header class="panel-header">Recent Activity</header>
-
-    <div class="panel-list" *ngIf="dashBoardData.data.recentActivity.length > 0; else noActivity">
-      <article class="panel-row" *ngFor="let activity of dashBoardData.data.recentActivity">
-        <div class="activity-dot" [ngClass]="getActivityDotClass(activity.type)"></div>
-        <div class="row-main">
-          <p class="row-title">{{ activity.description }}</p>
-          <p class="row-subtitle">{{ formatRelativeTime(activity.createdAt) }}</p>
-        </div>
-      </article>
+    <div class="dashboard-stat">
+      <p class="stat-label">Earned This Month</p>
+      <p class="stat-value">
+        {{ dashBoardData().data.stats.earnedThisMonth | currency: 'USD' : 'symbol' : '1.0-0' }}
+      </p>
+      <p class="stat-subtext">{{ currentDate | date: 'MMMM y' }}</p>
     </div>
+    <div class="dashboard-stat">
+      <p class="stat-label">Active Projects</p>
+      <p class="stat-value">{{ dashBoardData().data.stats.activeProjects }}</p>
+      <p class="stat-subtext">{{ dashBoardData().data.stats.totalClients }} total clients</p>
+    </div>
+  </div>
 
-    <ng-template #noActivity>
-      <p class="empty-state">No recent activity yet.</p>
-    </ng-template>
-  </section>
-</div>
+  <div class="dashboard-bottom-grid">
+    <section class="panel-card">
+      <header class="panel-header">Upcoming Deadlines</header>
+
+      <div
+        class="panel-list"
+        *ngIf="dashBoardData().data.upcomingDeadlines.length > 0; else noDeadlines"
+      >
+        <article class="panel-row" *ngFor="let deadline of dashBoardData().data.upcomingDeadlines">
+          <div class="row-main">
+            <p class="row-title">{{ deadline.title }}</p>
+            <p class="row-subtitle">{{ deadline.clientName }}</p>
+          </div>
+          <span class="row-pill">{{ deadline.deadline | date: 'MMM d' }}</span>
+        </article>
+      </div>
+
+      <ng-template #noDeadlines>
+        <p class="empty-state">No upcoming deadlines.</p>
+      </ng-template>
+    </section>
+
+    <section class="panel-card">
+      <header class="panel-header">Recent Activity</header>
+
+      <div class="panel-list" *ngIf="dashBoardData().data.recentActivity.length > 0; else noActivity">
+        <article class="panel-row" *ngFor="let activity of dashBoardData().data.recentActivity">
+          <div class="activity-dot" [ngClass]="getActivityDotClass(activity.type)"></div>
+          <div class="row-main">
+            <p class="row-title">{{ activity.description }}</p>
+            <p class="row-subtitle">{{ formatRelativeTime(activity.createdAt) }}</p>
+          </div>
+        </article>
+      </div>
+
+      <ng-template #noActivity>
+        <p class="empty-state">No recent activity yet.</p>
+      </ng-template>
+    </section>
+  </div>
+</ng-container>
