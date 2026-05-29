@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { DashboardResponse } from '../../models/dashboard.models';
 import { CommonModule } from '@angular/common';
@@ -15,8 +15,10 @@ export class DashboardComponent extends RouteTransitionComponent implements OnIn
     super();
   }
   currentDate = new Date();
+  loading = signal(true);
+  loadError = signal('');
 
-  dashBoardData: DashboardResponse = {
+  dashBoardData = signal<DashboardResponse>({
     success: false,
     data: {
       stats: {
@@ -30,12 +32,21 @@ export class DashboardComponent extends RouteTransitionComponent implements OnIn
       upcomingDeadlines: [],
       recentActivity: [],
     },
-  };
+  });
 
   ngOnInit(): void {
-    this.dashboardService.getDashboardData().subscribe((data) => {
-      console.log('Dashboard data in component:', data);
-      this.dashBoardData = data;
+    this.loading.set(true);
+    this.loadError.set('');
+    this.dashboardService.getDashboardData().subscribe({
+      next: (data) => {
+        console.log('Dashboard data in component:', data);
+        this.dashBoardData.set(data);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        this.loadError.set(err?.error?.message || 'Failed to load dashboard data.');
+        this.loading.set(false);
+      },
     });
   }
 

@@ -4,6 +4,68 @@
   gap: 16px;
 }
 
+.dashboard-loading-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.loading-spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid rgba(90, 80, 68, 0.18);
+  border-top-color: #c84b2f;
+  animation: spin 0.8s linear infinite;
+  margin: 14px auto 0;
+}
+
+.loading-label {
+  margin: 0;
+  text-align: center;
+  color: #7e756a;
+  font-size: 0.95rem;
+}
+
+.skeleton-area {
+  pointer-events: none;
+}
+
+.skeleton-card {
+  gap: 10px;
+}
+
+.skeleton-panel .panel-row {
+  min-height: 62px;
+}
+
+.skeleton-fill {
+  width: 100%;
+}
+
+.skeleton-line {
+  display: block;
+  height: 10px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #ede6da 20%, #f6f1e8 40%, #ede6da 60%);
+  background-size: 220% 100%;
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
+.skeleton-line.h-lg {
+  height: 36px;
+  border-radius: 8px;
+}
+
+.w-25 { width: 25%; }
+.w-30 { width: 30%; }
+.w-35 { width: 35%; }
+.w-40 { width: 40%; }
+.w-45 { width: 45%; }
+.w-50 { width: 50%; }
+.w-55 { width: 55%; }
+.w-60 { width: 60%; }
+
 .dashboard-stat {
   display: flex;
   flex-direction: column;
@@ -135,6 +197,10 @@
   font-size: 0.95rem;
 }
 
+.load-error {
+  color: #b8452f;
+}
+
 @media (max-width: 1080px) {
   .dashboard-stats-container {
     grid-template-columns: 1fr;
@@ -142,5 +208,20 @@
 
   .dashboard-bottom-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 180% 0;
+  }
+  100% {
+    background-position: -40% 0;
   }
 }
