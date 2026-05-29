@@ -17,15 +17,22 @@ import "./config/passport";
 // initialize express app
 const API: string = "/api";
 const app: Application = express();
-const allowedOrigins = [
-  env.CLIENT_URL,
+const normalizeOrigin = (origin: string) => origin.trim().replace(/\/$/, "");
+const configuredOrigins = env.CLIENT_URL.split(",")
+  .map((origin) => normalizeOrigin(origin))
+  .filter(Boolean);
+const devOrigins = [
   "http://localhost:4200",
   "http://localhost:3000",
-
   "http://127.0.0.1:4200",
   "http://localhost:5173",
   "http://127.0.0.1:5173",
-];
+].map((origin) => normalizeOrigin(origin));
+
+const allowedOrigins = new Set<string>([
+  ...configuredOrigins,
+  ...(env.NODE_ENV === "development" ? devOrigins : []),
+]);
 
 // initialize middlewares
 app.use(helmet());
@@ -33,10 +40,17 @@ app.use(
   cors({
     origin: (origin, callback) => {
       // Allow non-browser clients (curl/postman) and approved browser origins.
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) {
         callback(null, true);
         return;
       }
+
+      const normalizedOrigin = normalizeOrigin(origin);
+      if (allowedOrigins.has(normalizedOrigin)) {
+        callback(null, true);
+        return;
+      }
+
       callback(new Error(`CORS blocked for origin: ${origin}`));
     },
     credentials: true,
