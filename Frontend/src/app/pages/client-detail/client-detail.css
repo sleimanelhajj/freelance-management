@@ -314,8 +314,7 @@
   font-weight: 500;
 }
 
-.field textarea,
-.field select {
+.field textarea {
   width: 100%;
   border: 1px solid #ccc3b6;
   border-radius: 6px;
@@ -327,6 +326,15 @@
 
 .field textarea {
   resize: vertical;
+}
+
+.field .select-field {
+  width: 100%;
+  --mdc-outlined-text-field-container-color: #fdfbf7;
+  --mdc-outlined-text-field-outline-color: #ccc8bf;
+  --mdc-outlined-text-field-hover-outline-color: #bfb7aa;
+  --mdc-outlined-text-field-focus-outline-color: #c84b2f;
+  --mat-select-enabled-trigger-text-color: #1a1814;
 }
 
 .form-actions {

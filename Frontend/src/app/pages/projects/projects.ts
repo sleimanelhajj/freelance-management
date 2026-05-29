@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
 import {
   CreateProjectRequest,
@@ -12,20 +14,23 @@ import { ProjectsService } from '../../services/projects.service';
 import { ClientService } from '../../services/client.service';
 import { ClientListItem } from '../../models/client.models';
 import { Router } from '@angular/router';
+import { RouteTransitionComponent } from '../../route-transition';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
   templateUrl: './projects.html',
   styleUrl: './projects.css',
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent extends RouteTransitionComponent implements OnInit {
   constructor(
     private projectsService: ProjectsService,
     private clientService: ClientService,
     private router: Router,
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     //initialize our clients:

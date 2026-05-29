@@ -149,12 +149,14 @@
 
         <div class="field field-full">
           <label>Status</label>
-          <select formControlName="status">
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="COMPLETED">COMPLETED</option>
-            <option value="PAUSED">PAUSED</option>
-            <option value="CANCELLED">CANCELLED</option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="status">
+              <mat-option value="ACTIVE">ACTIVE</mat-option>
+              <mat-option value="COMPLETED">COMPLETED</mat-option>
+              <mat-option value="PAUSED">PAUSED</mat-option>
+              <mat-option value="CANCELLED">CANCELLED</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
 

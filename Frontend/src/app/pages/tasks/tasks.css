@@ -282,8 +282,7 @@
   font-weight: 500;
 }
 
-.field textarea,
-.field select {
+.field textarea {
   width: 100%;
   padding: 14px 16px;
   border-radius: 10px;
@@ -302,15 +301,22 @@
   min-height: 98px;
 }
 
-.field textarea:focus,
-.field select:focus {
+.field .select-field {
+  width: 100%;
+  --mdc-outlined-text-field-container-color: #fdfbf7;
+  --mdc-outlined-text-field-outline-color: #ccc8bf;
+  --mdc-outlined-text-field-hover-outline-color: #bfb7aa;
+  --mdc-outlined-text-field-focus-outline-color: #c84b2f;
+  --mat-select-enabled-trigger-text-color: #1a1814;
+}
+
+.field textarea:focus {
   border-color: #c84b2f;
   box-shadow: 0 0 0 3px rgba(200, 75, 47, 0.1);
   outline: none;
 }
 
-.field textarea.ng-invalid.ng-touched,
-.field select.ng-invalid.ng-touched {
+.field textarea.ng-invalid.ng-touched {
   border-color: #c84b2f !important;
   background: #fdecea;
 }

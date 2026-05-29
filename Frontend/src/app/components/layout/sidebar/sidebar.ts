@@ -16,9 +16,7 @@ export class SidebarComponent {
   navSections = [
     {
       label: 'Overview',
-      links: [
-        { label: 'Dashboard', icon: '/assets/dashboard.svg', route: '/app/dashboard' },
-      ],
+      links: [{ label: 'Dashboard', icon: '/assets/dashboard.svg', route: '/app/dashboard' }],
     },
     {
       label: 'Work',

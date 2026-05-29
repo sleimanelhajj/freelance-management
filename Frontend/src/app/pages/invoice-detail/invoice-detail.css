@@ -282,15 +282,17 @@
   font-weight: 500;
 }
 
-.field select {
+.field .select-field {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: 10px;
-  border: 1px solid #ccc8bf;
-  background: #fdfbf7;
-  color: #1a1814;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.95rem;
+  --mdc-outlined-text-field-container-color: #fdfbf7;
+  --mdc-outlined-text-field-outline-color: #ccc8bf;
+  --mdc-outlined-text-field-hover-outline-color: #bfb7aa;
+  --mdc-outlined-text-field-focus-outline-color: #c84b2f;
+  --mat-select-enabled-trigger-text-color: #1a1814;
+}
+
+.paid-method-field {
+  margin-top: 10px;
 }
 
 .line-items-wrap {

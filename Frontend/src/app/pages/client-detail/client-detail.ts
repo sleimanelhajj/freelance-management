@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
 import {
@@ -11,21 +13,24 @@ import {
 } from '../../models/client.models';
 import { ClientService } from '../../services/client.service';
 import { LayoutHeaderService } from '../../services/layout-header.service';
+import { RouteTransitionComponent } from '../../route-transition';
 
 @Component({
   selector: 'app-client-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
   templateUrl: './client-detail.html',
   styleUrl: './client-detail.css',
 })
-export class ClientDetailComponent implements OnInit, OnDestroy {
+export class ClientDetailComponent extends RouteTransitionComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private clientService: ClientService,
     private layoutHeaderService: LayoutHeaderService,
-  ) {}
+  ) {
+    super();
+  }
 
   clientId = '';
   loading = signal(true);

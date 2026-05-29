@@ -44,12 +44,14 @@
       <div class="form-grid">
         <div class="field field-full">
           <label for="project-client">Client *</label>
-          <select id="project-client" formControlName="clientId">
-            <option value="" disabled>Select a client</option>
-            <option *ngFor="let client of clients" [value]="client.id">
-              {{ client.name }}
-            </option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select id="project-client" formControlName="clientId">
+              <mat-option value="" disabled>Select a client</mat-option>
+              <mat-option *ngFor="let client of clients" [value]="client.id">
+                {{ client.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <div class="field field-full">
@@ -94,12 +96,14 @@
 
         <div class="field field-full">
           <label for="project-status">Status</label>
-          <select id="project-status" formControlName="status">
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="COMPLETED">COMPLETED</option>
-            <option value="PAUSED">PAUSED</option>
-            <option value="CANCELLED">CANCELLED</option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select id="project-status" formControlName="status">
+              <mat-option value="ACTIVE">ACTIVE</mat-option>
+              <mat-option value="COMPLETED">COMPLETED</mat-option>
+              <mat-option value="PAUSED">PAUSED</mat-option>
+              <mat-option value="CANCELLED">CANCELLED</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
 
@@ -164,12 +168,14 @@
 
         <div class="field field-full">
           <label for="edit-project-status">Status</label>
-          <select id="edit-project-status" formControlName="status">
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="COMPLETED">COMPLETED</option>
-            <option value="PAUSED">PAUSED</option>
-            <option value="CANCELLED">CANCELLED</option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select id="edit-project-status" formControlName="status">
+              <mat-option value="ACTIVE">ACTIVE</mat-option>
+              <mat-option value="COMPLETED">COMPLETED</mat-option>
+              <mat-option value="PAUSED">PAUSED</mat-option>
+              <mat-option value="CANCELLED">CANCELLED</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
 

@@ -2,25 +2,30 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
 import { InvoiceListItem, CreateInvoiceRequest } from '../../models/invoice.models';
 import { ProjectListItem } from '../../models/project.models';
 import { InvoicesService } from '../../services/invoices.service';
 import { ProjectsService } from '../../services/projects.service';
+import { RouteTransitionComponent } from '../../route-transition';
 
 @Component({
   selector: 'app-invoices',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
   templateUrl: './invoices.html',
   styleUrl: './invoices.css',
 })
-export class InvoicesComponent implements OnInit {
+export class InvoicesComponent extends RouteTransitionComponent implements OnInit {
   constructor(
     private invoicesService: InvoicesService,
     private projectsService: ProjectsService,
     private router: Router,
-  ) {}
+  ) {
+    super();
+  }
 
   loading = signal(false);
   submitting = signal(false);

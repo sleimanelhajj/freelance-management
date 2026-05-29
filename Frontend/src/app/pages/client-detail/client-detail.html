@@ -122,10 +122,12 @@
 
         <div class="field field-full">
           <label>Status</label>
-          <select formControlName="status">
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="INACTIVE">INACTIVE</option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="status">
+              <mat-option value="ACTIVE">ACTIVE</mat-option>
+              <mat-option value="INACTIVE">INACTIVE</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
 

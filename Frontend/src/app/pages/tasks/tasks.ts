@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
@@ -16,7 +18,7 @@ interface TaskTableItem extends TaskItem {
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
   templateUrl: './tasks.html',
   styleUrl: './tasks.css',
 })

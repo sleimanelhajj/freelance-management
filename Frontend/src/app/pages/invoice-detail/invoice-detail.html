@@ -7,10 +7,10 @@
         class="action-btn paid"
         type="button"
         [disabled]="inv.status === 'PAID' || markPaidSubmitting()"
-        (click)="markAsPaid()"
+        (click)="openMarkPaidModal()"
       >
         <span class="inline-spinner" *ngIf="markPaidSubmitting()"></span>
-        {{ inv.status === 'PAID' ? 'Paid' : markPaidSubmitting() ? 'Marking...' : 'Mark as Paid' }}
+        {{ inv.status === 'PAID' ? 'Paid' : markPaidSubmitting() ? 'Saving...' : 'Mark as Paid' }}
       </button>
     </div>
   </div>
@@ -63,7 +63,7 @@
         <span class="meta-label">PAYMENT INFO</span>
         <div class="payment-grid">
           <div><small>Amount Paid</small><strong>{{ inv.amountPaid | currency }}</strong></div>
-          <div><small>Method</small><strong>{{ inv.paymentMethod || '-' }}</strong></div>
+          <div><small>Method</small><strong>{{ paymentMethodLabel(inv.paymentMethod) }}</strong></div>
           <div><small>Paid At</small><strong>{{ inv.paidAt ? (inv.paidAt | date: 'MMM d, y') : '-' }}</strong></div>
         </div>
       </div>
@@ -100,12 +100,14 @@
 
         <div class="field">
           <label>Status</label>
-          <select formControlName="status">
-            <option value="DRAFT">DRAFT</option>
-            <option value="SENT">SENT</option>
-            <option value="PAID">PAID</option>
-            <option value="OVERDUE">OVERDUE</option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="status">
+              <mat-option value="DRAFT">DRAFT</mat-option>
+              <mat-option value="SENT">SENT</mat-option>
+              <mat-option value="PAID">PAID</mat-option>
+              <mat-option value="OVERDUE">OVERDUE</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
         <div class="field">
           <label>Amount Paid</label>
@@ -114,14 +116,16 @@
 
         <div class="field">
           <label>Payment Method</label>
-          <select formControlName="paymentMethod">
-            <option value="">-</option>
-            <option value="BANK_TRANSFER">BANK_TRANSFER</option>
-            <option value="CASH">CASH</option>
-            <option value="PAYPAL">PAYPAL</option>
-            <option value="CARD">CARD</option>
-            <option value="OTHER">OTHER</option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="paymentMethod">
+              <mat-option value="">-</mat-option>
+              <mat-option value="BANK_TRANSFER">BANK_TRANSFER</mat-option>
+              <mat-option value="CASH">CASH</mat-option>
+              <mat-option value="PAYPAL">PAYPAL</mat-option>
+              <mat-option value="CARD">CARD</mat-option>
+              <mat-option value="OTHER">OTHER</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
         <div class="field">
           <label>Paid At</label>
@@ -169,6 +173,35 @@
         <button class="save-btn submit-btn" type="submit" [disabled]="submitting()">
           <span class="btn-spinner" *ngIf="submitting()"></span>
           {{ submitting() ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="markPaidModalOpen()" (click)="closeMarkPaidModal()">
+  <div class="confirm-card" (click)="$event.stopPropagation()">
+    <h3>Mark Invoice as Paid</h3>
+    <p>Select payment method before marking this invoice as paid.</p>
+
+    <form [formGroup]="markPaidForm" (ngSubmit)="submitMarkPaid()">
+      <div class="field field-full paid-method-field">
+        <label>Payment Method</label>
+        <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+          <mat-select formControlName="paymentMethod">
+            <mat-option value="WHISH">WHISH</mat-option>
+            <mat-option value="CASH">CASH</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="confirm-actions">
+        <button class="action-btn" type="button" [disabled]="markPaidSubmitting()" (click)="closeMarkPaidModal()">
+          Cancel
+        </button>
+        <button class="action-btn paid submit-btn" type="submit" [disabled]="markPaidSubmitting()">
+          <span class="inline-spinner" *ngIf="markPaidSubmitting()"></span>
+          {{ markPaidSubmitting() ? 'Saving...' : 'Confirm Paid' }}
         </button>
       </div>
     </form>

@@ -55,12 +55,14 @@
       <div class="form-grid">
         <div class="field field-full">
           <label>Project *</label>
-          <select formControlName="projectId">
-            <option value="" disabled>Select a project</option>
-            <option *ngFor="let project of projects" [value]="project.id">
-              {{ project.title }}
-            </option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="projectId">
+              <mat-option value="" disabled>Select a project</mat-option>
+              <mat-option *ngFor="let project of projects" [value]="project.id">
+                {{ project.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <div class="field field-full">
@@ -80,20 +82,24 @@
 
         <div class="field">
           <label>Status</label>
-          <select formControlName="status">
-            <option value="TODO">TODO</option>
-            <option value="IN_PROGRESS">IN_PROGRESS</option>
-            <option value="DONE">DONE</option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="status">
+              <mat-option value="TODO">TODO</mat-option>
+              <mat-option value="IN_PROGRESS">IN_PROGRESS</mat-option>
+              <mat-option value="DONE">DONE</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <div class="field">
           <label>Priority</label>
-          <select formControlName="priority">
-            <option value="LOW">LOW</option>
-            <option value="MEDIUM">MEDIUM</option>
-            <option value="HIGH">HIGH</option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="priority">
+              <mat-option value="LOW">LOW</mat-option>
+              <mat-option value="MEDIUM">MEDIUM</mat-option>
+              <mat-option value="HIGH">HIGH</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <div class="field field-full">

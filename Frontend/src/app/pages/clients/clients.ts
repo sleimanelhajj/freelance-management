@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
 import {
@@ -10,19 +12,22 @@ import {
   UpdateClientRequest,
 } from '../../models/client.models';
 import { ClientService } from '../../services/client.service';
+import { RouteTransitionComponent } from '../../route-transition';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
   templateUrl: './clients.html',
   styleUrl: './clients.css',
 })
-export class ClientsComponent implements OnInit {
+export class ClientsComponent extends RouteTransitionComponent implements OnInit {
   constructor(
     private clientService: ClientService,
     private router: Router,
-  ) {}
+  ) {
+    super();
+  }
 
   clients: ClientListItem[] = [];
   loading = signal(false);

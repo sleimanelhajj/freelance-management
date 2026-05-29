@@ -73,10 +73,12 @@
       <div class="form-grid">
         <div class="field field-full">
           <label>Project *</label>
-          <select formControlName="projectId">
-            <option value="" disabled>Select a project</option>
-            <option *ngFor="let project of projects" [value]="project.id">{{ project.title }}</option>
-          </select>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="projectId">
+              <mat-option value="" disabled>Select a project</mat-option>
+              <mat-option *ngFor="let project of projects" [value]="project.id">{{ project.title }}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <div class="field">

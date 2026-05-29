@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   InvoiceStatus,
@@ -13,22 +15,25 @@ import { InputFieldComponent } from '../../components/shared/input-field/input-f
 import { LayoutHeaderService } from '../../services/layout-header.service';
 import { ProjectsService } from '../../services/projects.service';
 import { TasksService } from '../../services/tasks.service';
+import { RouteTransitionComponent } from '../../route-transition';
 
 @Component({
   selector: 'app-project-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.css',
 })
-export class ProjectDetailComponent implements OnInit, OnDestroy {
+export class ProjectDetailComponent extends RouteTransitionComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private projectsService: ProjectsService,
     private tasksService: TasksService,
     private layoutHeaderService: LayoutHeaderService,
-  ) {}
+  ) {
+    super();
+  }
 
   projectId = '';
   loading = signal(true);

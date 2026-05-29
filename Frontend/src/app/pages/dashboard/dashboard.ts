@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { DashboardResponse } from '../../models/dashboard.models';
 import { CommonModule } from '@angular/common';
+import { RouteTransitionComponent } from '../../route-transition';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -9,8 +10,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './dashboard.css',
   imports: [CommonModule],
 })
-export class DashboardComponent implements OnInit {
-  constructor(private dashboardService: DashboardService) {}
+export class DashboardComponent extends RouteTransitionComponent implements OnInit {
+  constructor(private dashboardService: DashboardService) {
+    super();
+  }
   currentDate = new Date();
 
   dashBoardData: DashboardResponse = {

@@ -2,34 +2,41 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
 import { InvoiceDetails, InvoiceStatus, PaymentMethod, UpdateInvoiceRequest } from '../../models/invoice.models';
 import { InvoicesService } from '../../services/invoices.service';
 import { LayoutHeaderService } from '../../services/layout-header.service';
+import { RouteTransitionComponent } from '../../route-transition';
 
 @Component({
   selector: 'app-invoice-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
   templateUrl: './invoice-detail.html',
   styleUrl: './invoice-detail.css',
 })
-export class InvoiceDetailComponent implements OnInit, OnDestroy {
+export class InvoiceDetailComponent extends RouteTransitionComponent  implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private invoicesService: InvoicesService,
     private layoutHeaderService: LayoutHeaderService,
-  ) {}
+  ) {
+    super();
+  }
 
   invoiceId = '';
   loading = signal(true);
   submitting = signal(false);
   markPaidSubmitting = signal(false);
   formModalOpen = signal(false);
+  markPaidModalOpen = signal(false);
   errorMessage = signal('');
   invoice = signal<InvoiceDetails | null>(null);
   autoOpenEdit = false;
+  private readonly whishBackendMethod: PaymentMethod = 'OTHER';
 
   invoiceForm = new FormGroup({
     dueDate: new FormControl('', { nonNullable: true }),
@@ -39,6 +46,10 @@ export class InvoiceDetailComponent implements OnInit, OnDestroy {
     paymentMethod: new FormControl<PaymentMethod | ''>('', { nonNullable: true }),
     paidAt: new FormControl('', { nonNullable: true }),
     lineItems: new FormArray<FormGroup>([]),
+  });
+
+  markPaidForm = new FormGroup({
+    paymentMethod: new FormControl<'CASH' | 'WHISH'>('CASH', { nonNullable: true }),
   });
 
   ngOnInit(): void {
@@ -176,21 +187,40 @@ export class InvoiceDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  markAsPaid(): void {
+  openMarkPaidModal(): void {
     const inv = this.invoice();
     if (!inv || inv.status === 'PAID') return;
+
+    this.markPaidForm.reset({
+      paymentMethod: inv.paymentMethod === 'CASH' ? 'CASH' : 'WHISH',
+    });
+    this.markPaidModalOpen.set(true);
+  }
+
+  closeMarkPaidModal(): void {
+    if (this.markPaidSubmitting()) return;
+    this.markPaidModalOpen.set(false);
+  }
+
+  submitMarkPaid(): void {
+    const inv = this.invoice();
+    if (!inv || inv.status === 'PAID') return;
+
+    const selectedMethod = this.markPaidForm.controls.paymentMethod.value;
+    const apiPaymentMethod: PaymentMethod = selectedMethod === 'WHISH' ? this.whishBackendMethod : 'CASH';
 
     this.markPaidSubmitting.set(true);
     const payload: UpdateInvoiceRequest = {
       status: 'PAID',
       amountPaid: inv.total,
       paidAt: new Date().toISOString(),
-      paymentMethod: inv.paymentMethod ?? 'OTHER',
+      paymentMethod: apiPaymentMethod,
     };
 
     this.invoicesService.updateInvoice(this.invoiceId, payload).subscribe({
       next: () => {
         this.markPaidSubmitting.set(false);
+        this.closeMarkPaidModal();
         this.loadInvoice();
       },
       error: (err) => {
@@ -205,6 +235,11 @@ export class InvoiceDetailComponent implements OnInit, OnDestroy {
     if (status === 'SENT') return 'status-sent';
     if (status === 'OVERDUE') return 'status-overdue';
     return 'status-draft';
+  }
+
+  paymentMethodLabel(method: PaymentMethod | null): string {
+    if (!method) return '-';
+    return method === 'OTHER' ? 'WHISH' : method;
   }
 
   private toDateInput(value: string | null): string {
