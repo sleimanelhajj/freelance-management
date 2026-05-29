@@ -42,4 +42,29 @@ export const authController = {
       next(error);
     }
   },
+  async setPassword(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const userId = req.userId!;
+      const { password } = req.body;
+      await authService.setPassword(userId, password);
+      res.status(200).json({
+        success: true,
+        message: "Password set successfully",
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  async skipPasswordPrompt(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const userId = req.userId!;
+      await authService.skipPasswordPrompt(userId);
+      res.status(200).json({
+        success: true,
+        message: "Password prompt skipped",
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

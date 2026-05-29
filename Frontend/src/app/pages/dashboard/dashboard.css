@@ -1,0 +1,146 @@
+.dashboard-stats-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.dashboard-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 18px 20px;
+  border-radius: 12px;
+  border: 1px solid #ddd6c9;
+  background: #fbf9f4;
+  min-height: 112px;
+}
+
+.stat-label {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8f867c;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.stat-value {
+  margin: 0;
+  color: #171511;
+  font-size: clamp(1.95rem, 3vw, 2.5rem);
+  line-height: 1;
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+}
+
+.stat-subtext {
+  margin: 8px 0 0;
+  color: #7e756a;
+  font-size: 0.96rem;
+}
+
+.dashboard-bottom-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.panel-card {
+  background: #fbf9f4;
+  border: 1px solid #ddd6c9;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 14px 18px;
+  margin: 0;
+  border-bottom: 1px solid #e3dbcf;
+  font-size: 1.25rem;
+  line-height: 1;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  color: #171511;
+}
+
+.panel-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-row {
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-bottom: 1px solid #e9e1d5;
+}
+
+.panel-row:last-child {
+  border-bottom: none;
+}
+
+.row-main {
+  min-width: 0;
+}
+
+.row-title {
+  margin: 0;
+  font-size: 1rem;
+  color: #171511;
+}
+
+.row-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #8a8176;
+}
+
+.row-pill {
+  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: #f1e3df;
+  color: #cc5a42;
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
+
+.activity-dot {
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-project {
+  background: #2d7c4d;
+}
+
+.dot-task {
+  background: #3559b0;
+}
+
+.dot-invoice {
+  background: #ca8800;
+}
+
+.empty-state {
+  margin: 0;
+  padding: 16px 18px;
+  color: #8a8176;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1080px) {
+  .dashboard-stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}

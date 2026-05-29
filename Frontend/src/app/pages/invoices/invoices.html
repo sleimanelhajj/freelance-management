@@ -1,0 +1,174 @@
+<section class="invoices-page">
+  <div class="invoices-toolbar">
+    <button class="add-btn" type="button" (click)="openAddModal()">+ New Invoice</button>
+  </div>
+
+  <div class="stats-grid">
+    <article class="stat-card">
+      <span class="stat-label">TOTAL UNPAID</span>
+      <strong class="stat-value">{{ totalUnpaid | currency }}</strong>
+      <small>{{ pendingCount() }} invoices pending</small>
+    </article>
+
+    <article class="stat-card">
+      <span class="stat-label">OVERDUE</span>
+      <strong class="stat-value">{{ overdueCount() }}</strong>
+      <small>Past due date</small>
+    </article>
+
+    <article class="stat-card">
+      <span class="stat-label">PAID TOTAL</span>
+      <strong class="stat-value">{{ paidTotal() | currency }}</strong>
+      <small>All paid invoices</small>
+    </article>
+  </div>
+
+  <div class="invoices-table-card">
+    <div class="table-header">
+      <span>INVOICE #</span>
+      <span>PROJECT</span>
+      <span>CLIENT</span>
+      <span>TOTAL</span>
+      <span>DUE DATE</span>
+      <span>STATUS</span>
+      <span>ACTIONS</span>
+    </div>
+
+    <p class="state" *ngIf="loading()">Loading invoices...</p>
+    <p class="state error" *ngIf="!loading() && errorMessage">{{ errorMessage }}</p>
+    <p class="state" *ngIf="!loading() && !errorMessage && invoices.length === 0">No invoices found.</p>
+
+    <div class="table-row" *ngFor="let invoice of invoices">
+      <span>{{ invoice.invoiceNumber }}</span>
+      <span>{{ invoice.project.title }}</span>
+      <span>{{ invoice.client.name }}</span>
+      <span>{{ invoice.amount | currency }}</span>
+      <span>{{ invoice.dueDate ? (invoice.dueDate | date: 'y-MM-dd') : '-' }}</span>
+      <span>
+        <span class="status-pill" [ngClass]="statusClass(invoice.status)">
+          {{ invoice.status }}
+        </span>
+      </span>
+      <span class="actions-cell">
+        <button class="action-btn" type="button" (click)="onView(invoice)">View</button>
+        <button class="action-btn" type="button" (click)="onEdit(invoice)">Edit</button>
+        <button
+          class="action-btn delete"
+          type="button"
+          [disabled]="!canDelete(invoice)"
+          (click)="requestDelete(invoice)"
+        >
+          Delete
+        </button>
+      </span>
+    </div>
+  </div>
+</section>
+
+<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeAddModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h2>New Invoice</h2>
+
+    <form [formGroup]="invoiceForm" (ngSubmit)="submitCreateInvoice()">
+      <div class="form-grid">
+        <div class="field field-full">
+          <label>Project *</label>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="projectId">
+              <mat-option value="" disabled>Select a project</mat-option>
+              <mat-option *ngFor="let project of projects" [value]="project.id">{{ project.title }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="field">
+          <label>Due Date</label>
+          <app-input-field
+            [control]="invoiceForm.controls.dueDate"
+            type="date"
+            name="dueDate"
+            placeholder=""
+          ></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Tax ($)</label>
+          <app-input-field
+            [control]="invoiceForm.controls.tax"
+            type="number"
+            name="tax"
+            placeholder="0"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label>Line Items</label>
+          <div class="line-items-wrap" formArrayName="lineItems">
+            <div
+              class="line-item-row"
+              *ngFor="let item of lineItems.controls; let i = index"
+              [formGroupName]="i"
+            >
+              <div class="line-item-grid">
+                <app-input-field
+                  [control]="$any(item).controls.description"
+                  type="text"
+                  name="description"
+                  placeholder=""
+                ></app-input-field>
+                <app-input-field
+                  [control]="$any(item).controls.unitPrice"
+                  type="number"
+                  name="unitPrice"
+                  placeholder="Unit Price ($)"
+                ></app-input-field>
+                <button
+                  class="action-btn delete tiny line-item-remove"
+                  type="button"
+                  (click)="removeLineItem(i)"
+                  [disabled]="lineItems.length <= 1"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+          <button class="action-btn wide" type="button" (click)="addLineItem()">+ Add Line Item</button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="action-btn" type="button" (click)="closeAddModal()">Cancel</button>
+        <button class="add-btn submit-btn" type="submit" [disabled]="submitting()">
+          <span class="btn-spinner" *ngIf="submitting()"></span>
+          {{ submitting() ? 'Creating...' : 'Create Invoice' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="cancelDelete()">
+  <div class="confirm-card" (click)="$event.stopPropagation()">
+    <h3>Delete Invoice</h3>
+    <p>
+      Delete
+      <strong>{{ deleteCandidate?.invoiceNumber }}</strong>
+      ? Only draft invoices can be deleted.
+    </p>
+    <div class="confirm-actions">
+      <button class="action-btn" type="button" [disabled]="deleteSubmitting()" (click)="cancelDelete()">
+        Cancel
+      </button>
+      <button
+        class="action-btn delete submit-btn"
+        type="button"
+        [disabled]="deleteSubmitting()"
+        (click)="confirmDelete()"
+      >
+        <span class="inline-spinner danger" *ngIf="deleteSubmitting()"></span>
+        {{ deleteSubmitting() ? 'Deleting...' : 'Delete' }}
+      </button>
+    </div>
+  </div>
+</div>

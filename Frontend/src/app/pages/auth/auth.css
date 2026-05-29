@@ -153,8 +153,9 @@
 
 .auth-switch {
   position: relative;
-  display: inline-flex;
-  align-self: center;
+  display: flex;
+  width: 100%;
+  align-self: stretch;
   background: #0d0b09;
   padding: 4px;
   border-radius: 14px;
@@ -164,7 +165,7 @@
   position: absolute;
   top: 4px;
   left: 4px;
-  width: 140px;
+  width: calc(50% - 4px);
   height: 40px;
   background: #fdfbf7;
   border-radius: 10px;
@@ -174,7 +175,7 @@
 
 .switch-btn {
   position: relative;
-  width: 140px;
+  flex: 1;
   height: 40px;
   border: none;
   background: transparent;
@@ -227,27 +228,6 @@
   width: 100%;
 }
 
-/* Input Fields and Buttons Interactive States styling */
-.input-field {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 10px;
-  border: 1px solid #ccc8bf;
-  background: #fdfbf7;
-  color: #1a1814;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.95rem;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.input-field:focus {
-  border-color: #c84b2f;
-  box-shadow: 0 0 0 3px rgba(200, 75, 47, 0.1);
-  outline: none;
-}
-
 .submit-form {
   width: 100%;
   padding: 14px;
@@ -274,12 +254,6 @@
   width: 100%;
 }
 
-/* Red border override rule when a control fails validation check */
-.input-field.is-invalid {
-  border-color: #c84b2f !important;
-  background: #fdecea; /* Light soft pink alert accent background */
-}
-
 /* High contrast alert error typography text labels */
 .error-msg {
   color: #c84b2f;
@@ -289,4 +263,131 @@
   display: flex;
   align-items: center;
   padding-left: 4px;
+}
+
+.oauth-divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  color: #8f867c;
+  font-size: 0.82rem;
+}
+
+.oauth-divider::before,
+.oauth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #d8d0c3;
+}
+
+.google-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #fffdf8;
+  color: #1a1814;
+  border: 1px solid #ccc8bf;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.google-btn:hover {
+  background: #f8f4ee;
+  border-color: #bdb3a6;
+}
+
+.google-btn:focus {
+  outline: none;
+  border-color: #c84b2f;
+  box-shadow: 0 0 0 3px rgba(200, 75, 47, 0.1);
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.set-password-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+  display: grid;
+  place-items: center;
+  z-index: 2200;
+  padding: 16px;
+}
+
+.set-password-card {
+  width: min(460px, 100%);
+  background: #fbf9f4;
+  border: 1px solid #ddd6c9;
+  border-radius: 12px;
+  padding: 22px;
+}
+
+.set-password-card h3 {
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-size: 1.6rem;
+  color: #1a1814;
+}
+
+.set-password-card p {
+  margin: 10px 0 0;
+  color: #6f665a;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.set-password-form {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.set-password-actions {
+  margin-top: 4px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.skip-btn {
+  border: 1px solid #d7cec1;
+  background: #fffdf8;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.86rem;
+  color: #574f44;
+  cursor: pointer;
+}
+
+.save-btn {
+  border: none;
+  border-radius: 8px;
+  background: #c84b2f;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

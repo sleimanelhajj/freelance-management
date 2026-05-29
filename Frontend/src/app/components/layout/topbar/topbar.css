@@ -1,0 +1,21 @@
+.topbar {
+  background: #fdfbf7;
+  border-bottom: 1px solid #e3dbcf;
+  padding: 14px 30px 12px;
+}
+
+.page-title {
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  line-height: 1.05;
+  font-weight: 600;
+  color: #111111;
+}
+
+.page-subtitle {
+  margin: 4px 0 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.83rem;
+  color: #8f867c;
+}

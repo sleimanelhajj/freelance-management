@@ -1,0 +1,163 @@
+<section class="client-detail-page" *ngIf="!loading() && client() as c">
+  <div class="page-header">
+    <div class="page-header-actions">
+      <button class="action-btn" type="button" (click)="goBack()">Back</button>
+      <button class="action-btn" type="button" (click)="openEditModal()">Edit</button>
+      <button class="action-btn delete" type="button" (click)="openDeleteConfirm()">Delete</button>
+    </div>
+  </div>
+
+  <p class="state error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+
+  <div class="summary-grid">
+    <article class="card main-info">
+      <h1>{{ c.name }}</h1>
+      <span
+        class="status-pill"
+        [ngClass]="c.status === 'ACTIVE' ? 'status-active' : 'status-inactive'"
+      >
+        {{ c.status }}
+      </span>
+      <hr />
+      <p class="notes">{{ c.notes || 'No notes added for this client.' }}</p>
+    </article>
+
+    <article class="card contact-info">
+      <h3>Contact Info</h3>
+      <div class="contact-row">
+        <span>Email</span>
+        <strong>{{ c.email }}</strong>
+      </div>
+      <div class="contact-row">
+        <span>Phone</span>
+        <strong>{{ c.phone || '-' }}</strong>
+      </div>
+      <div class="contact-row">
+        <span>Company</span>
+        <strong>{{ c.company || '-' }}</strong>
+      </div>
+    </article>
+  </div>
+
+  <section class="projects-section">
+    <h3>Projects</h3>
+    <div class="projects-card">
+      <div class="projects-head">
+        <span>TITLE</span>
+        <span>STATUS</span>
+        <span>DEADLINE</span>
+        <span></span>
+      </div>
+
+      <p class="state" *ngIf="c.projects.length === 0">No projects for this client yet.</p>
+
+      <div class="project-row" *ngFor="let project of c.projects">
+        <span>{{ project.title }}</span>
+        <span>
+          <span class="status-pill" [ngClass]="projectStatusClass(project.status)">
+            {{ project.status }}
+          </span>
+        </span>
+        <span>{{ project.deadline ? (project.deadline | date: 'y-MM-dd') : '-' }}</span>
+        <span>
+          <button class="action-btn" type="button">View</button>
+        </span>
+      </div>
+    </div>
+  </section>
+</section>
+
+<p class="state" *ngIf="loading()">Loading client details...</p>
+
+<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeEditModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h2>Edit Client</h2>
+
+    <form [formGroup]="clientForm" (ngSubmit)="submitEdit()">
+      <div class="form-grid">
+        <div class="field">
+          <label>Name *</label>
+          <app-input-field
+            [control]="clientForm.controls.name"
+            type="text"
+            name="name"
+            placeholder="ACME Corp"
+          ></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Email *</label>
+          <app-input-field
+            [control]="clientForm.controls.email"
+            type="email"
+            name="email"
+            placeholder="client@acme.com"
+          ></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Phone</label>
+          <app-input-field
+            [control]="clientForm.controls.phone"
+            type="text"
+            name="phone"
+            placeholder="+961 71 000 000"
+          ></app-input-field>
+        </div>
+
+        <div class="field">
+          <label>Company</label>
+          <app-input-field
+            [control]="clientForm.controls.company"
+            type="text"
+            name="company"
+            placeholder="Company name"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label>Notes</label>
+          <textarea formControlName="notes" rows="4" placeholder="VIP client..."></textarea>
+        </div>
+
+        <div class="field field-full">
+          <label>Status</label>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="status">
+              <mat-option value="ACTIVE">ACTIVE</mat-option>
+              <mat-option value="INACTIVE">INACTIVE</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="action-btn" type="button" (click)="closeEditModal()">Cancel</button>
+        <button class="save-btn submit-btn" type="submit" [disabled]="submitting()">
+          <span class="btn-spinner" *ngIf="submitting()"></span>
+          {{ submitting() ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="closeDeleteConfirm()">
+  <div class="confirm-card" (click)="$event.stopPropagation()">
+    <h3>Delete Client</h3>
+    <p>
+      Are you sure you want to delete
+      <strong>{{ client()?.name }}</strong
+      >?
+    </p>
+    <div class="confirm-actions">
+      <button class="action-btn" type="button" [disabled]="deleting()" (click)="closeDeleteConfirm()">
+        Cancel
+      </button>
+      <button class="action-btn delete submit-btn" type="button" [disabled]="deleting()" (click)="confirmDelete()">
+        <span class="inline-spinner danger" *ngIf="deleting()"></span>
+        {{ deleting() ? 'Deleting...' : 'Delete' }}
+      </button>
+    </div>
+  </div>
+</div>

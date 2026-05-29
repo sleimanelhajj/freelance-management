@@ -1,0 +1,150 @@
+<section class="tasks-page">
+  <div class="tasks-toolbar">
+    <button class="add-btn" type="button" (click)="openAddModal()">+ Add Task</button>
+  </div>
+
+  <div class="tasks-table-card">
+    <div class="table-header">
+      <span>TITLE</span>
+      <span>PROJECT</span>
+      <span>STATUS</span>
+      <span>PRIORITY</span>
+      <span>DUE DATE</span>
+      <span>ACTIONS</span>
+    </div>
+
+    <p class="state" *ngIf="loading()">Loading tasks...</p>
+    <p class="state error" *ngIf="!loading() && errorMessage">{{ errorMessage }}</p>
+    <p class="state" *ngIf="!loading() && !errorMessage && tasks.length === 0">No tasks found.</p>
+
+    <div class="table-row" *ngFor="let task of tasks">
+      <span class="cell-title">{{ task.title }}</span>
+      <span>{{ task.projectTitle }}</span>
+      <span>
+        <button
+          class="status-pill-btn"
+          type="button"
+          [disabled]="isStatusUpdating(task.id)"
+          (click)="cycleTaskStatus(task)"
+        >
+          <span class="inline-spinner" *ngIf="isStatusUpdating(task.id)"></span>
+          <span class="status-pill" [ngClass]="taskStatusClass(task.status)">
+            {{ formatStatusLabel(task.status) }}
+          </span>
+        </button>
+      </span>
+      <span>
+        <span class="priority-pill" [ngClass]="priorityClass(task.priority)">
+          {{ task.priority }}
+        </span>
+      </span>
+      <span>{{ task.dueDate ? (task.dueDate | date: 'y-MM-dd') : '-' }}</span>
+      <span class="actions-cell">
+        <button class="action-btn" type="button" (click)="openEditModal(task)">Edit</button>
+        <button class="action-btn delete" type="button" (click)="requestDelete(task)">Delete</button>
+      </span>
+    </div>
+  </div>
+</section>
+
+<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeFormModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h2>{{ formMode === 'create' ? 'Add Task' : 'Edit Task' }}</h2>
+
+    <form [formGroup]="taskForm" (ngSubmit)="submitTaskForm()">
+      <div class="form-grid">
+        <div class="field field-full">
+          <label>Project *</label>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="projectId">
+              <mat-option value="" disabled>Select a project</mat-option>
+              <mat-option *ngFor="let project of projects" [value]="project.id">
+                {{ project.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="field field-full">
+          <label>Title *</label>
+          <app-input-field
+            [control]="taskForm.controls.title"
+            type="text"
+            name="title"
+            placeholder="Design hero section"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label>Description</label>
+          <textarea formControlName="description" rows="4" placeholder="Task details..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Status</label>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="status">
+              <mat-option value="TODO">TODO</mat-option>
+              <mat-option value="IN_PROGRESS">IN_PROGRESS</mat-option>
+              <mat-option value="DONE">DONE</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="field">
+          <label>Priority</label>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="priority">
+              <mat-option value="LOW">LOW</mat-option>
+              <mat-option value="MEDIUM">MEDIUM</mat-option>
+              <mat-option value="HIGH">HIGH</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="field field-full">
+          <label>Due Date</label>
+          <app-input-field
+            [control]="taskForm.controls.dueDate"
+            type="date"
+            name="dueDate"
+            placeholder=""
+          ></app-input-field>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="action-btn" type="button" (click)="closeFormModal()">Cancel</button>
+        <button class="add-btn submit-btn" type="submit" [disabled]="submitting()">
+          <span class="btn-spinner" *ngIf="submitting()"></span>
+          {{ submitting() ? (formMode === 'create' ? 'Creating...' : 'Saving...') : (formMode === 'create' ? 'Create Task' : 'Save Changes') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="cancelDelete()">
+  <div class="confirm-card" (click)="$event.stopPropagation()">
+    <h3>Delete Task</h3>
+    <p>
+      Are you sure you want to delete
+      <strong>{{ deleteCandidate?.title }}</strong
+      >?
+    </p>
+    <div class="confirm-actions">
+      <button class="action-btn" type="button" [disabled]="deleteSubmitting()" (click)="cancelDelete()">
+        Cancel
+      </button>
+      <button
+        class="action-btn delete submit-btn"
+        type="button"
+        [disabled]="deleteSubmitting()"
+        (click)="confirmDelete()"
+      >
+        <span class="inline-spinner danger" *ngIf="deleteSubmitting()"></span>
+        {{ deleteSubmitting() ? 'Deleting...' : 'Delete' }}
+      </button>
+    </div>
+  </div>
+</div>

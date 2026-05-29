@@ -28,7 +28,7 @@
       <div class="auth-switch">
         <div
           class="switch-toggle"
-          [style.transform]="auth === 'sign-up' ? 'translateX(140px)' : 'translateX(0px)'"
+          [style.transform]="auth === 'sign-up' ? 'translateX(100%)' : 'translateX(0)'"
         ></div>
         <button class="switch-btn" [class.active]="auth === 'login'" (click)="setAuth('login')">
           Login
@@ -47,16 +47,12 @@
 
           <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="inputs-group">
             <div class="input-wrapper">
-              <input
-                class="input-field"
-                [class.is-invalid]="
-                  loginForm.get('email')?.invalid && loginForm.get('email')?.touched
-                "
+              <app-input-field
+                [control]="loginForm.controls.email"
                 type="email"
                 name="loginEmail"
-                formControlName="email"
                 placeholder="Email"
-              />
+              ></app-input-field>
               <div
                 class="error-msg"
                 *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors"
@@ -71,16 +67,12 @@
             </div>
 
             <div class="input-wrapper">
-              <input
-                class="input-field"
-                [class.is-invalid]="
-                  loginForm.get('password')?.invalid && loginForm.get('password')?.touched
-                "
+              <app-input-field
+                [control]="loginForm.controls.password"
                 type="password"
                 name="loginPassword"
-                formControlName="password"
                 placeholder="Enter your password"
-              />
+              ></app-input-field>
               <div
                 class="error-msg"
                 *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors"
@@ -95,6 +87,12 @@
             </div>
 
             <button type="submit" class="submit-form">Sign In</button>
+
+            <div class="oauth-divider"><span>or</span></div>
+            <button type="button" class="google-btn" (click)="continueWithGoogle()">
+              <img src="/assets/google.svg" alt="Google icon" class="google-icon" />
+              Continue with Google
+            </button>
           </form>
         </div>
 
@@ -106,16 +104,12 @@
 
           <form [formGroup]="registerForm" (ngSubmit)="submitForm()" class="inputs-group">
             <div class="input-wrapper">
-              <input
-                class="input-field"
-                [class.is-invalid]="
-                  registerForm.get('name')?.invalid && registerForm.get('name')?.touched
-                "
+              <app-input-field
+                [control]="registerForm.controls.name"
                 type="text"
                 name="regName"
-                formControlName="name"
                 placeholder="Full Name"
-              />
+              ></app-input-field>
               <div
                 class="error-msg"
                 *ngIf="
@@ -128,16 +122,12 @@
             </div>
 
             <div class="input-wrapper">
-              <input
-                class="input-field"
-                [class.is-invalid]="
-                  registerForm.get('email')?.invalid && registerForm.get('email')?.touched
-                "
+              <app-input-field
+                [control]="registerForm.controls.email"
                 type="email"
                 name="regEmail"
-                formControlName="email"
                 placeholder="Email Address"
-              />
+              ></app-input-field>
               <div
                 class="error-msg"
                 *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors"
@@ -152,16 +142,12 @@
             </div>
 
             <div class="input-wrapper">
-              <input
-                class="input-field"
-                [class.is-invalid]="
-                  registerForm.get('password')?.invalid && registerForm.get('password')?.touched
-                "
+              <app-input-field
+                [control]="registerForm.controls.password"
                 type="password"
                 name="regPassword"
-                formControlName="password"
                 placeholder="Create a strong password"
-              />
+              ></app-input-field>
               <div
                 class="error-msg"
                 *ngIf="
@@ -178,6 +164,12 @@
             </div>
 
             <button type="submit" class="submit-form">Get Started</button>
+
+            <div class="oauth-divider"><span>or</span></div>
+            <button type="button" class="google-btn" (click)="continueWithGoogle()">
+              <img src="/assets/google.svg" alt="Google icon" class="google-icon" />
+              Sign up with Google
+            </button>
           </form>
         </div>
       </div>
@@ -189,4 +181,34 @@
     title="Login Failed"
     (closed)="closeErrorModal()"
   ></app-modal>
+
+  <div class="set-password-overlay" *ngIf="showSetPasswordModal()">
+    <div class="set-password-card">
+      <h3>Set Your Password</h3>
+      <p>You signed in with Google. Set a password so you can also log in with email and password.</p>
+
+      <form [formGroup]="setPasswordForm" (ngSubmit)="submitSetPassword()" class="set-password-form">
+        <app-input-field
+          [control]="setPasswordForm.controls.password"
+          type="password"
+          name="setPassword"
+          placeholder="New password"
+        ></app-input-field>
+
+        <app-input-field
+          [control]="setPasswordForm.controls.confirmPassword"
+          type="password"
+          name="setPasswordConfirm"
+          placeholder="Confirm password"
+        ></app-input-field>
+
+        <div class="set-password-actions">
+          <button type="button" class="skip-btn" (click)="skipSetPassword()">Skip for now</button>
+          <button type="submit" class="save-btn" [disabled]="settingPassword()">
+            {{ settingPassword() ? 'Saving...' : 'Save Password' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

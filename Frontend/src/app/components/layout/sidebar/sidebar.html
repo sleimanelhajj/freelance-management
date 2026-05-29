@@ -1,0 +1,44 @@
+<aside class="sidebar">
+  <div class="brand-block">
+    <h1 class="logo"><span class="first-half">Free</span><span class="second-half">lance</span></h1>
+    <p class="subtitle">Management Dashboard</p>
+  </div>
+
+  <nav class="nav-list">
+    <div class="nav-section" *ngFor="let section of navSections">
+      <p class="section-title">{{ section.label }}</p>
+      <a
+        *ngFor="let link of section.links"
+        [routerLink]="link.route"
+        class="nav-link"
+        routerLinkActive="active"
+      >
+        <img [src]="link.icon" [alt]="link.label + ' icon'" />
+        <span>{{ link.label }}</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="user-block">
+    <button
+      type="button"
+      class="account-trigger"
+      [attr.aria-expanded]="accountMenuOpen"
+      aria-haspopup="menu"
+      (click)="toggleAccountMenu($event)"
+    >
+      <div class="avatar">{{ userInitials }}</div>
+      <div class="user-details">
+        <p class="name">{{ authService.currentUser()?.name || 'User' }}</p>
+        <p class="email">{{ authService.currentUser()?.email || 'No email' }}</p>
+      </div>
+      <span class="account-chevron" [class.open]="accountMenuOpen">&#9650;</span>
+    </button>
+
+    <div class="account-menu" *ngIf="accountMenuOpen" role="menu" (click)="$event.stopPropagation()">
+      <button type="button" class="account-menu-item" role="menuitem" (click)="onLogout()">
+        Logout
+      </button>
+    </div>
+  </div>
+</aside>

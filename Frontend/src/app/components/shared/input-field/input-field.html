@@ -1,0 +1,8 @@
+<input
+  class="input-field"
+  [class.is-invalid]="control.invalid && control.touched"
+  [type]="type"
+  [attr.name]="name || null"
+  [formControl]="control"
+  [placeholder]="placeholder"
+/>

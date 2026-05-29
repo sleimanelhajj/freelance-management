@@ -55,3 +55,21 @@ export const validateLogin = (
 
   next();
 };
+
+export const validateSetPassword = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void => {
+  const { password } = req.body;
+
+  if (!password || String(password).length < 6) {
+    res.status(400).json({
+      success: false,
+      message: "Password must be at least 6 characters",
+    });
+    return;
+  }
+
+  next();
+};

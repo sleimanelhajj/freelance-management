@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
+import passport from "passport";
 import { env } from "./config/env";
 import { swaggerSpec } from "./config/swagger";
 import authRoutes from "./routes/auth.routes";
@@ -11,6 +12,7 @@ import projectRoutes from "./routes/project.routes";
 import taskRoutes from "./routes/task.routes";
 import invoiceRoutes from "./routes/invoice.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
+import "./config/passport";
 
 // initialize express app
 const API: string = "/api";
@@ -42,6 +44,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 
 if (env.NODE_ENV === "development") {
   app.use(morgan("dev"));

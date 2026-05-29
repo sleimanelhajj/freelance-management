@@ -1,6 +1,114 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/azure-blue.css';
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+:root {
+  --app-input-bg: #fdfbf7;
+  --app-input-border: #ccc8bf;
+  --app-input-text: #1a1814;
+  --app-input-focus: #c84b2f;
+  --app-input-focus-ring: rgba(200, 75, 47, 0.1);
+  --app-input-invalid-bg: #fdecea;
+}
+
+/* Match Material select fields to the shared app input style */
+.select-field {
+  width: 100%;
+}
+
+.select-field .mat-mdc-text-field-wrapper {
+  border-radius: 10px !important;
+  background: var(--app-input-bg) !important;
+}
+
+.select-field .mat-mdc-form-field-focus-overlay {
+  background: transparent !important;
+}
+
+.select-field .mat-mdc-form-field-infix {
+  min-height: 48px;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+.select-field .mat-mdc-select-trigger,
+.select-field .mat-mdc-select-value-text {
+  color: var(--app-input-text) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.95rem !important;
+}
+
+.select-field .mat-mdc-select-arrow {
+  color: #6e655a !important;
+}
+
+.select-field .mdc-notched-outline__leading,
+.select-field .mdc-notched-outline__notch,
+.select-field .mdc-notched-outline__trailing {
+  border-color: var(--app-input-border) !important;
+  border-width: 1px !important;
+}
+
+.select-field:hover .mdc-notched-outline__leading,
+.select-field:hover .mdc-notched-outline__notch,
+.select-field:hover .mdc-notched-outline__trailing {
+  border-color: #bfb7aa !important;
+}
+
+.select-field.mat-focused .mat-mdc-text-field-wrapper {
+  box-shadow: 0 0 0 3px var(--app-input-focus-ring) !important;
+}
+
+.select-field.mat-focused .mdc-notched-outline__leading,
+.select-field.mat-focused .mdc-notched-outline__notch,
+.select-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--app-input-focus) !important;
+}
+
+.select-field.ng-invalid.ng-touched .mat-mdc-text-field-wrapper {
+  background: var(--app-input-invalid-bg) !important;
+}
+
+.select-field.ng-invalid.ng-touched .mdc-notched-outline__leading,
+.select-field.ng-invalid.ng-touched .mdc-notched-outline__notch,
+.select-field.ng-invalid.ng-touched .mdc-notched-outline__trailing {
+  border-color: var(--app-input-focus) !important;
+}
+
+.select-field .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+/* Dropdown panel styling to match the app look */
+div.mat-mdc-select-panel {
+  border: 1px solid var(--app-input-border);
+  border-radius: 10px !important;
+  background: var(--app-input-bg) !important;
+  padding: 6px 0 !important;
+}
+
+.mat-mdc-option {
+  min-height: 42px !important;
+}
+
+.mat-mdc-option .mdc-list-item__primary-text {
+  color: #4f473d !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.95rem !important;
+}
+
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+  background: #ebe6dc !important;
+}
+
+.mat-mdc-option:hover:not(.mdc-list-item--disabled),
+.mat-mdc-option.mdc-list-item--focus:not(.mdc-list-item--disabled) {
+  background: #f5f2ec !important;
 }
