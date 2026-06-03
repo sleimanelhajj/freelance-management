@@ -26,11 +26,16 @@
       <span>{{ project.deadline ? (project.deadline | date: 'yyyy-MM-dd') : '-' }}</span>
       <span>{{ project.budget | currency }}</span>
       <span class="actions-cell">
-        <button class="action-btn" type="button" (click)="onView(project)">View</button>
-        <button class="action-btn" type="button" (click)="openEditModal(project)">Edit</button>
-        <button class="action-btn delete" type="button" (click)="requestDelete(project)">
-          Delete
-        </button>
+        <app-action-button [buttonLabel]="'View'" (action)="onView(project)"></app-action-button>
+        <app-action-button
+          [buttonLabel]="'Edit'"
+          (action)="openEditModal(project)"
+        ></app-action-button>
+        <app-action-button
+          [buttonLabel]="'Delete'"
+          (action)="requestDelete(project)"
+          [deleteButton]="true"
+        ></app-action-button>
       </span>
     </div>
   </div>
@@ -108,7 +113,11 @@
       </div>
 
       <div class="form-actions">
-        <button class="action-btn" type="button" (click)="closeAddModal()">Cancel</button>
+        <app-action-button
+          [buttonLabel]="'Cancel'"
+          (action)="closeAddModal()"
+          [modalButton]="true"
+        ></app-action-button>
         <button class="add-btn submit-btn" type="submit">Create Project</button>
       </div>
     </form>
@@ -180,7 +189,11 @@
       </div>
 
       <div class="form-actions">
-        <button class="action-btn" type="button" (click)="closeEditModal()">Cancel</button>
+        <app-action-button
+          [buttonLabel]="'Cancel'"
+          (action)="closeEditModal()"
+          [modalButton]="true"
+        ></app-action-button>
         <button class="add-btn submit-btn" type="submit" [disabled]="editDetailsLoading()">
           Save Changes
         </button>
@@ -198,23 +211,19 @@
       >?
     </p>
     <div class="confirm-actions">
-      <button
-        class="action-btn"
-        type="button"
+      <app-action-button
+        [buttonLabel]="'Cancel'"
+        (action)="cancelDelete()"
+        [modalButton]="true"
         [disabled]="deleteSubmitting()"
-        (click)="cancelDelete()"
-      >
-        Cancel
-      </button>
-      <button
-        class="action-btn delete submit-btn"
-        type="button"
+      ></app-action-button>
+      <app-action-button
+        [buttonLabel]="deleteSubmitting() ? 'Deleting...' : 'Delete'"
+        [deleteButton]="true"
+        (action)="confirmDelete()"
+        [modalButton]="true"
         [disabled]="deleteSubmitting()"
-        (click)="confirmDelete()"
-      >
-        <span class="inline-spinner danger" *ngIf="deleteSubmitting()"></span>
-        {{ deleteSubmitting() ? 'Deleting...' : 'Delete' }}
-      </button>
+      ></app-action-button>
     </div>
   </div>
 </div>

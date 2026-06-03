@@ -15,11 +15,12 @@ import { ClientService } from '../../services/client.service';
 import { ClientListItem } from '../../models/client.models';
 import { Router } from '@angular/router';
 import { RouteTransitionComponent } from '../../route-transition';
+import { ActionButton } from "../../components/shared/action-button/action-button";
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
   templateUrl: './projects.html',
   styleUrl: './projects.css',
 })

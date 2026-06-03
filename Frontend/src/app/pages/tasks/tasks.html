@@ -40,8 +40,15 @@
       </span>
       <span>{{ task.dueDate ? (task.dueDate | date: 'y-MM-dd') : '-' }}</span>
       <span class="actions-cell">
-        <button class="action-btn" type="button" (click)="openEditModal(task)">Edit</button>
-        <button class="action-btn delete" type="button" (click)="requestDelete(task)">Delete</button>
+        <app-action-button
+          [buttonLabel]="'Edit'"
+          (action)="openEditModal(task)"
+        ></app-action-button>
+        <app-action-button
+          [buttonLabel]="'Delete'"
+          (action)="requestDelete(task)"
+          [deleteButton]="true"
+        ></app-action-button>
       </span>
     </div>
   </div>
@@ -114,10 +121,22 @@
       </div>
 
       <div class="form-actions">
-        <button class="action-btn" type="button" (click)="closeFormModal()">Cancel</button>
+        <app-action-button
+          [buttonLabel]="'Cancel'"
+          (action)="closeFormModal()"
+          [modalButton]="true"
+        ></app-action-button>
         <button class="add-btn submit-btn" type="submit" [disabled]="submitting()">
           <span class="btn-spinner" *ngIf="submitting()"></span>
-          {{ submitting() ? (formMode === 'create' ? 'Creating...' : 'Saving...') : (formMode === 'create' ? 'Create Task' : 'Save Changes') }}
+          {{
+            submitting()
+              ? formMode === 'create'
+                ? 'Creating...'
+                : 'Saving...'
+              : formMode === 'create'
+                ? 'Create Task'
+                : 'Save Changes'
+          }}
         </button>
       </div>
     </form>
@@ -133,18 +152,18 @@
       >?
     </p>
     <div class="confirm-actions">
-      <button class="action-btn" type="button" [disabled]="deleteSubmitting()" (click)="cancelDelete()">
-        Cancel
-      </button>
-      <button
-        class="action-btn delete submit-btn"
-        type="button"
-        [disabled]="deleteSubmitting()"
-        (click)="confirmDelete()"
-      >
-        <span class="inline-spinner danger" *ngIf="deleteSubmitting()"></span>
-        {{ deleteSubmitting() ? 'Deleting...' : 'Delete' }}
-      </button>
+      <app-action-button
+        [buttonLabel]="'Cancel'"
+        (action)="cancelDelete()"
+        [modalButton]="true"
+      ></app-action-button>
+
+      <app-action-button
+        [buttonLabel]="deleteSubmitting() ? 'Deleting...' : 'Delete'"
+        (action)="confirmDelete()"
+        [modalButton]="true"
+        [deleteButton]="true"
+      ></app-action-button>
     </div>
   </div>
 </div>

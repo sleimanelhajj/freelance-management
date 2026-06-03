@@ -36,7 +36,9 @@
 
     <p class="state" *ngIf="loading()">Loading invoices...</p>
     <p class="state error" *ngIf="!loading() && errorMessage">{{ errorMessage }}</p>
-    <p class="state" *ngIf="!loading() && !errorMessage && invoices.length === 0">No invoices found.</p>
+    <p class="state" *ngIf="!loading() && !errorMessage && invoices.length === 0">
+      No invoices found.
+    </p>
 
     <div class="table-row" *ngFor="let invoice of invoices">
       <span>{{ invoice.invoiceNumber }}</span>
@@ -76,7 +78,9 @@
           <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
             <mat-select formControlName="projectId">
               <mat-option value="" disabled>Select a project</mat-option>
-              <mat-option *ngFor="let project of projects" [value]="project.id">{{ project.title }}</mat-option>
+              <mat-option *ngFor="let project of projects" [value]="project.id">{{
+                project.title
+              }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -133,12 +137,18 @@
               </div>
             </div>
           </div>
-          <button class="action-btn wide" type="button" (click)="addLineItem()">+ Add Line Item</button>
+          <button class="action-btn wide" type="button" (click)="addLineItem()">
+            + Add Line Item
+          </button>
         </div>
       </div>
 
       <div class="form-actions">
-        <button class="action-btn" type="button" (click)="closeAddModal()">Cancel</button>
+        <app-action-button
+          [buttonLabel]="'Cancel'"
+          (action)="closeAddModal()"
+          [modalButton]="true"
+        ></app-action-button>
         <button class="add-btn submit-btn" type="submit" [disabled]="submitting()">
           <span class="btn-spinner" *ngIf="submitting()"></span>
           {{ submitting() ? 'Creating...' : 'Create Invoice' }}
@@ -157,7 +167,12 @@
       ? Only draft invoices can be deleted.
     </p>
     <div class="confirm-actions">
-      <button class="action-btn" type="button" [disabled]="deleteSubmitting()" (click)="cancelDelete()">
+      <button
+        class="action-btn"
+        type="button"
+        [disabled]="deleteSubmitting()"
+        (click)="cancelDelete()"
+      >
         Cancel
       </button>
       <button

@@ -10,6 +10,7 @@ import { ProjectListItem } from '../../models/project.models';
 import { Priority, CreateTaskRequest, TaskItem, TaskStatus, UpdateTaskRequest } from '../../models/task.models';
 import { ProjectsService } from '../../services/projects.service';
 import { TasksService } from '../../services/tasks.service';
+import { ActionButton } from "../../components/shared/action-button/action-button";
 
 interface TaskTableItem extends TaskItem {
   projectTitle: string;
@@ -18,7 +19,7 @@ interface TaskTableItem extends TaskItem {
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
   templateUrl: './tasks.html',
   styleUrl: './tasks.css',
 })

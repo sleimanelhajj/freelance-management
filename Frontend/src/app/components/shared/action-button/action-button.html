@@ -1,0 +1,10 @@
+<button
+  class="action-btn"
+  [class.delete]="deleteButton"
+  [class.modal]="modalButton"
+  (click)="onPressed()"
+  [disabled]="disabled"
+  type="button"
+>
+  {{ buttonLabel }}
+</button>
