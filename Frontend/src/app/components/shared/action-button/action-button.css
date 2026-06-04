@@ -1,0 +1,133 @@
+:host {
+  display: contents;
+}
+
+.action-btn {
+  border: 1px solid #d7cec1;
+  background: #fffdf8;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: #574f44;
+  transition: all 0.15s ease;
+}
+
+.action-btn:hover:not(:disabled) {
+  background: #f5f2ec;
+  border-color: #ccc3b6;
+  color: #171511;
+}
+
+.action-btn:active:not(:disabled) {
+  background: #ebd9c4;
+}
+
+.action-btn.delete {
+  border-color: #f07a5c;
+  color: #cc4f31;
+}
+
+.action-btn.delete:hover:not(:disabled) {
+  background: #fdf2f0;
+  border-color: #e26343;
+  color: #a82e14;
+}
+
+.action-btn.delete:active:not(:disabled) {
+  background: #fcdcd7;
+}
+
+.action-btn.paid {
+  border-color: #8ab29b;
+  color: #2f7d4d;
+}
+
+.action-btn.paid:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modal {
+  height: 32px;
+}
+
+.add-btn {
+  border: none;
+  border-radius: 8px;
+  background: #c84b2f;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.add-btn:hover:not(:disabled) {
+  background: #ad3e24;
+  color: #fff;
+}
+
+.add-btn:active:not(:disabled) {
+  transform: scale(0.98);
+  background: #9c361c;
+}
+
+.add-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #ffffff;
+  animation: spin 0.7s linear infinite;
+}
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wide {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.action-btn.delete .btn-spinner {
+  border-color: rgba(204, 79, 49, 0.2);
+  border-top-color: #cc4f31;
+}
+
+.action-btn.paid .btn-spinner {
+  border-color: rgba(47, 125, 77, 0.22);
+  border-top-color: #2f7d4d;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .action-btn {
+    min-height: 40px;
+    width: 100%;
+  }
+
+  .add-btn {
+    min-height: 44px;
+  }
+}

@@ -11,6 +11,8 @@ import {
   ProjectTaskPreview,
   UpdateProjectRequest,
 } from '../../models/project.models';
+import { CreateTaskRequest, Priority } from '../../models/task.models';
+import { ActionButton } from '../../components/shared/action-button/action-button';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
 import { LayoutHeaderService } from '../../services/layout-header.service';
 import { ProjectsService } from '../../services/projects.service';
@@ -20,7 +22,7 @@ import { RouteTransitionComponent } from '../../route-transition';
 @Component({
   selector: 'app-project-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.css',
 })
@@ -39,7 +41,9 @@ export class ProjectDetailComponent extends RouteTransitionComponent implements 
   loading = signal(true);
   submitting = signal(false);
   deleting = signal(false);
+  taskSubmitting = signal(false);
   formModalOpen = signal(false);
+  taskModalOpen = signal(false);
   deleteConfirmOpen = signal(false);
   taskStatusUpdating = signal<Record<string, boolean>>({});
   errorMessage = signal('');
@@ -51,6 +55,13 @@ export class ProjectDetailComponent extends RouteTransitionComponent implements 
     deadline: new FormControl('', { nonNullable: true }),
     budget: new FormControl('', { nonNullable: true }),
     status: new FormControl<ProjectStatus>('ACTIVE', { nonNullable: true }),
+  });
+
+  taskForm = new FormGroup({
+    title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    description: new FormControl('', { nonNullable: true }),
+    priority: new FormControl<Priority>('MEDIUM', { nonNullable: true }),
+    dueDate: new FormControl('', { nonNullable: true }),
   });
 
   ngOnInit(): void {
@@ -171,7 +182,68 @@ export class ProjectDetailComponent extends RouteTransitionComponent implements 
   }
 
   onAddTask(): void {
-    // TODO: Wire add-task modal/flow for this project detail page.
+    if (!this.project()) return;
+
+    this.taskForm.reset({
+      title: '',
+      description: '',
+      priority: 'MEDIUM',
+      dueDate: '',
+    });
+    this.taskModalOpen.set(true);
+  }
+
+  closeTaskModal(): void {
+    if (this.taskSubmitting()) return;
+
+    this.taskModalOpen.set(false);
+  }
+
+  submitAddTask(): void {
+    if (this.taskForm.invalid || !this.projectId) {
+      this.taskForm.markAllAsTouched();
+      return;
+    }
+
+    this.taskSubmitting.set(true);
+    this.errorMessage.set('');
+
+    const raw = this.taskForm.getRawValue();
+    const dueDateIso = raw.dueDate ? `${raw.dueDate}T00:00:00.000Z` : undefined;
+    const payload: CreateTaskRequest = {
+      projectId: this.projectId,
+      title: raw.title.trim(),
+      priority: raw.priority,
+      ...(raw.description.trim() ? { description: raw.description.trim() } : {}),
+      ...(dueDateIso ? { dueDate: dueDateIso } : {}),
+    };
+
+    this.tasksService.createTask(payload).subscribe({
+      next: (createdTask) => {
+        const currentProject = this.project();
+        if (currentProject) {
+          this.project.set({
+            ...currentProject,
+            tasks: [
+              {
+                id: createdTask.id,
+                title: createdTask.title,
+                status: createdTask.status,
+                dueDate: createdTask.dueDate,
+              },
+              ...currentProject.tasks,
+            ],
+          });
+        }
+
+        this.taskSubmitting.set(false);
+        this.taskModalOpen.set(false);
+      },
+      error: (err) => {
+        this.errorMessage.set(err?.error?.message || 'Failed to create task.');
+        this.taskSubmitting.set(false);
+      },
+    });
   }
 
   viewAllTasks(): void {

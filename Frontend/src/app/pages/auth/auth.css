@@ -391,3 +391,66 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+@media (max-width: 860px) {
+  .main-layout {
+    display: block;
+    min-height: 100dvh;
+    height: auto;
+    overflow-y: auto;
+    background: #f5f2ec;
+  }
+
+  .left-side {
+    display: none;
+  }
+
+  .right-side {
+    width: 100%;
+    min-height: 100dvh;
+    height: auto;
+    justify-content: flex-start;
+    padding: max(28px, env(safe-area-inset-top)) 20px max(28px, env(safe-area-inset-bottom));
+  }
+
+  .auth-container {
+    max-width: 430px;
+    gap: 28px;
+    margin: auto 0;
+  }
+
+  .welcome {
+    font-size: clamp(1.55rem, 7vw, 1.9rem);
+  }
+
+  .submit-form,
+  .google-btn,
+  .switch-btn {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 460px) {
+  .right-side {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .auth-container {
+    gap: 22px;
+  }
+
+  .set-password-card {
+    padding: 18px;
+  }
+
+  .set-password-actions {
+    flex-direction: column-reverse;
+  }
+
+  .skip-btn,
+  .save-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+}

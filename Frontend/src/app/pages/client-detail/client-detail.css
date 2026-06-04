@@ -429,21 +429,91 @@
 }
 
 @media (max-width: 840px) {
+  .page-header {
+    justify-content: stretch;
+  }
+
+  .page-header-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
   .summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .main-info h1 {
+    font-size: 1.45rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-row {
+    align-items: flex-start;
+    gap: 12px;
   }
 
   .projects-head {
     display: none;
   }
 
+  .projects-card {
+    background: transparent;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .project-row {
     grid-template-columns: 1fr;
-    gap: 6px;
+    gap: 8px;
     padding: 12px;
+    border: 1px solid #e6ded2;
+    border-radius: 10px;
+  }
+
+  .project-row > span {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .project-row > span::before {
+    color: #8f867c;
+    content: '';
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .project-row > span:nth-child(1)::before { content: 'TITLE'; }
+  .project-row > span:nth-child(2)::before { content: 'STATUS'; }
+  .project-row > span:nth-child(3)::before { content: 'DEADLINE'; }
+  .project-row > span:nth-child(4)::before { content: 'ACTIONS'; }
+
+  .modal-overlay {
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .modal-card {
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    padding: 18px;
   }
 
   .form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .form-actions,
+  .confirm-actions {
+    flex-wrap: wrap;
   }
 }

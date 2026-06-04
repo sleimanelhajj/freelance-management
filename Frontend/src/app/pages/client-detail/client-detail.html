@@ -1,9 +1,13 @@
 <section class="client-detail-page" *ngIf="!loading() && client() as c">
   <div class="page-header">
     <div class="page-header-actions">
-      <button class="action-btn" type="button" (click)="goBack()">Back</button>
-      <button class="action-btn" type="button" (click)="openEditModal()">Edit</button>
-      <button class="action-btn delete" type="button" (click)="openDeleteConfirm()">Delete</button>
+      <app-action-button [buttonLabel]="'Back'" (action)="goBack()"></app-action-button>
+      <app-action-button [buttonLabel]="'Edit'" (action)="openEditModal()"></app-action-button>
+      <app-action-button
+        [buttonLabel]="'Delete'"
+        [deleteButton]="true"
+        (action)="openDeleteConfirm()"
+      ></app-action-button>
     </div>
   </div>
 
@@ -60,7 +64,7 @@
         </span>
         <span>{{ project.deadline ? (project.deadline | date: 'y-MM-dd') : '-' }}</span>
         <span>
-          <button class="action-btn" type="button">View</button>
+          <app-action-button [buttonLabel]="'View'" (action)="routeToProject(project)"></app-action-button>
         </span>
       </div>
     </div>
@@ -132,11 +136,15 @@
       </div>
 
       <div class="form-actions">
-        <button class="action-btn" type="button" (click)="closeEditModal()">Cancel</button>
-        <button class="save-btn submit-btn" type="submit" [disabled]="submitting()">
-          <span class="btn-spinner" *ngIf="submitting()"></span>
-          {{ submitting() ? 'Saving...' : 'Save Changes' }}
-        </button>
+        <app-action-button [buttonLabel]="'Cancel'" (action)="closeEditModal()"></app-action-button>
+        <app-action-button
+          [buttonLabel]="submitting() ? 'Saving...' : 'Save Changes'"
+          [addButton]="true"
+          [submitButton]="true"
+          [submitting]="submitting()"
+          [disabled]="submitting()"
+          [type]="'submit'"
+        ></app-action-button>
       </div>
     </form>
   </div>
@@ -151,13 +159,19 @@
       >?
     </p>
     <div class="confirm-actions">
-      <button class="action-btn" type="button" [disabled]="deleting()" (click)="closeDeleteConfirm()">
-        Cancel
-      </button>
-      <button class="action-btn delete submit-btn" type="button" [disabled]="deleting()" (click)="confirmDelete()">
-        <span class="inline-spinner danger" *ngIf="deleting()"></span>
-        {{ deleting() ? 'Deleting...' : 'Delete' }}
-      </button>
+      <app-action-button
+        [buttonLabel]="'Cancel'"
+        [disabled]="deleting()"
+        (action)="closeDeleteConfirm()"
+      ></app-action-button>
+      <app-action-button
+        [buttonLabel]="deleting() ? 'Deleting...' : 'Delete'"
+        [deleteButton]="true"
+        [submitButton]="true"
+        [submitting]="deleting()"
+        [disabled]="deleting()"
+        (action)="confirmDelete()"
+      ></app-action-button>
     </div>
   </div>
 </div>

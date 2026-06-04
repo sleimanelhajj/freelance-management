@@ -1,6 +1,10 @@
 <section class="invoices-page">
   <div class="invoices-toolbar">
-    <button class="add-btn" type="button" (click)="openAddModal()">+ New Invoice</button>
+    <app-action-button
+      [buttonLabel]="'+ New Invoice'"
+      [addButton]="true"
+      (action)="openAddModal()"
+    ></app-action-button>
   </div>
 
   <div class="stats-grid">
@@ -36,7 +40,9 @@
 
     <p class="state" *ngIf="loading()">Loading invoices...</p>
     <p class="state error" *ngIf="!loading() && errorMessage">{{ errorMessage }}</p>
-    <p class="state" *ngIf="!loading() && !errorMessage && invoices.length === 0">No invoices found.</p>
+    <p class="state" *ngIf="!loading() && !errorMessage && invoices.length === 0">
+      No invoices found.
+    </p>
 
     <div class="table-row" *ngFor="let invoice of invoices">
       <span>{{ invoice.invoiceNumber }}</span>
@@ -50,16 +56,14 @@
         </span>
       </span>
       <span class="actions-cell">
-        <button class="action-btn" type="button" (click)="onView(invoice)">View</button>
-        <button class="action-btn" type="button" (click)="onEdit(invoice)">Edit</button>
-        <button
-          class="action-btn delete"
-          type="button"
+        <app-action-button [buttonLabel]="'View'" (action)="onView(invoice)"></app-action-button>
+        <app-action-button [buttonLabel]="'Edit'" (action)="onEdit(invoice)"></app-action-button>
+        <app-action-button
+          [buttonLabel]="'Delete'"
+          [deleteButton]="true"
           [disabled]="!canDelete(invoice)"
-          (click)="requestDelete(invoice)"
-        >
-          Delete
-        </button>
+          (action)="requestDelete(invoice)"
+        ></app-action-button>
       </span>
     </div>
   </div>
@@ -76,7 +80,9 @@
           <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
             <mat-select formControlName="projectId">
               <mat-option value="" disabled>Select a project</mat-option>
-              <mat-option *ngFor="let project of projects" [value]="project.id">{{ project.title }}</mat-option>
+              <mat-option *ngFor="let project of projects" [value]="project.id">{{
+                project.title
+              }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -122,27 +128,37 @@
                   name="unitPrice"
                   placeholder="Unit Price ($)"
                 ></app-input-field>
-                <button
-                  class="action-btn delete tiny line-item-remove"
-                  type="button"
-                  (click)="removeLineItem(i)"
+                <app-action-button
+                  [buttonLabel]="'Remove'"
+                  [deleteButton]="true"
+                  (action)="removeLineItem(i)"
                   [disabled]="lineItems.length <= 1"
-                >
-                  Remove
-                </button>
+                ></app-action-button>
               </div>
             </div>
           </div>
-          <button class="action-btn wide" type="button" (click)="addLineItem()">+ Add Line Item</button>
+          <app-action-button
+            [buttonLabel]="'+ Add Line Item'"
+            [wideButton]="true"
+            (action)="addLineItem()"
+          ></app-action-button>
         </div>
       </div>
 
       <div class="form-actions">
-        <button class="action-btn" type="button" (click)="closeAddModal()">Cancel</button>
-        <button class="add-btn submit-btn" type="submit" [disabled]="submitting()">
-          <span class="btn-spinner" *ngIf="submitting()"></span>
-          {{ submitting() ? 'Creating...' : 'Create Invoice' }}
-        </button>
+        <app-action-button
+          [buttonLabel]="'Cancel'"
+          (action)="closeAddModal()"
+          [modalButton]="true"
+        ></app-action-button>
+        <app-action-button
+          [buttonLabel]="submitting() ? 'Creating...' : 'Create Invoice'"
+          [addButton]="true"
+          [submitButton]="true"
+          [submitting]="submitting()"
+          [disabled]="submitting()"
+          [type]="'submit'"
+        ></app-action-button>
       </div>
     </form>
   </div>
@@ -157,18 +173,19 @@
       ? Only draft invoices can be deleted.
     </p>
     <div class="confirm-actions">
-      <button class="action-btn" type="button" [disabled]="deleteSubmitting()" (click)="cancelDelete()">
-        Cancel
-      </button>
-      <button
-        class="action-btn delete submit-btn"
-        type="button"
+      <app-action-button
+        [buttonLabel]="'Cancel'"
         [disabled]="deleteSubmitting()"
-        (click)="confirmDelete()"
-      >
-        <span class="inline-spinner danger" *ngIf="deleteSubmitting()"></span>
-        {{ deleteSubmitting() ? 'Deleting...' : 'Delete' }}
-      </button>
+        (action)="cancelDelete()"
+      ></app-action-button>
+      <app-action-button
+        [buttonLabel]="deleteSubmitting() ? 'Deleting...' : 'Delete'"
+        [deleteButton]="true"
+        [submitButton]="true"
+        [submitting]="deleteSubmitting()"
+        [disabled]="deleteSubmitting()"
+        (action)="confirmDelete()"
+      ></app-action-button>
     </div>
   </div>
 </div>

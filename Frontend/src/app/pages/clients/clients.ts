@@ -13,11 +13,12 @@ import {
 } from '../../models/client.models';
 import { ClientService } from '../../services/client.service';
 import { RouteTransitionComponent } from '../../route-transition';
+import { ActionButton } from "../../components/shared/action-button/action-button";
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
   templateUrl: './clients.html',
   styleUrl: './clients.css',
 })

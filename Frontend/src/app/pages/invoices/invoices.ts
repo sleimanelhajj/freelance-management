@@ -10,11 +10,12 @@ import { ProjectListItem } from '../../models/project.models';
 import { InvoicesService } from '../../services/invoices.service';
 import { ProjectsService } from '../../services/projects.service';
 import { RouteTransitionComponent } from '../../route-transition';
+import { ActionButton } from "../../components/shared/action-button/action-button";
 
 @Component({
   selector: 'app-invoices',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
   templateUrl: './invoices.html',
   styleUrl: './invoices.css',
 })

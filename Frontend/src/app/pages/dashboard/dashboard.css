@@ -211,6 +211,50 @@
   }
 }
 
+@media (max-width: 560px) {
+  .dashboard-stats-container,
+  .dashboard-bottom-grid {
+    gap: 12px;
+  }
+
+  .dashboard-stat,
+  .panel-row,
+  .empty-state {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .panel-header {
+    padding: 14px;
+    font-size: 1.12rem;
+  }
+
+  .panel-row {
+    align-items: flex-start;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .row-pill {
+    grid-column: 2;
+    align-self: flex-start;
+    margin-left: 0;
+  }
+
+  .panel-row:not(:has(.activity-dot)) .row-main {
+    grid-column: 1 / -1;
+  }
+
+  .panel-row:not(:has(.activity-dot)) .row-pill {
+    grid-column: 1;
+  }
+
+  .activity-dot {
+    margin-top: 7px;
+  }
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
