@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output, signal, WritableSignal } from '@angular/core';
 
 @Component({
   selector: 'app-action-button',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './action-button.html',
   styleUrl: './action-button.css',
 })
@@ -11,6 +12,10 @@ export class ActionButton {
   @Input() deleteButton: boolean = false;
   @Input() modalButton: boolean = false;
   @Input() disabled: boolean = false;
+  @Input() addButton: boolean = false;
+  @Input() submitting: boolean = false;
+  @Input() submitButton: boolean = false;
+  @Input() type: string = 'button';
 
   @Output() action = new EventEmitter<void>();
 

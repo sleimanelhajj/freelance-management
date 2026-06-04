@@ -317,12 +317,6 @@
   border-top-color: #cc4f31;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes overlay-fade {
   from {
     opacity: 0;

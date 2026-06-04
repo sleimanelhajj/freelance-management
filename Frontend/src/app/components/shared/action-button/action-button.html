@@ -2,9 +2,13 @@
   class="action-btn"
   [class.delete]="deleteButton"
   [class.modal]="modalButton"
+  [class.add-btn]="addButton"
+  [class.submit-btn]="submitButton"
   (click)="onPressed()"
   [disabled]="disabled"
-  type="button"
+  [attr.type]="type"
 >
+  <span class="btn-spinner" *ngIf="submitting"></span>
+
   {{ buttonLabel }}
 </button>

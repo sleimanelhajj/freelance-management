@@ -126,9 +126,8 @@
           (action)="closeFormModal()"
           [modalButton]="true"
         ></app-action-button>
-        <button class="add-btn submit-btn" type="submit" [disabled]="submitting()">
-          <span class="btn-spinner" *ngIf="submitting()"></span>
-          {{
+        <app-action-button
+          [buttonLabel]="
             submitting()
               ? formMode === 'create'
                 ? 'Creating...'
@@ -136,8 +135,14 @@
               : formMode === 'create'
                 ? 'Create Task'
                 : 'Save Changes'
-          }}
-        </button>
+          "
+          [modalButton]="true"
+          [disabled]="submitting()"
+          [addButton]="true"
+          [submitting]="submitting()"
+          [type]="'submit'"
+          [submitButton]="true"
+        ></app-action-button>
       </div>
     </form>
   </div>

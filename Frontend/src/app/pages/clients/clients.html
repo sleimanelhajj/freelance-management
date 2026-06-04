@@ -1,6 +1,10 @@
 <section class="clients-page">
   <div class="clients-toolbar">
-    <button class="add-btn" type="button" (click)="openAddModal()">+ Add Client</button>
+    <app-action-button
+      [buttonLabel]="'+ Add Client'"
+      (action)="openAddModal()"
+      [addButton]="true"
+    ></app-action-button>
   </div>
 
   <div class="clients-table-card">
@@ -115,13 +119,8 @@
           (action)="closeFormModal()"
           [modalButton]="true"
         ></app-action-button>
-        <button
-          class="add-btn submit-btn"
-          type="submit"
-          [disabled]="submitting() || editDetailsLoading()"
-        >
-          <span class="btn-spinner" *ngIf="submitting()"></span>
-          {{
+        <app-action-button
+          [buttonLabel]="
             submitting()
               ? formMode === 'create'
                 ? 'Creating...'
@@ -129,8 +128,14 @@
               : formMode === 'create'
                 ? 'Create Client'
                 : 'Save Changes'
-          }}
-        </button>
+          "
+          (action)="submitClientForm()"
+          [modalButton]="true"
+          [addButton]="true"
+          [disabled]="submitting() || editDetailsLoading()"
+          [submitting]="submitting()"
+          [submitButton]="true"
+        ></app-action-button>
       </div>
     </form>
   </div>
