@@ -366,8 +366,17 @@
   .table-row > span:nth-child(5)::before { content: 'STATUS'; }
   .table-row > span:nth-child(6)::before { content: 'ACTIONS'; }
 
-  .actions-cell {
-    justify-content: flex-end;
+  .table-row > .actions-cell {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-content: stretch;
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .table-row > .actions-cell::before {
+    grid-column: 1 / -1;
   }
 
   .modal-overlay {

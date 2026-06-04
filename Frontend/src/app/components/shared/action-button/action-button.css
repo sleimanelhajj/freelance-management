@@ -124,6 +124,7 @@
 @media (max-width: 640px) {
   .action-btn {
     min-height: 40px;
+    width: 100%;
   }
 
   .add-btn {
