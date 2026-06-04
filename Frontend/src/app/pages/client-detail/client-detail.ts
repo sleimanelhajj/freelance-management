@@ -19,7 +19,14 @@ import { RouteTransitionComponent } from '../../route-transition';
 @Component({
   selector: 'app-client-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputFieldComponent,
+    MatFormFieldModule,
+    MatSelectModule,
+    ActionButton,
+  ],
   templateUrl: './client-detail.html',
   styleUrl: './client-detail.css',
 })
@@ -170,5 +177,8 @@ export class ClientDetailComponent extends RouteTransitionComponent implements O
     if (status === 'COMPLETED') return 'status-completed';
     if (status === 'PAUSED') return 'status-paused';
     return 'status-inactive';
+  }
+  routeToProject(project: any): void {
+    this.router.navigate(['/app/projects', project.id]);
   }
 }

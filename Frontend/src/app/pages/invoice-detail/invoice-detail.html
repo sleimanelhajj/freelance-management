@@ -54,28 +54,52 @@
       </div>
 
       <div class="totals-wrap">
-        <div class="total-row"><span>Subtotal</span><strong>{{ inv.subtotal | currency }}</strong></div>
-        <div class="total-row"><span>Tax</span><strong>{{ inv.tax | currency }}</strong></div>
-        <div class="total-row total-main"><span>Total</span><strong>{{ inv.total | currency }}</strong></div>
+        <div class="total-row">
+          <span>Subtotal</span><strong>{{ inv.subtotal | currency }}</strong>
+        </div>
+        <div class="total-row">
+          <span>Tax</span><strong>{{ inv.tax | currency }}</strong>
+        </div>
+        <div class="total-row total-main">
+          <span>Total</span><strong>{{ inv.total | currency }}</strong>
+        </div>
       </div>
 
       <div class="payment-card">
         <span class="meta-label">PAYMENT INFO</span>
         <div class="payment-grid">
-          <div><small>Amount Paid</small><strong>{{ inv.amountPaid | currency }}</strong></div>
-          <div><small>Method</small><strong>{{ paymentMethodLabel(inv.paymentMethod) }}</strong></div>
-          <div><small>Paid At</small><strong>{{ inv.paidAt ? (inv.paidAt | date: 'MMM d, y') : '-' }}</strong></div>
+          <div>
+            <small>Amount Paid</small><strong>{{ inv.amountPaid | currency }}</strong>
+          </div>
+          <div>
+            <small>Method</small><strong>{{ paymentMethodLabel(inv.paymentMethod) }}</strong>
+          </div>
+          <div>
+            <small>Paid At</small
+            ><strong>{{ inv.paidAt ? (inv.paidAt | date: 'MMM d, y') : '-' }}</strong>
+          </div>
         </div>
       </div>
     </article>
 
     <article class="card side-info">
       <h3>Invoice Info</h3>
-      <div class="info-row"><span>Status</span><strong>{{ inv.status }}</strong></div>
-      <div class="info-row"><span>Due Date</span><strong>{{ inv.dueDate ? (inv.dueDate | date: 'MMM d, y') : '-' }}</strong></div>
-      <div class="info-row"><span>Total</span><strong>{{ inv.total | currency }}</strong></div>
-      <div class="info-row"><span>Project</span><strong>{{ inv.project.title }}</strong></div>
-      <div class="info-row"><span>Client</span><strong>{{ inv.client.name }}</strong></div>
+      <div class="info-row">
+        <span>Status</span><strong>{{ inv.status }}</strong>
+      </div>
+      <div class="info-row">
+        <span>Due Date</span
+        ><strong>{{ inv.dueDate ? (inv.dueDate | date: 'MMM d, y') : '-' }}</strong>
+      </div>
+      <div class="info-row">
+        <span>Total</span><strong>{{ inv.total | currency }}</strong>
+      </div>
+      <div class="info-row">
+        <span>Project</span><strong>{{ inv.project.title }}</strong>
+      </div>
+      <div class="info-row">
+        <span>Client</span><strong>{{ inv.client.name }}</strong>
+      </div>
     </article>
   </div>
 </section>
@@ -91,11 +115,19 @@
       <div class="form-grid">
         <div class="field">
           <label>Due Date</label>
-          <app-input-field [control]="invoiceForm.controls.dueDate" type="date" name="dueDate"></app-input-field>
+          <app-input-field
+            [control]="invoiceForm.controls.dueDate"
+            type="date"
+            name="dueDate"
+          ></app-input-field>
         </div>
         <div class="field">
           <label>Tax ($)</label>
-          <app-input-field [control]="invoiceForm.controls.tax" type="number" name="tax"></app-input-field>
+          <app-input-field
+            [control]="invoiceForm.controls.tax"
+            type="number"
+            name="tax"
+          ></app-input-field>
         </div>
 
         <div class="field">
@@ -111,7 +143,11 @@
         </div>
         <div class="field">
           <label>Amount Paid</label>
-          <app-input-field [control]="invoiceForm.controls.amountPaid" type="number" name="amountPaid"></app-input-field>
+          <app-input-field
+            [control]="invoiceForm.controls.amountPaid"
+            type="number"
+            name="amountPaid"
+          ></app-input-field>
         </div>
 
         <div class="field">
@@ -129,7 +165,11 @@
         </div>
         <div class="field">
           <label>Paid At</label>
-          <app-input-field [control]="invoiceForm.controls.paidAt" type="date" name="paidAt"></app-input-field>
+          <app-input-field
+            [control]="invoiceForm.controls.paidAt"
+            type="date"
+            name="paidAt"
+          ></app-input-field>
         </div>
 
         <div class="field field-full">
@@ -180,7 +220,7 @@
           [disabled]="submitting()"
           [type]="'submit'"
         ></app-action-button>
-      </div>
+      </div>F
     </form>
   </div>
 </div>

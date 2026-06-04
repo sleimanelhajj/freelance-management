@@ -78,7 +78,10 @@
   <section class="invoices-section">
     <div class="section-head">
       <h3>Invoices</h3>
-      <app-action-button [buttonLabel]="'View All'" (action)="viewAllInvoices()"></app-action-button>
+      <app-action-button
+        [buttonLabel]="'View All'"
+        (action)="viewAllInvoices()"
+      ></app-action-button>
     </div>
 
     <div class="invoices-card">
@@ -172,6 +175,72 @@
           [submitButton]="true"
           [submitting]="submitting()"
           [disabled]="submitting()"
+          [type]="'submit'"
+        ></app-action-button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="taskModalOpen()" (click)="closeTaskModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h2>Add Task</h2>
+
+    <form [formGroup]="taskForm" (ngSubmit)="submitAddTask()">
+      <div class="form-grid">
+        <div class="field field-full">
+          <label>Title *</label>
+          <app-input-field
+            [control]="taskForm.controls.title"
+            type="text"
+            name="task-title"
+            placeholder="Design hero section"
+          ></app-input-field>
+        </div>
+
+        <div class="field field-full">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            rows="4"
+            placeholder="Task details..."
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label>Priority</label>
+          <mat-form-field class="select-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="priority">
+              <mat-option value="LOW">LOW</mat-option>
+              <mat-option value="MEDIUM">MEDIUM</mat-option>
+              <mat-option value="HIGH">HIGH</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="field">
+          <label>Due Date</label>
+          <app-input-field
+            [control]="taskForm.controls.dueDate"
+            type="date"
+            name="task-due-date"
+            placeholder=""
+          ></app-input-field>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <app-action-button
+          [buttonLabel]="'Cancel'"
+          [disabled]="taskSubmitting()"
+          (action)="closeTaskModal()"
+        ></app-action-button>
+        <app-action-button
+          [buttonLabel]="taskSubmitting() ? 'Creating...' : 'Create Task'"
+          [addButton]="true"
+          [submitButton]="true"
+          [submitting]="taskSubmitting()"
+          [disabled]="taskSubmitting()"
           [type]="'submit'"
         ></app-action-button>
       </div>
