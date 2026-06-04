@@ -489,7 +489,12 @@
     justify-content: stretch;
   }
 
-  .page-header-actions,
+  .page-header-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
   .section-actions {
     flex-wrap: wrap;
     justify-content: flex-end;
