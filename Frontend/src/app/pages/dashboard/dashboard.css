@@ -211,6 +211,35 @@
   }
 }
 
+@media (max-width: 560px) {
+  .dashboard-stats-container,
+  .dashboard-bottom-grid {
+    gap: 12px;
+  }
+
+  .dashboard-stat,
+  .panel-row,
+  .empty-state {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .panel-header {
+    padding: 14px;
+    font-size: 1.12rem;
+  }
+
+  .panel-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .row-pill {
+    align-self: flex-start;
+    margin-left: 0;
+  }
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

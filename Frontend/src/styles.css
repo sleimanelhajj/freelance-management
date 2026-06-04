@@ -7,6 +7,20 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: rgba(200, 75, 47, 0.18);
+}
+
 :root {
   --app-input-bg: #fdfbf7;
   --app-input-border: #ccc8bf;
@@ -111,4 +125,10 @@ div.mat-mdc-select-panel {
 .mat-mdc-option:hover:not(.mdc-list-item--disabled),
 .mat-mdc-option.mdc-list-item--focus:not(.mdc-list-item--disabled) {
   background: #f5f2ec !important;
+}
+
+@media (max-width: 640px) {
+  .mat-mdc-option {
+    min-height: 46px !important;
+  }
 }

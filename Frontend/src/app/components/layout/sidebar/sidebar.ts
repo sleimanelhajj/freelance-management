@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
@@ -17,6 +17,8 @@ export class SidebarComponent implements OnInit {
   ) {}
 
   accountMenuOpen = false;
+  @Input() mobileOpen = false;
+  @Output() navClosed = new EventEmitter<void>();
 
   navSections = [
     {
@@ -65,8 +67,14 @@ export class SidebarComponent implements OnInit {
     this.accountMenuOpen = false;
   }
 
+  closeMobileNav(): void {
+    this.closeAccountMenu();
+    this.navClosed.emit();
+  }
+
   onLogout(): void {
     this.closeAccountMenu();
+    this.navClosed.emit();
     this.authService.logout();
     this.router.navigate(['/auth']);
   }

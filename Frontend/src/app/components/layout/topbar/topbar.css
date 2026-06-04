@@ -19,3 +19,29 @@
   font-size: 0.83rem;
   color: #8f867c;
 }
+
+@media (max-width: 960px) {
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    padding: 14px 16px 12px 68px;
+  }
+
+  .page-title {
+    font-size: 1.25rem;
+  }
+
+  .page-subtitle {
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 420px) {
+  .topbar {
+    padding-right: 12px;
+  }
+}

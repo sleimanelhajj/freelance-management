@@ -1,5 +1,27 @@
 <div class="layout-shell">
-  <app-sidebar></app-sidebar>
+  <app-sidebar
+    [mobileOpen]="mobileNavOpen()"
+    (navClosed)="closeMobileNav()"
+  ></app-sidebar>
+  <button
+    type="button"
+    class="mobile-menu-btn"
+    aria-label="Open navigation menu"
+    [attr.aria-expanded]="mobileNavOpen()"
+    aria-controls="app-sidebar"
+    (click)="openMobileNav()"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <button
+    type="button"
+    class="mobile-nav-backdrop"
+    aria-label="Close navigation menu"
+    *ngIf="mobileNavOpen()"
+    (click)="closeMobileNav()"
+  ></button>
   <div class="layout-main">
     <app-topbar></app-topbar>
     <main class="layout-content">

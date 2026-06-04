@@ -1,4 +1,9 @@
-<aside class="sidebar">
+<aside
+  id="app-sidebar"
+  class="sidebar"
+  [class.mobile-open]="mobileOpen"
+  aria-label="Primary navigation"
+>
   <div class="brand-block">
     <h1 class="logo"><span class="first-half">Free</span><span class="second-half">lance</span></h1>
     <p class="subtitle">Management Dashboard</p>
@@ -12,6 +17,7 @@
         [routerLink]="link.route"
         class="nav-link"
         routerLinkActive="active"
+        (click)="closeMobileNav()"
       >
         <img [src]="link.icon" [alt]="link.label + ' icon'" />
         <span>{{ link.label }}</span>

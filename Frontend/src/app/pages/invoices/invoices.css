@@ -420,14 +420,58 @@
 }
 
 @media (max-width: 868px) {
+  .invoices-toolbar {
+    justify-content: stretch;
+  }
+
+  .invoices-table-card {
+    max-height: none;
+    overflow: visible;
+    background: transparent;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .table-header {
     display: none;
   }
 
   .table-row {
     grid-template-columns: 1fr;
-    gap: 6px;
+    gap: 8px;
     padding: 12px;
+    border: 1px solid #e6ded2;
+    border-radius: 10px;
+  }
+
+  .table-row > span {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .table-row > span::before {
+    color: #8f867c;
+    content: '';
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .table-row > span:nth-child(1)::before { content: 'INVOICE #'; }
+  .table-row > span:nth-child(2)::before { content: 'PROJECT'; }
+  .table-row > span:nth-child(3)::before { content: 'CLIENT'; }
+  .table-row > span:nth-child(4)::before { content: 'TOTAL'; }
+  .table-row > span:nth-child(5)::before { content: 'DUE DATE'; }
+  .table-row > span:nth-child(6)::before { content: 'STATUS'; }
+  .table-row > span:nth-child(7)::before { content: 'ACTIONS'; }
+
+  .actions-cell {
+    justify-content: flex-end;
   }
 
   .form-grid {
@@ -438,4 +482,13 @@
     grid-template-columns: 1fr;
   }
 
+  .modal-card {
+    margin: 16px 0;
+    padding: 18px;
+  }
+
+  .form-actions,
+  .confirm-actions {
+    flex-wrap: wrap;
+  }
 }

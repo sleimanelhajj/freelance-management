@@ -14,3 +14,14 @@ p {
   margin: 0;
   color: #6f655a;
 }
+
+@media (max-width: 640px) {
+  .page {
+    border-radius: 12px;
+    padding: 18px;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+  }
+}
