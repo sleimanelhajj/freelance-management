@@ -48,17 +48,6 @@
   max-width: 22px;
 }
 
-.date-placeholder {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
+.input-field.is-date-placeholder {
   color: #8f867c;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.95rem;
-  pointer-events: none;
-}
-
-.input-field[type='date']:focus + .date-placeholder {
-  opacity: 0;
 }

@@ -14,4 +14,23 @@ export class InputFieldComponent {
   @Input() type = 'text';
   @Input() name = '';
   @Input() placeholder = '';
+
+  dateInputActive = false;
+
+  get inputType(): string {
+    if (this.type !== 'date') return this.type;
+    return this.dateInputActive || this.control.value ? 'date' : 'text';
+  }
+
+  activateDateInput(): void {
+    if (this.type === 'date') {
+      this.dateInputActive = true;
+    }
+  }
+
+  deactivateDateInput(): void {
+    if (this.type === 'date' && !this.control.value) {
+      this.dateInputActive = false;
+    }
+  }
 }
