@@ -1,13 +1,19 @@
 <div class="input-shell">
   <input
     class="input-field"
-    [class.is-date-placeholder]="type === 'date' && inputType === 'text'"
+    [class.has-date-placeholder]="type === 'date' && !control.value && placeholder"
     [class.is-invalid]="control.invalid && control.touched"
-    [type]="inputType"
+    [type]="type"
     [attr.name]="name || null"
     [formControl]="control"
     [placeholder]="placeholder"
     (focus)="activateDateInput()"
     (blur)="deactivateDateInput()"
   />
+  <span
+    class="date-placeholder"
+    *ngIf="type === 'date' && !control.value && placeholder && !dateInputFocused"
+  >
+    {{ placeholder }}
+  </span>
 </div>

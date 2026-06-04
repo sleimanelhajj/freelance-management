@@ -48,6 +48,27 @@
   max-width: 22px;
 }
 
-.input-field.is-date-placeholder {
+.input-field.has-date-placeholder {
+  color: transparent;
+}
+
+.input-field.has-date-placeholder::-webkit-date-and-time-value {
+  color: transparent;
+}
+
+.date-placeholder {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  z-index: 1;
+  max-width: calc(100% - 54px);
+  overflow: hidden;
+  transform: translateY(-50%);
   color: #8f867c;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1;
+  pointer-events: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
