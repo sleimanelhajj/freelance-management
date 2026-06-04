@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { ActionButton } from '../../components/shared/action-button/action-button';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
+import { ModalShellComponent } from '../../components/shared/modal-shell/modal-shell';
 import { InvoiceDetails, InvoiceStatus, PaymentMethod, UpdateInvoiceRequest } from '../../models/invoice.models';
 import { InvoicesService } from '../../services/invoices.service';
 import { LayoutHeaderService } from '../../services/layout-header.service';
@@ -14,7 +15,7 @@ import { RouteTransitionComponent } from '../../route-transition';
 @Component({
   selector: 'app-invoice-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton, ModalShellComponent],
   templateUrl: './invoice-detail.html',
   styleUrl: './invoice-detail.css',
 })

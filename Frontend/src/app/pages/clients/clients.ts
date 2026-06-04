@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
+import { ModalShellComponent } from '../../components/shared/modal-shell/modal-shell';
 import {
   ClientListItem,
   ClientStatus,
@@ -18,7 +19,7 @@ import { ActionButton } from "../../components/shared/action-button/action-butto
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton, ModalShellComponent],
   templateUrl: './clients.html',
   styleUrl: './clients.css',
 })

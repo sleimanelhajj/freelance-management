@@ -1,5 +1,11 @@
 .input-field {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 48px;
+  display: block;
+  appearance: none;
+  -webkit-appearance: none;
   padding: 14px 16px;
   border-radius: 10px;
   border: 1px solid #ccc8bf;
@@ -21,4 +27,17 @@
 .input-field.is-invalid {
   border-color: #c84b2f !important;
   background: #fdecea;
+}
+
+.input-field[type='date'] {
+  line-height: normal;
+}
+
+.input-field[type='date']::-webkit-date-and-time-value {
+  min-height: 1.2em;
+  text-align: left;
+}
+
+.input-field[type='date']::-webkit-calendar-picker-indicator {
+  max-width: 22px;
 }

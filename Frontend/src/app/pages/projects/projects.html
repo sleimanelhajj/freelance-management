@@ -17,7 +17,15 @@
       <span>ACTIONS</span>
     </div>
 
-    <p class="state" *ngIf="projectsFetched() || projects.length === 0">No projects found.</p>
+    <div class="skeleton-list" *ngIf="projectsFetched()" aria-label="Loading projects">
+      <div class="skeleton-row" *ngFor="let row of [1, 2, 3]">
+        <span class="skeleton-line w-70"></span>
+        <span class="skeleton-line w-55"></span>
+        <span class="skeleton-line w-35"></span>
+        <span class="skeleton-line w-45"></span>
+      </div>
+    </div>
+    <p class="state" *ngIf="!projectsFetched() && projects.length === 0">No projects found.</p>
 
     <div class="table-row" *ngFor="let project of projects">
       <span class="cell-title">{{ project.title }}</span>
@@ -45,10 +53,11 @@
   </div>
 </section>
 
-<div class="modal-overlay" *ngIf="addModalOpen()" (click)="closeAddModal()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
-    <h2>New Project</h2>
-
+<app-modal-shell
+  [open]="addModalOpen()"
+  title="New Project"
+  (closed)="closeAddModal()"
+>
     <form [formGroup]="projectForm" (ngSubmit)="submitAddProject()">
       <div class="form-grid">
         <div class="field field-full">
@@ -130,16 +139,16 @@
         ></app-action-button>
       </div>
     </form>
-  </div>
-</div>
+</app-modal-shell>
 
-<div class="modal-overlay" *ngIf="editModalOpen()" (click)="closeEditModal()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
-    <h2>Edit Project</h2>
-
+<app-modal-shell
+  [open]="editModalOpen()"
+  title="Edit Project"
+  (closed)="closeEditModal()"
+>
     <div class="modal-blocker" *ngIf="editDetailsLoading()">
-      <span class="big-spinner"></span>
-      <p>Loading project details...</p>
+      <span class="skeleton-line w-45 h-lg"></span>
+      <span class="skeleton-line w-70"></span>
     </div>
 
     <form [formGroup]="editProjectForm" (ngSubmit)="submitEditProject()">
@@ -212,13 +221,15 @@
         ></app-action-button>
       </div>
     </form>
-  </div>
-</div>
+</app-modal-shell>
 
-<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="cancelDelete()">
-  <div class="confirm-card" (click)="$event.stopPropagation()">
-    <h3>Delete Project</h3>
-    <p>
+<app-modal-shell
+  [open]="deleteConfirmOpen()"
+  title="Delete Project"
+  size="confirm"
+  (closed)="cancelDelete()"
+>
+    <p class="modal-copy">
       Are you sure you want to delete
       <strong>{{ deleteCandidate?.title }}</strong
       >?
@@ -238,5 +249,4 @@
         [disabled]="deleteSubmitting()"
       ></app-action-button>
     </div>
-  </div>
-</div>
+</app-modal-shell>

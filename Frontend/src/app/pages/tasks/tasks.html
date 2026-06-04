@@ -17,7 +17,14 @@
       <span>ACTIONS</span>
     </div>
 
-    <p class="state" *ngIf="loading()">Loading tasks...</p>
+    <div class="skeleton-list" *ngIf="loading()" aria-label="Loading tasks">
+      <div class="skeleton-row" *ngFor="let row of [1, 2, 3]">
+        <span class="skeleton-line w-70"></span>
+        <span class="skeleton-line w-55"></span>
+        <span class="skeleton-line w-35"></span>
+        <span class="skeleton-line w-45"></span>
+      </div>
+    </div>
     <p class="state error" *ngIf="!loading() && errorMessage">{{ errorMessage }}</p>
     <p class="state" *ngIf="!loading() && !errorMessage && tasks.length === 0">No tasks found.</p>
 
@@ -58,10 +65,11 @@
   </div>
 </section>
 
-<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeFormModal()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
-    <h2>{{ formMode === 'create' ? 'Add Task' : 'Edit Task' }}</h2>
-
+<app-modal-shell
+  [open]="formModalOpen()"
+  [title]="formMode === 'create' ? 'Add Task' : 'Edit Task'"
+  (closed)="closeFormModal()"
+>
     <form [formGroup]="taskForm" (ngSubmit)="submitTaskForm()">
       <div class="form-grid">
         <div class="field field-full">
@@ -149,13 +157,15 @@
         ></app-action-button>
       </div>
     </form>
-  </div>
-</div>
+</app-modal-shell>
 
-<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="cancelDelete()">
-  <div class="confirm-card" (click)="$event.stopPropagation()">
-    <h3>Delete Task</h3>
-    <p>
+<app-modal-shell
+  [open]="deleteConfirmOpen()"
+  title="Delete Task"
+  size="confirm"
+  (closed)="cancelDelete()"
+>
+    <p class="modal-copy">
       Are you sure you want to delete
       <strong>{{ deleteCandidate?.title }}</strong
       >?
@@ -174,5 +184,4 @@
         [deleteButton]="true"
       ></app-action-button>
     </div>
-  </div>
-</div>
+</app-modal-shell>

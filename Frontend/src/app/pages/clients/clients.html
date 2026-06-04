@@ -17,7 +17,14 @@
       <span>ACTIONS</span>
     </div>
 
-    <p class="state" *ngIf="loading()">Loading clients...</p>
+    <div class="skeleton-list" *ngIf="loading()" aria-label="Loading clients">
+      <div class="skeleton-row" *ngFor="let row of [1, 2, 3]">
+        <span class="skeleton-line w-60"></span>
+        <span class="skeleton-line w-80"></span>
+        <span class="skeleton-line w-50"></span>
+        <span class="skeleton-line w-40"></span>
+      </div>
+    </div>
     <p class="state error" *ngIf="!loading() && errorMessage">{{ errorMessage }}</p>
     <p class="state" *ngIf="!loading() && !errorMessage && clients.length === 0">
       No clients found.
@@ -47,12 +54,14 @@
   </div>
 </section>
 
-<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeFormModal()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
-    <h2>{{ formMode === 'create' ? 'Add Client' : 'Edit Client' }}</h2>
+<app-modal-shell
+  [open]="formModalOpen()"
+  [title]="formMode === 'create' ? 'Add Client' : 'Edit Client'"
+  (closed)="closeFormModal()"
+>
     <div class="modal-blocker" *ngIf="formMode === 'edit' && editDetailsLoading()">
-      <span class="big-spinner"></span>
-      <p>Loading client details...</p>
+      <span class="skeleton-line w-45 h-lg"></span>
+      <span class="skeleton-line w-70"></span>
     </div>
 
     <form [formGroup]="clientForm" (ngSubmit)="submitClientForm()">
@@ -138,13 +147,15 @@
         ></app-action-button>
       </div>
     </form>
-  </div>
-</div>
+</app-modal-shell>
 
-<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="cancelDelete()">
-  <div class="confirm-card" (click)="$event.stopPropagation()">
-    <h3>Delete Client</h3>
-    <p>
+<app-modal-shell
+  [open]="deleteConfirmOpen()"
+  title="Delete Client"
+  size="confirm"
+  (closed)="cancelDelete()"
+>
+    <p class="modal-copy">
       Are you sure you want to delete
       <strong>{{ deleteCandidate?.name }}</strong
       >?
@@ -163,5 +174,4 @@
         [disabled]="deleteSubmitting()"
       ></app-action-button>
     </div>
-  </div>
-</div>
+</app-modal-shell>

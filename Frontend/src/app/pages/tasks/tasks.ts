@@ -6,6 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
+import { ModalShellComponent } from '../../components/shared/modal-shell/modal-shell';
 import { ProjectListItem } from '../../models/project.models';
 import { Priority, CreateTaskRequest, TaskItem, TaskStatus, UpdateTaskRequest } from '../../models/task.models';
 import { ProjectsService } from '../../services/projects.service';
@@ -19,7 +20,7 @@ interface TaskTableItem extends TaskItem {
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton, ModalShellComponent],
   templateUrl: './tasks.html',
   styleUrl: './tasks.css',
 })

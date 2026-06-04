@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
+import { ModalShellComponent } from '../../components/shared/modal-shell/modal-shell';
 import { InvoiceListItem, CreateInvoiceRequest } from '../../models/invoice.models';
 import { ProjectListItem } from '../../models/project.models';
 import { InvoicesService } from '../../services/invoices.service';
@@ -15,7 +16,7 @@ import { ActionButton } from "../../components/shared/action-button/action-butto
 @Component({
   selector: 'app-invoices',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton, ModalShellComponent],
   templateUrl: './invoices.html',
   styleUrl: './invoices.css',
 })

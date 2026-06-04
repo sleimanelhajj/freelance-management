@@ -104,13 +104,24 @@
   </div>
 </section>
 
-<p class="state" *ngIf="loading()">Loading invoice details...</p>
+<div class="detail-skeleton" *ngIf="loading()" aria-label="Loading invoice details">
+  <div class="skeleton-card">
+    <span class="skeleton-line w-35"></span>
+    <span class="skeleton-line w-45 h-lg"></span>
+    <span class="skeleton-line w-full"></span>
+  </div>
+  <div class="skeleton-card">
+    <span class="skeleton-line w-50"></span>
+    <span class="skeleton-line w-70"></span>
+  </div>
+</div>
 <p class="state error" *ngIf="!loading() && errorMessage()">{{ errorMessage() }}</p>
 
-<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeEditModal()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
-    <h2>Edit Invoice</h2>
-
+<app-modal-shell
+  [open]="formModalOpen()"
+  title="Edit Invoice"
+  (closed)="closeEditModal()"
+>
     <form [formGroup]="invoiceForm" (ngSubmit)="submitEdit()">
       <div class="form-grid">
         <div class="field">
@@ -220,15 +231,17 @@
           [disabled]="submitting()"
           [type]="'submit'"
         ></app-action-button>
-      </div>F
+      </div>
     </form>
-  </div>
-</div>
+</app-modal-shell>
 
-<div class="modal-overlay" *ngIf="markPaidModalOpen()" (click)="closeMarkPaidModal()">
-  <div class="confirm-card" (click)="$event.stopPropagation()">
-    <h3>Mark Invoice as Paid</h3>
-    <p>Select payment method before marking this invoice as paid.</p>
+<app-modal-shell
+  [open]="markPaidModalOpen()"
+  title="Mark Invoice as Paid"
+  size="confirm"
+  (closed)="closeMarkPaidModal()"
+>
+    <p class="modal-copy">Select payment method before marking this invoice as paid.</p>
 
     <form [formGroup]="markPaidForm" (ngSubmit)="submitMarkPaid()">
       <div class="field field-full paid-method-field">
@@ -257,5 +270,4 @@
         ></app-action-button>
       </div>
     </form>
-  </div>
-</div>
+</app-modal-shell>

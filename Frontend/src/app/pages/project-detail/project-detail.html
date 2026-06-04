@@ -106,13 +106,24 @@
   </section>
 </section>
 
-<p class="state" *ngIf="loading()">Loading project details...</p>
+<div class="detail-skeleton" *ngIf="loading()" aria-label="Loading project details">
+  <div class="skeleton-card">
+    <span class="skeleton-line w-45 h-lg"></span>
+    <span class="skeleton-line w-80"></span>
+    <span class="skeleton-line w-60"></span>
+  </div>
+  <div class="skeleton-card">
+    <span class="skeleton-line w-35"></span>
+    <span class="skeleton-line w-full"></span>
+  </div>
+</div>
 <p class="state error" *ngIf="!loading() && errorMessage()">{{ errorMessage() }}</p>
 
-<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeEditModal()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
-    <h2>Edit Project</h2>
-
+<app-modal-shell
+  [open]="formModalOpen()"
+  title="Edit Project"
+  (closed)="closeEditModal()"
+>
     <form [formGroup]="projectForm" (ngSubmit)="submitEdit()">
       <div class="form-grid">
         <div class="field field-full">
@@ -179,13 +190,13 @@
         ></app-action-button>
       </div>
     </form>
-  </div>
-</div>
+</app-modal-shell>
 
-<div class="modal-overlay" *ngIf="taskModalOpen()" (click)="closeTaskModal()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
-    <h2>Add Task</h2>
-
+<app-modal-shell
+  [open]="taskModalOpen()"
+  title="Add Task"
+  (closed)="closeTaskModal()"
+>
     <form [formGroup]="taskForm" (ngSubmit)="submitAddTask()">
       <div class="form-grid">
         <div class="field field-full">
@@ -245,13 +256,15 @@
         ></app-action-button>
       </div>
     </form>
-  </div>
-</div>
+</app-modal-shell>
 
-<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="closeDeleteConfirm()">
-  <div class="confirm-card" (click)="$event.stopPropagation()">
-    <h3>Delete Project</h3>
-    <p>
+<app-modal-shell
+  [open]="deleteConfirmOpen()"
+  title="Delete Project"
+  size="confirm"
+  (closed)="closeDeleteConfirm()"
+>
+    <p class="modal-copy">
       Are you sure you want to delete
       <strong>{{ project()?.title }}</strong
       >?
@@ -271,5 +284,4 @@
         (action)="confirmDelete()"
       ></app-action-button>
     </div>
-  </div>
-</div>
+</app-modal-shell>

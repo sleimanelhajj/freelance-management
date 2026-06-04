@@ -1,0 +1,101 @@
+.modal-shell-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3200;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(13, 11, 9, 0.35);
+  animation: overlay-fade 0.14s ease-out;
+}
+
+.modal-shell-card {
+  width: min(640px, 100%);
+  max-height: calc(100dvh - 36px);
+  overflow-y: auto;
+  background: #fbf9f4;
+  border: 1px solid #ddd6c9;
+  border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: 0 24px 60px rgba(13, 11, 9, 0.22);
+  animation: modal-pop 0.16s ease-out;
+}
+
+.modal-shell-card.confirm {
+  width: min(420px, 100%);
+}
+
+.modal-shell-title {
+  margin: 0 0 16px;
+  color: #1a1814;
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+
+:host ::ng-deep .form-actions,
+:host ::ng-deep .confirm-actions,
+:host ::ng-deep .set-password-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+:host ::ng-deep .confirm-actions {
+  margin-top: 18px;
+}
+
+:host ::ng-deep .confirm-card p,
+:host ::ng-deep .modal-copy {
+  margin: 0;
+  color: #5d554a;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .modal-shell-overlay {
+    place-items: center;
+    padding: 14px;
+    overflow-y: auto;
+  }
+
+  .modal-shell-card {
+    max-height: calc(100dvh - 28px);
+    border-radius: 12px;
+    padding: 18px;
+  }
+
+  .modal-shell-title {
+    font-size: 1.42rem;
+  }
+
+  :host ::ng-deep .form-actions,
+  :host ::ng-deep .confirm-actions,
+  :host ::ng-deep .set-password-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: stretch;
+    gap: 10px;
+  }
+}
+
+@keyframes overlay-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
