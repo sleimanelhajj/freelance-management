@@ -343,21 +343,9 @@
   align-items: center;
 }
 
-.line-item-remove {
-  min-width: 76px;
-  justify-self: end;
-  white-space: nowrap;
-}
-
 .action-btn.wide {
   margin-top: 8px;
   width: 100%;
-}
-
-.action-btn.tiny {
-  margin-top: 6px;
-  padding: 4px 10px;
-  font-size: 0.76rem;
 }
 
 .form-actions {
@@ -456,7 +444,4 @@
     grid-template-columns: 1fr;
   }
 
-  .line-item-remove {
-    justify-self: start;
-  }
 }

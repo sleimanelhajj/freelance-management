@@ -1,6 +1,10 @@
 <section class="tasks-page">
   <div class="tasks-toolbar">
-    <button class="add-btn" type="button" (click)="openAddModal()">+ Add Task</button>
+    <app-action-button
+      [buttonLabel]="'+ Add Task'"
+      [addButton]="true"
+      (action)="openAddModal()"
+    ></app-action-button>
   </div>
 
   <div class="tasks-table-card">

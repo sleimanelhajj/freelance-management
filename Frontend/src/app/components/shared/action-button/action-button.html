@@ -1,9 +1,11 @@
 <button
   class="action-btn"
   [class.delete]="deleteButton"
+  [class.paid]="paidButton"
   [class.modal]="modalButton"
   [class.add-btn]="addButton"
   [class.submit-btn]="submitButton"
+  [class.wide]="wideButton"
   (click)="onPressed()"
   [disabled]="disabled"
   [attr.type]="type"

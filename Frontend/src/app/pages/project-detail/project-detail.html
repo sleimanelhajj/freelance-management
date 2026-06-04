@@ -1,9 +1,13 @@
 <section class="project-detail-page" *ngIf="!loading() && project() as p">
   <div class="page-header">
     <div class="page-header-actions">
-      <button class="action-btn" type="button" (click)="goBack()">Back</button>
-      <button class="action-btn" type="button" (click)="openEditModal()">Edit</button>
-      <button class="action-btn delete" type="button" (click)="openDeleteConfirm()">Delete</button>
+      <app-action-button [buttonLabel]="'Back'" (action)="goBack()"></app-action-button>
+      <app-action-button [buttonLabel]="'Edit'" (action)="openEditModal()"></app-action-button>
+      <app-action-button
+        [buttonLabel]="'Delete'"
+        [deleteButton]="true"
+        (action)="openDeleteConfirm()"
+      ></app-action-button>
     </div>
   </div>
 
@@ -37,8 +41,8 @@
     <div class="section-head">
       <h3>Tasks</h3>
       <div class="section-actions">
-        <button class="action-btn" type="button" (click)="viewAllTasks()">View All</button>
-        <button class="action-btn" type="button" (click)="onAddTask()">+ Task</button>
+        <app-action-button [buttonLabel]="'View All'" (action)="viewAllTasks()"></app-action-button>
+        <app-action-button [buttonLabel]="'+ Task'" (action)="onAddTask()"></app-action-button>
       </div>
     </div>
     <div class="tasks-card">
@@ -74,7 +78,7 @@
   <section class="invoices-section">
     <div class="section-head">
       <h3>Invoices</h3>
-      <button class="action-btn" type="button" (click)="viewAllInvoices()">View All</button>
+      <app-action-button [buttonLabel]="'View All'" (action)="viewAllInvoices()"></app-action-button>
     </div>
 
     <div class="invoices-card">
@@ -161,11 +165,15 @@
       </div>
 
       <div class="form-actions">
-        <button class="action-btn" type="button" (click)="closeEditModal()">Cancel</button>
-        <button class="save-btn submit-btn" type="submit" [disabled]="submitting()">
-          <span class="btn-spinner" *ngIf="submitting()"></span>
-          {{ submitting() ? 'Saving...' : 'Save Changes' }}
-        </button>
+        <app-action-button [buttonLabel]="'Cancel'" (action)="closeEditModal()"></app-action-button>
+        <app-action-button
+          [buttonLabel]="submitting() ? 'Saving...' : 'Save Changes'"
+          [addButton]="true"
+          [submitButton]="true"
+          [submitting]="submitting()"
+          [disabled]="submitting()"
+          [type]="'submit'"
+        ></app-action-button>
       </div>
     </form>
   </div>
@@ -180,23 +188,19 @@
       >?
     </p>
     <div class="confirm-actions">
-      <button
-        class="action-btn"
-        type="button"
+      <app-action-button
+        [buttonLabel]="'Cancel'"
         [disabled]="deleting()"
-        (click)="closeDeleteConfirm()"
-      >
-        Cancel
-      </button>
-      <button
-        class="action-btn delete submit-btn"
-        type="button"
+        (action)="closeDeleteConfirm()"
+      ></app-action-button>
+      <app-action-button
+        [buttonLabel]="deleting() ? 'Deleting...' : 'Delete'"
+        [deleteButton]="true"
+        [submitButton]="true"
+        [submitting]="deleting()"
         [disabled]="deleting()"
-        (click)="confirmDelete()"
-      >
-        <span class="inline-spinner danger" *ngIf="deleting()"></span>
-        {{ deleting() ? 'Deleting...' : 'Delete' }}
-      </button>
+        (action)="confirmDelete()"
+      ></app-action-button>
     </div>
   </div>
 </div>

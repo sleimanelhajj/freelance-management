@@ -4,6 +4,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } fr
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { ActionButton } from '../../components/shared/action-button/action-button';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
 import { InvoiceDetails, InvoiceStatus, PaymentMethod, UpdateInvoiceRequest } from '../../models/invoice.models';
 import { InvoicesService } from '../../services/invoices.service';
@@ -13,7 +14,7 @@ import { RouteTransitionComponent } from '../../route-transition';
 @Component({
   selector: 'app-invoice-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
   templateUrl: './invoice-detail.html',
   styleUrl: './invoice-detail.css',
 })

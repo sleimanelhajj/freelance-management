@@ -16,6 +16,8 @@ export class ActionButton {
   @Input() submitting: boolean = false;
   @Input() submitButton: boolean = false;
   @Input() type: string = 'button';
+  @Input() paidButton: boolean = false;
+  @Input() wideButton: boolean = false;
 
   @Output() action = new EventEmitter<void>();
 

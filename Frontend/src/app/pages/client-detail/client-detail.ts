@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ActionButton } from '../../components/shared/action-button/action-button';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
 import {
   ClientDetails,
@@ -18,7 +19,7 @@ import { RouteTransitionComponent } from '../../route-transition';
 @Component({
   selector: 'app-client-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
   templateUrl: './client-detail.html',
   styleUrl: './client-detail.css',
 })

@@ -1,6 +1,10 @@
 <section class="projects-page">
   <div class="projects-toolbar">
-    <button class="add-btn" type="button" (click)="openAddModal()">+ Add Project</button>
+    <app-action-button
+      [buttonLabel]="'+ Add Project'"
+      [addButton]="true"
+      (action)="openAddModal()"
+    ></app-action-button>
   </div>
 
   <div class="projects-table-card">
@@ -118,7 +122,12 @@
           (action)="closeAddModal()"
           [modalButton]="true"
         ></app-action-button>
-        <button class="add-btn submit-btn" type="submit">Create Project</button>
+        <app-action-button
+          [buttonLabel]="'Create Project'"
+          [addButton]="true"
+          [submitButton]="true"
+          [type]="'submit'"
+        ></app-action-button>
       </div>
     </form>
   </div>
@@ -194,9 +203,13 @@
           (action)="closeEditModal()"
           [modalButton]="true"
         ></app-action-button>
-        <button class="add-btn submit-btn" type="submit" [disabled]="editDetailsLoading()">
-          Save Changes
-        </button>
+        <app-action-button
+          [buttonLabel]="'Save Changes'"
+          [addButton]="true"
+          [submitButton]="true"
+          [type]="'submit'"
+          [disabled]="editDetailsLoading()"
+        ></app-action-button>
       </div>
     </form>
   </div>

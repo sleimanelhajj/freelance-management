@@ -1,17 +1,17 @@
 <section class="invoice-detail-page" *ngIf="!loading() && invoice() as inv">
   <div class="page-header">
     <div class="page-header-actions">
-      <button class="action-btn" type="button" (click)="goBack()">Back</button>
-      <button class="action-btn" type="button" (click)="openEditModal()">Edit</button>
-      <button
-        class="action-btn paid"
-        type="button"
+      <app-action-button [buttonLabel]="'Back'" (action)="goBack()"></app-action-button>
+      <app-action-button [buttonLabel]="'Edit'" (action)="openEditModal()"></app-action-button>
+      <app-action-button
+        [buttonLabel]="
+          inv.status === 'PAID' ? 'Paid' : markPaidSubmitting() ? 'Saving...' : 'Mark as Paid'
+        "
+        [paidButton]="true"
+        [submitting]="markPaidSubmitting()"
         [disabled]="inv.status === 'PAID' || markPaidSubmitting()"
-        (click)="openMarkPaidModal()"
-      >
-        <span class="inline-spinner" *ngIf="markPaidSubmitting()"></span>
-        {{ inv.status === 'PAID' ? 'Paid' : markPaidSubmitting() ? 'Saving...' : 'Mark as Paid' }}
-      </button>
+        (action)="openMarkPaidModal()"
+      ></app-action-button>
     </div>
   </div>
 
@@ -153,27 +153,33 @@
                   name="unitPrice"
                   placeholder="Unit Price"
                 ></app-input-field>
-                <button
-                  class="action-btn delete tiny line-item-remove"
-                  type="button"
-                  (click)="removeLineItem(i)"
+                <app-action-button
+                  [buttonLabel]="'Remove'"
+                  [deleteButton]="true"
+                  (action)="removeLineItem(i)"
                   [disabled]="lineItems.length <= 1"
-                >
-                  Remove
-                </button>
+                ></app-action-button>
               </div>
             </div>
           </div>
-          <button class="action-btn wide" type="button" (click)="addLineItem()">+ Add Line Item</button>
+          <app-action-button
+            [buttonLabel]="'+ Add Line Item'"
+            [wideButton]="true"
+            (action)="addLineItem()"
+          ></app-action-button>
         </div>
       </div>
 
       <div class="form-actions">
-        <button class="action-btn" type="button" (click)="closeEditModal()">Cancel</button>
-        <button class="save-btn submit-btn" type="submit" [disabled]="submitting()">
-          <span class="btn-spinner" *ngIf="submitting()"></span>
-          {{ submitting() ? 'Saving...' : 'Save Changes' }}
-        </button>
+        <app-action-button [buttonLabel]="'Cancel'" (action)="closeEditModal()"></app-action-button>
+        <app-action-button
+          [buttonLabel]="submitting() ? 'Saving...' : 'Save Changes'"
+          [addButton]="true"
+          [submitButton]="true"
+          [submitting]="submitting()"
+          [disabled]="submitting()"
+          [type]="'submit'"
+        ></app-action-button>
       </div>
     </form>
   </div>
@@ -196,13 +202,19 @@
       </div>
 
       <div class="confirm-actions">
-        <button class="action-btn" type="button" [disabled]="markPaidSubmitting()" (click)="closeMarkPaidModal()">
-          Cancel
-        </button>
-        <button class="action-btn paid submit-btn" type="submit" [disabled]="markPaidSubmitting()">
-          <span class="inline-spinner" *ngIf="markPaidSubmitting()"></span>
-          {{ markPaidSubmitting() ? 'Saving...' : 'Confirm Paid' }}
-        </button>
+        <app-action-button
+          [buttonLabel]="'Cancel'"
+          [disabled]="markPaidSubmitting()"
+          (action)="closeMarkPaidModal()"
+        ></app-action-button>
+        <app-action-button
+          [buttonLabel]="markPaidSubmitting() ? 'Saving...' : 'Confirm Paid'"
+          [paidButton]="true"
+          [submitButton]="true"
+          [submitting]="markPaidSubmitting()"
+          [disabled]="markPaidSubmitting()"
+          [type]="'submit'"
+        ></app-action-button>
       </div>
     </form>
   </div>
