@@ -38,7 +38,14 @@
       <span>ACTIONS</span>
     </div>
 
-    <p class="state" *ngIf="loading()">Loading invoices...</p>
+    <div class="skeleton-list" *ngIf="loading()" aria-label="Loading invoices">
+      <div class="skeleton-row" *ngFor="let row of [1, 2, 3]">
+        <span class="skeleton-line w-45"></span>
+        <span class="skeleton-line w-60"></span>
+        <span class="skeleton-line w-50"></span>
+        <span class="skeleton-line w-35"></span>
+      </div>
+    </div>
     <p class="state error" *ngIf="!loading() && errorMessage">{{ errorMessage }}</p>
     <p class="state" *ngIf="!loading() && !errorMessage && invoices.length === 0">
       No invoices found.
@@ -69,10 +76,11 @@
   </div>
 </section>
 
-<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeAddModal()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
-    <h2>New Invoice</h2>
-
+<app-modal-shell
+  [open]="formModalOpen()"
+  title="New Invoice"
+  (closed)="closeAddModal()"
+>
     <form [formGroup]="invoiceForm" (ngSubmit)="submitCreateInvoice()">
       <div class="form-grid">
         <div class="field field-full">
@@ -161,13 +169,15 @@
         ></app-action-button>
       </div>
     </form>
-  </div>
-</div>
+</app-modal-shell>
 
-<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="cancelDelete()">
-  <div class="confirm-card" (click)="$event.stopPropagation()">
-    <h3>Delete Invoice</h3>
-    <p>
+<app-modal-shell
+  [open]="deleteConfirmOpen()"
+  title="Delete Invoice"
+  size="confirm"
+  (closed)="cancelDelete()"
+>
+    <p class="modal-copy">
       Delete
       <strong>{{ deleteCandidate?.invoiceNumber }}</strong>
       ? Only draft invoices can be deleted.
@@ -187,5 +197,4 @@
         (action)="confirmDelete()"
       ></app-action-button>
     </div>
-  </div>
-</div>
+</app-modal-shell>

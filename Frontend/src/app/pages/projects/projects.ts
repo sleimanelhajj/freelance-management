@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
+import { ModalShellComponent } from '../../components/shared/modal-shell/modal-shell';
 import {
   CreateProjectRequest,
   ProjectListItem,
@@ -20,7 +21,7 @@ import { ActionButton } from "../../components/shared/action-button/action-butto
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton, ModalShellComponent],
   templateUrl: './projects.html',
   styleUrl: './projects.css',
 })

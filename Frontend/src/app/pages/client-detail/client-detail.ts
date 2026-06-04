@@ -6,6 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionButton } from '../../components/shared/action-button/action-button';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
+import { ModalShellComponent } from '../../components/shared/modal-shell/modal-shell';
 import {
   ClientDetails,
   ClientProjectItem,
@@ -26,6 +27,7 @@ import { RouteTransitionComponent } from '../../route-transition';
     MatFormFieldModule,
     MatSelectModule,
     ActionButton,
+    ModalShellComponent,
   ],
   templateUrl: './client-detail.html',
   styleUrl: './client-detail.css',

@@ -14,6 +14,7 @@ import {
 import { CreateTaskRequest, Priority } from '../../models/task.models';
 import { ActionButton } from '../../components/shared/action-button/action-button';
 import { InputFieldComponent } from '../../components/shared/input-field/input-field';
+import { ModalShellComponent } from '../../components/shared/modal-shell/modal-shell';
 import { LayoutHeaderService } from '../../services/layout-header.service';
 import { ProjectsService } from '../../services/projects.service';
 import { TasksService } from '../../services/tasks.service';
@@ -22,7 +23,7 @@ import { RouteTransitionComponent } from '../../route-transition';
 @Component({
   selector: 'app-project-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton],
+  imports: [CommonModule, ReactiveFormsModule, InputFieldComponent, MatFormFieldModule, MatSelectModule, ActionButton, ModalShellComponent],
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.css',
 })

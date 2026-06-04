@@ -71,12 +71,23 @@
   </section>
 </section>
 
-<p class="state" *ngIf="loading()">Loading client details...</p>
+<div class="detail-skeleton" *ngIf="loading()" aria-label="Loading client details">
+  <div class="skeleton-card">
+    <span class="skeleton-line w-35 h-lg"></span>
+    <span class="skeleton-line w-80"></span>
+    <span class="skeleton-line w-60"></span>
+  </div>
+  <div class="skeleton-card">
+    <span class="skeleton-line w-45"></span>
+    <span class="skeleton-line w-70"></span>
+  </div>
+</div>
 
-<div class="modal-overlay" *ngIf="formModalOpen()" (click)="closeEditModal()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
-    <h2>Edit Client</h2>
-
+<app-modal-shell
+  [open]="formModalOpen()"
+  title="Edit Client"
+  (closed)="closeEditModal()"
+>
     <form [formGroup]="clientForm" (ngSubmit)="submitEdit()">
       <div class="form-grid">
         <div class="field">
@@ -147,13 +158,15 @@
         ></app-action-button>
       </div>
     </form>
-  </div>
-</div>
+</app-modal-shell>
 
-<div class="modal-overlay" *ngIf="deleteConfirmOpen()" (click)="closeDeleteConfirm()">
-  <div class="confirm-card" (click)="$event.stopPropagation()">
-    <h3>Delete Client</h3>
-    <p>
+<app-modal-shell
+  [open]="deleteConfirmOpen()"
+  title="Delete Client"
+  size="confirm"
+  (closed)="closeDeleteConfirm()"
+>
+    <p class="modal-copy">
       Are you sure you want to delete
       <strong>{{ client()?.name }}</strong
       >?
@@ -173,5 +186,4 @@
         (action)="confirmDelete()"
       ></app-action-button>
     </div>
-  </div>
-</div>
+</app-modal-shell>

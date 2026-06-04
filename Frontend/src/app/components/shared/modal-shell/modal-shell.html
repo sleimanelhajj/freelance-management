@@ -1,0 +1,13 @@
+<div class="modal-shell-overlay" *ngIf="open" (click)="onBackdropClick()">
+  <section
+    class="modal-shell-card"
+    [class.confirm]="size === 'confirm'"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="titleId"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 class="modal-shell-title" [id]="titleId">{{ title }}</h2>
+    <ng-content></ng-content>
+  </section>
+</div>
