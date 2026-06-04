@@ -1,8 +1,13 @@
-<input
-  class="input-field"
-  [class.is-invalid]="control.invalid && control.touched"
-  [type]="type"
-  [attr.name]="name || null"
-  [formControl]="control"
-  [placeholder]="placeholder"
-/>
+<div class="input-shell">
+  <input
+    class="input-field"
+    [class.is-invalid]="control.invalid && control.touched"
+    [type]="type"
+    [attr.name]="name || null"
+    [formControl]="control"
+    [placeholder]="placeholder"
+  />
+  <span class="date-placeholder" *ngIf="type === 'date' && !control.value && placeholder">
+    {{ placeholder }}
+  </span>
+</div>
